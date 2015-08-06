@@ -98,4 +98,8 @@
   <preference name="ShowTitle" value="False" />
   <preference name="InAppBrowserStorageEnabled" value="False" />
   <preference name="SuppressesIncrementalRendering" value="False" />
+
+  <feature name="InAppBrowser">
+    <param name="android-package" value="org.apache.cordova.InAppBrowser"/>
+  </feature>
 </widget>
