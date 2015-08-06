@@ -99,4 +99,7 @@
   <platform name="wp8">
     <splash src="res/screens/wp8/SplashScreenImage.jpg" width="480" height="800"/>
   </platform>
+
+  <!-- Plugins -->
+  <gap:plugin name="io.github.pwlin.cordova.plugins.fileopener2" version="1.0.11" />
 </widget>
