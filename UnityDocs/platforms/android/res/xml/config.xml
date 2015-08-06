@@ -23,4 +23,7 @@
     <preference name="windows-target-version" value="8.1" />
     <preference name="windows-phone-target-version" value="8.1" />
     <gap:plugin name="io.github.pwlin.cordova.plugins.fileopener2" version="1.0.11" />
+    <feature name="FileOpener2">
+        <param name="android-package" value="io.github.pwlin.cordova.plugins.fileopener2.FileOpener2" />
+    </feature>
 </widget>
