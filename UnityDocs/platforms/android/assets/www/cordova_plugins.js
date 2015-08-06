@@ -1,17 +1,17 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "file": "plugins/io.github.pwlin.cordova.plugins.fileopener2/www/plugins.FileOpener2.js",
-        "id": "io.github.pwlin.cordova.plugins.fileopener2.FileOpener2",
+        "file": "plugins/org.apache.cordova.inappbrowser/www/inappbrowser.js",
+        "id": "org.apache.cordova.inappbrowser.inappbrowser",
         "clobbers": [
-            "cordova.plugins.fileOpener2"
+            "window.open"
         ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "io.github.pwlin.cordova.plugins.fileopener2": "1.0.11"
+    "org.apache.cordova.inappbrowser": "0.6.0"
 }
 // BOTTOM OF METADATA
 });

@@ -94,8 +94,8 @@
   <gap:plugin name="org.apache.cordova.inappbrowser" version="0.5.2" />
   <gap:plugin name="io.github.pwlin.cordova.plugins.fileopener2" version="1.0.11" />
   <preference name="Fullscreen" value="True" />
-  <preference name="KeepRunning" value="False" />
-  <preference name="ShowTitle" value="True" />
+  <preference name="KeepRunning" value="True" />
+  <preference name="ShowTitle" value="False" />
   <preference name="InAppBrowserStorageEnabled" value="False" />
-  <preference name="SuppressesIncrementalRendering" value="True" />
+  <preference name="SuppressesIncrementalRendering" value="False" />
 </widget>
