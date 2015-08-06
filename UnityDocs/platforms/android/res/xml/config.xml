@@ -13,13 +13,14 @@
     <splash density="port-ldpi" src="res/screens/android/screen-ldpi-portrait.png" />
     <splash density="port-mdpi" src="res/screens/android/screen-mdpi-portrait.png" />
     <splash density="port-xhdpi" src="res/screens/android/screen-xhdpi-portrait.png" />
-    <name>UnityDocs</name>
-    <description>A blank project that uses Apache Cordova to help you build an app that targets multiple mobile platforms: Android, iOS, Windows, and Windows Phone.</description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">Apache Cordova Team </author>
+    <name>Unity Docs</name>
+    <description>File hosting service that allows users to sync files and later access them from a web browser or mobile device.</description>
+    <author email="Ronan.Lewis@sanderson.com" href="http://www.sanderson.com/">Ronan Lewis</author>
     <content src="index.html" />
     <access origin="*" />
     <vs:features />
     <preference name="SplashScreen" value="screen" />
     <preference name="windows-target-version" value="8.1" />
     <preference name="windows-phone-target-version" value="8.1" />
+    <gap:plugin name="io.github.pwlin.cordova.plugins.fileopener2" version="1.0.11" />
 </widget>
