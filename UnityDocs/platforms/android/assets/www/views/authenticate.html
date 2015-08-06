@@ -1,0 +1,79 @@
+﻿<div id="authenticate" data-role="view" data-layout="auth-layout">
+    <div>
+        <div class="center-text">
+            <h1>Unity Docs 0.0.3</h1>
+            <img src="images/SCL.ICO" />
+            <h2>Sign In</h2>
+        </div>
+        <form name="auth-form">
+            <ul data-role="listview" data-style="inset">
+                <li>
+                    <label>
+                        Username
+                        <input name="username" placeholder="Username" type="text" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Password
+                        <input name="password" placeholder="Password" type="password" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Connection
+                        <select name="connectionname">
+                            <option></option>
+                            <option>lmw</option>
+                            <option>ute1</option>
+                        </select>
+                    </label>
+                </li>
+            </ul>
+        </form>
+        <div class="error-message" id="attempt-failed">
+            Log in attempt failed.
+        </div>
+        <div class="center-text">
+            <button data-role="button" class="km-primary" data-click="scope.authenticate">Sign In</button>
+            <button data-role="button" data-click="openTestFile">Open Test PDF</button>
+            <button data-role="button" data-click="openInBrowser">Open Test PDF in browser</button>
+        </div>
+
+
+    </div>
+    <script>
+        function openTestFile() {
+            if (typeof cordova != "undefined") {
+                console.log(JSON.stringify(cordova));
+                if (typeof cordova.plugins != "undefined") {
+                    console.log(JSON.stringify(cordova.plugins));
+                } else {
+                    console.log("cordova.plugins not defined");
+                    if (typeof window.plugins != "undefined") {
+                        console.log(JSON.stringify(window.plugins));
+                    } else {
+                        console.log("window.plugins not defined");
+                    }
+                }
+            } else {
+                console.log("cordova not defined");
+            }
+            //cordova.plugins.fileOpener2.open(
+            //    mockData.examplePDFURL, // You can also use a Cordova-style file uri: cdvfile://localhost/persistent/Download/starwars.pdf
+            //    'application/pdf',
+            //    {
+            //        error: function (e) {
+            //            console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
+            //        },
+            //        success: function () {
+            //            console.log('file opened successfully');
+            //        }
+            //    }
+            //);
+        }
+        function openInBrowser() {
+            window.open(mockData.examplePDFURL, '_blank', 'location=yes');
+        }
+    </script>
+</div>

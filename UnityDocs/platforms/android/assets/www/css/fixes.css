@@ -1,0 +1,29 @@
+﻿.no-border {
+    border: 0;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.margin-top-100 {
+    margin-top: 100px;
+}
+
+.error-message {
+    display: none;
+    color: red;
+    padding: 8px;
+    text-align: center;
+}
+
+.km-flat .km-detail {
+    line-height: 1.3rem;
+    margin-top: -.8rem;
+    width: 2rem;
+    height: 2rem;
+}
+
+    .km-flat .km-detail .km-icon {
+        font-size: 20px;
+    }
