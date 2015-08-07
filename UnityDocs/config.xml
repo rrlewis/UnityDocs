@@ -5,11 +5,11 @@
   <author href="http://www.sanderson.com/" email="Ronan.Lewis@sanderson.com">Ronan Lewis</author>
   <content src="index.html" />
   <access origin="*" />
-
   <!-- Plugins -->
   <gap:plugin name="org.apache.cordova.inappbrowser" version="0.5.2" />
   <gap:plugin name="io.github.pwlin.cordova.plugins.fileopener2" version="1.0.11" />
   <feature name="InAppBrowser">
-    <param name="android-package" value="org.apache.cordova.InAppBrowser"/>
+    <param name="android-package" value="org.apache.cordova.InAppBrowser" />
   </feature>
+  <vs:plugin name="io.github.pwlin.cordova.plugins.fileopener2" version="1.0.11" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" />
 </widget>
