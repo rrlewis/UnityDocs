@@ -1,2 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<plugin name="InAppBrowser" value="org.apache.cordova.inappbrowser"/>
+<plugins>
+  <plugin name="InAppBrowser" value="org.apache.cordova.inappbrowser"/>
+  <plugin name="FileOpener2" value="io.github.pwlin.cordova.plugins.fileopener2"/>
+</plugins>
