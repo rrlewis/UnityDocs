@@ -24,6 +24,9 @@
   "installed_plugins": {
     "org.apache.cordova.inappbrowser": {
       "PACKAGE_NAME": "io.cordova.myapp6e87643567634da4ba86728612464ba6"
+    },
+    "io.github.pwlin.cordova.plugins.fileopener2": {
+      "PACKAGE_NAME": "io.cordova.myapp6e87643567634da4ba86728612464ba6"
     }
   },
   "dependent_plugins": { }
