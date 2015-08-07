@@ -35,7 +35,7 @@
 
     <!-- android -->
     <platform name="android">
-        <js-module src="www/inappbrowser.js" name="InAppBrowser">
+        <js-module src="plugins/org.apache.cordova.inappbrowser/www/inappbrowser.js" name="InAppBrowser">
             <clobbers target="window.open" />
         </js-module>
         <config-file target="res/xml/config.xml" parent="/*">
