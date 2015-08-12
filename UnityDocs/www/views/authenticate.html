@@ -42,9 +42,16 @@
 
     </div>
     <script>
-        function openPDF() {
-            cordova.plugins.fileOpener2.open(
-                'samples/pdf-sample.pdf', // You can also use a Cordova-style file uri: cdvfile://localhost/persistent/Download/starwars.pdf
+        function openFile(filename) {
+
+            var fs;
+
+            function fsSuccess(fileSystem) {
+
+                fs = fileSystem;
+                var path = fs.root.toURL() + filename;
+                cordova.plugins.fileOpener2.open(
+                path, // You can also use a Cordova-style file uri: cdvfile://localhost/persistent/Download/starwars.pdf
                 'application/pdf',
                 {
                     error: function (e) {
@@ -57,6 +64,16 @@
                     }
                 }
             );
+            }
+
+            function fsFail(event) {
+
+                console.log(event.target.error.code);
+            }
+
+            window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
+
         }
     </script>
 </div>
