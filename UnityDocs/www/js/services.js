@@ -21,6 +21,7 @@
     documentService: function () {
         var $this = this;
         return {
+            test: function (){console.log("test")},
             // Libraries
             getLibraries: function () {
                 return $.ajax({
@@ -167,7 +168,39 @@
             uploadDocument: function (library, documentID) {
                 // WIP
             },
+            openDocument: function (filename) {
 
+                var fs;
+
+                function fsSuccess(fileSystem) {
+
+                    fs = fileSystem;
+                    var path = fs.root.toURL() + filename;
+                    cordova.plugins.fileOpener2.open(
+                    path,
+                    'application/pdf',
+                    {
+                        error: function (e) {
+                            debugger;
+                            console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
+                        },
+                        success: function () {
+                            debugger;
+                            console.log('file opened successfully');
+                        }
+                    }
+                );
+                }
+
+                function fsFail(event) {
+
+                    console.log(event.target.error.code);
+                }
+
+                window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
+
+            },
             // Folders
             removeFolderFromLibrary: function (libraryName, folderName, parentFolder) {
                 return $.ajax({
