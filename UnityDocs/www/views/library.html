@@ -72,37 +72,37 @@
     </a>
     <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
     # } else if (Type == 'DOCX' || Type == 'DOC') { #
-    <a href="\\#views/file.html?documentid=#:ImageID#">
+    <a data-click="test" data-documentid="#:ImagedID#">
         <i class="fa fa-file-word-o font-size-36"></i>
         #:Description#
     </a>
     <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
     # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF') { #
-    <a href="\\#views/file.html?documentid=#:ImageID#">
+    <a data-click="test" data-documentid="#:ImagedID#">
         <i class="fa fa-file-image-o font-size-36"></i>
         #:Description#
     </a>
     <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
     # } else if (Type == 'XLSM' || Type == 'XLS' || Type == 'XLSX') { #
-    <a href="\\#views/file.html?documentid=#:ImageID#">
+    <a data-click="test" data-documentid="#:ImagedID#">
         <i class="fa fa-file-excel-o font-size-36"></i>
         #:Description#
     </a>
     <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
     # } else if (Type == 'PDF') { #
-    <a href="\\#views/file.html?documentid=#:ImageID#">
+    <a data-click="test" data-documentid="#:ImagedID#">
         <i class="fa fa-file-pdf-o font-size-36"></i>
         #:Description#
     </a>
     <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
     # } else if (Type == 'TXT') { #
-    <a href="\\#views/file.html?documentid=#:ImageID#">
+    <a data-click="test" data-documentid="#:ImagedID#">
         <i class="fa fa-file-text-o font-size-36"></i>
         #:Description#
     </a>
     <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
     # } else { #
-    <a href="\\#views/file.html?documentid=#:ImageID#">
+    <a data-click="test" data-documentid="#:ImagedID#">
         <i class="fa fa-file-o font-size-36"></i>
         #:Description#
     </a>
@@ -147,6 +147,11 @@
             debugger;
 
         })
+        debugger;
+    }
+    function test(e) {
+        var data = e.button.data();
+        var docID = data.documentid;
         debugger;
     }
 </script>
