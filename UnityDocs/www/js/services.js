@@ -21,7 +21,6 @@
     documentService: function () {
         var $this = this;
         return {
-            test: function (){console.log("test")},
             // Libraries
             getLibraries: function () {
                 return $.ajax({
