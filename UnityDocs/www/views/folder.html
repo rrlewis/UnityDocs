@@ -13,32 +13,32 @@
         #:Description#
     </a>
     # } else if (Type == 'DOCX' || Type == 'DOC') { #
-    <a data-click="test" data-documentid="#:ImageID#">
+    <a data-click="testq" data-documentid="#:ImageID#">
         <i class="fa fa-file-word-o font-size-36"></i>
         #:Description#
     </a>
     # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF') { #
-    <a data-click="test" data-documentid="#:ImageID#">
+    <a data-click="testq" data-documentid="#:ImageID#">
         <i class="fa fa-file-image-o font-size-36"></i>
         #:Description#
     </a>
     # } else if (Type == 'XLSM' || Type == 'XLS' || Type == 'XLSX') { #
-    <a data-click="test" data-documentid="#:ImageID#">
+    <a data-click="testq" data-documentid="#:ImageID#">
         <i class="fa fa-file-excel-o font-size-36"></i>
         #:Description#
     </a>
     # } else if (Type == 'PDF') { #
-    <a data-click="test" data-documentid="#:ImageID#">
+    <a data-click="testq" data-documentid="#:ImageID#">
         <i class="fa fa-file-pdf-o font-size-36"></i>
         #:Description#
     </a>
     # } else if (Type == 'TXT') { #
-    <a data-click="test" data-documentid="#:ImageID#">
+    <a data-click="testq" data-documentid="#:ImageID#">
         <i class="fa fa-file-text-o font-size-36"></i>
         #:Description#
     </a>
     # } else { #
-    <a data-click="test" data-documentid="#:ImageID#">
+    <a data-click="testq" data-documentid="#:ImageID#">
         <i class="fa fa-file-o font-size-36"></i>
         #:Description#
     </a>
@@ -46,7 +46,8 @@
 </script>
 
 <script>
-    function test(e) {
+    function testq(e) {
+        console.log(1);
         debugger;
         var data = e.button.data();
         var docID = data.documentid;
