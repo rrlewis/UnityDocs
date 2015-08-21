@@ -52,13 +52,13 @@
         </ul>
     </form>
     <ul data-role="buttongroup">
-        <li data-tap="deleteFolder">Delete</li>
+        <li data-click="deleteFolder">Delete</li>
         <li>Open</li>
     </ul>
     <div data-role="footer">
         <div data-role="navbar">
-            <a data-align="right" data-tap="closeModalView" data-role="button">Cancel</a>
-            <a data-align="right" data-tap="closeModalView" data-role="button">Save</a>
+            <a data-align="right" data-click="closeModalView" data-role="button">Cancel</a>
+            <a data-align="right" data-click="closeModalView" data-role="button">Save</a>
         </div>
     </div>
 </div>
@@ -70,43 +70,43 @@
         <i class="fa fa-folder font-size-36"></i>
         #:Description#
     </a>
-    <button data-role="detailbutton" data-tap="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
+    <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
     # } else if (Type == 'DOCX' || Type == 'DOC') { #
-    <a data-tap="test" data-documentid="#:ImageID#">
+    <button data-role="button" data-click="test" data-documentid="#:ImageID#">
         <i class="fa fa-file-word-o font-size-36"></i>
         #:Description#
     </a>
-    <button data-role="detailbutton" data-tap="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
+    <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
     # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF') { #
-    <a data-tap="test" data-documentid="#:ImageID#">
+    <button data-role="button" data-click="test" data-documentid="#:ImageID#">
         <i class="fa fa-file-image-o font-size-36"></i>
         #:Description#
     </a>
-    <button data-role="detailbutton" data-tap="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
+    <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
     # } else if (Type == 'XLSM' || Type == 'XLS' || Type == 'XLSX') { #
-    <a data-tap="test" data-documentid="#:ImageID#">
+    <button data-role="button" data-click="test" data-documentid="#:ImageID#">
         <i class="fa fa-file-excel-o font-size-36"></i>
         #:Description#
     </a>
-    <button data-role="detailbutton" data-tap="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
+    <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
     # } else if (Type == 'PDF') { #
-    <a data-tap="test" data-documentid="#:ImageID#">
+    <button data-role="button" data-click="test" data-documentid="#:ImageID#">
         <i class="fa fa-file-pdf-o font-size-36"></i>
         #:Description#
     </a>
-    <button data-role="detailbutton" data-tap="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
+    <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
     # } else if (Type == 'TXT') { #
-    <a data-tap="test" data-documentid="#:ImageID#">
+    <button data-role="button" data-click="test" data-documentid="#:ImageID#">
         <i class="fa fa-file-text-o font-size-36"></i>
         #:Description#
     </a>
-    <button data-role="detailbutton" data-tap="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
+    <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
     # } else { #
-    <a data-tap="test" data-documentid="#:ImageID#">
+    <button data-role="button" data-click="test" data-documentid="#:ImageID#">
         <i class="fa fa-file-o font-size-36"></i>
         #:Description#
     </a>
-    <button data-role="detailbutton" data-tap="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
+    <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
     # } #
 </script>
 
