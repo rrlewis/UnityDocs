@@ -41,35 +41,35 @@
     </div>
 </div>
 <script>
-    function test() {
-        debugger;
         var fs;
 
         function fsSuccess(fileSystem) {
-            debugger;
             fs = fileSystem;
-            console.log(fs);
-            cordova.plugins.fileOpener2.open(
-                fs.root.toURL() + "/www/samples/pdf-sample.pdf", // You can also use a Cordova-style file uri: cdvfile://localhost/persistent/Download/starwars.pdf
-                'application/pdf',
-                {
-                    error: function (e) {
-                        console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
-                    },
-                    success: function () {
-                        console.log('file opened successfully');
-                    }
-                }
-            );
         }
 
         function fsFail(event) {
-            debugger;
             console.log(event.target.error.code);
         }
-        debugger;
 
-        window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
-    }
+        function openPDF() {
+            var file = "samples/pdf-sample.pdf"
+            window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
+
+            file = fs.root.toURL() + file;
+
+            cordova.plugins.fileOpener2.open(
+            file, // You can also use a Cordova-style file uri: cdvfile://localhost/persistent/Download/starwars.pdf
+            'application/pdf',
+            {
+                error: function (e) {
+                    console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
+                },
+                success: function () {
+                    console.log('file opened successfully');
+
+                }
+            }
+        );
+        }
 </script>
