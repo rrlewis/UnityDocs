@@ -36,7 +36,7 @@
         </div>
         <div class="center-text">
             <button data-role="button" class="km-primary" data-click="scope.authenticate">Sign In</button>
-            <a data-role="button" data-click="test">Open example.pdf</a>
+            <a data-role="button" data-click="openPDF">Open example.pdf</a>
         </div>
     </div>
 </div>
@@ -52,20 +52,24 @@
         }
 
         function openPDF() {
+            debugger;
             var file = "samples/pdf-sample.pdf"
             window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
 
             file = fs.root.toURL() + file;
 
+            debugger;
             cordova.plugins.fileOpener2.open(
             file, // You can also use a Cordova-style file uri: cdvfile://localhost/persistent/Download/starwars.pdf
             'application/pdf',
             {
                 error: function (e) {
+                    debugger;
                     console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
                 },
-                success: function () {
+                success: function (e) {
+                    debugger;
                     console.log('file opened successfully');
 
                 }
