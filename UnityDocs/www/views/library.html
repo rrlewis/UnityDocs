@@ -1,8 +1,7 @@
 ﻿<div id="library" data-reload="true" data-role="view" data-layout="default-layout" data-title="Library">
-    <ul data-role="listview" class="data-source sortable" data-template="library-item-template" data-source="scope.data" data-pull-to-refresh="true">
-        
-    </ul>
+    <ul data-role="listview" data-click="openFile" class="data-source sortable" data-template="library-item-template" data-source="scope.data" data-pull-to-refresh="true">
 
+    </ul>
 </div>
 
 <div data-role="modalview" id="info-modal" style="width: 100%; height: 100%;" data-modal="false">
@@ -65,49 +64,25 @@
 
 <!-- List Item template -->
 <script type="text/kendo-x-tmpl" id="library-item-template">
-    # if (Type == 'FOLDER') { #
-    <a href="\\#views/folder.html?indextypeorlibrary=#: scope.libraryName #&subfolder=#: Description #&key">
-        <i class="fa fa-folder font-size-36"></i>
+    <a data-documentid="#:ImageID#">
+        # if (Type == 'FOLDER') { #
+            <i class="fa fa-folder font-size-36"></i>
+        # } else if (Type == 'DOCX' || Type == 'DOC') { #
+            <i class="fa fa-file-word-o font-size-36"></i>
+        # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF') { #
+            <i class="fa fa-file-image-o font-size-36"></i>
+        # } else if (Type == 'XLSM' || Type == 'XLS' || Type == 'XLSX') { #
+            <i class="fa fa-file-excel-o font-size-36"></i>
+        # } else if (Type == 'PDF') { #
+            <i class="fa fa-file-pdf-o font-size-36"></i>
+        # } else if (Type == 'TXT') { #
+            <i class="fa fa-file-text-o font-size-36"></i>
+        # } else { #
+            <i class="fa fa-file-o font-size-36"></i>
+        # } #
         #:Description#
     </a>
     <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
-    # } else if (Type == 'DOCX' || Type == 'DOC') { #
-    <a data-click="test" data-documentid="#:ImageID#">
-        <i class="fa fa-file-word-o font-size-36"></i>
-        #:Description#
-    </a>
-    <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
-    # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF') { #
-    <a data-click="test" data-documentid="#:ImageID#">
-        <i class="fa fa-file-image-o font-size-36"></i>
-        #:Description#
-    </a>
-    <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
-    # } else if (Type == 'XLSM' || Type == 'XLS' || Type == 'XLSX') { #
-    <a data-click="test" data-documentid="#:ImageID#">
-        <i class="fa fa-file-excel-o font-size-36"></i>
-        #:Description#
-    </a>
-    <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
-    # } else if (Type == 'PDF') { #
-    <a data-click="test" data-documentid="#:ImageID#">
-        <i class="fa fa-file-pdf-o font-size-36"></i>
-        #:Description#
-    </a>
-    <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
-    # } else if (Type == 'TXT') { #
-    <a data-click="test" data-documentid="#:ImageID#">
-        <i class="fa fa-file-text-o font-size-36"></i>
-        #:Description#
-    </a>
-    <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
-    # } else { #
-    <a data-click="test" data-documentid="#:ImageID#">
-        <i class="fa fa-file-o font-size-36"></i>
-        #:Description#
-    </a>
-    <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
-    # } #
 </script>
 
 <script>
@@ -149,10 +124,10 @@
         })
         debugger;
     }
-        function test(e) {
-        var data = e.button.data();
+    function openFile(e) {
+        var item = e.item.children("a");
+        var data = item.data();
         var docID = data.documentid;
-        debugger;
     }
 </script>
 

@@ -36,7 +36,12 @@
         </div>
         <div class="center-text">
             <button data-role="button" class="km-primary" data-click="scope.authenticate">Sign In</button>
-            <a data-role="button" data-click="api.documentService().test">pdf</a>
+            <a data-role="button" data-click="test">Open example.pdf</a>
         </div>
     </div>
 </div>
+<script>
+    function test() {
+        window.plugins.fileOpener.open(mockData.examplePDFURL);
+    }
+</script>
