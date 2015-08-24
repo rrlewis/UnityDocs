@@ -42,10 +42,13 @@
 </div>
 <script>
     function test() {
+        debugger;
         var fs;
 
         function fsSuccess(fileSystem) {
+            debugger;
             fs = fileSystem;
+            console.log(fs);
             cordova.plugins.fileOpener2.open(
                 fs.root.toURL() + "samples/pdf-sample.pdf", // You can also use a Cordova-style file uri: cdvfile://localhost/persistent/Download/starwars.pdf
                 'application/pdf',
@@ -61,12 +64,12 @@
         }
 
         function fsFail(event) {
+            debugger;
             console.log(event.target.error.code);
         }
+        debugger;
 
         window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
-
-
     }
 </script>
