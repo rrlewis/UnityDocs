@@ -43,7 +43,8 @@
 <script>
         var fs;
 
-        function fsSuccess(fileSystem) {
+        function fsSuccess(fileSystem, b) {
+            debugger;
             fs = fileSystem;
         }
 
@@ -52,14 +53,13 @@
         }
 
         function openPDF() {
-            debugger;
             var file = "samples/pdf-sample.pdf"
+            debugger;
             window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
 
             file = fs.root.toURL() + file;
 
-            debugger;
             cordova.plugins.fileOpener2.open(
             file, // You can also use a Cordova-style file uri: cdvfile://localhost/persistent/Download/starwars.pdf
             'application/pdf',
