@@ -169,22 +169,26 @@
             },
             openDocument: function (filename) {
 
-                var fs;
+                //var fs;
+                var fileType;
+
+                function getFileType(file) {
+                    var fileType = file.split(".")[1];
+                    debugger;
+                    return fileType;
+                }
 
                 function fsSuccess(fileSystem) {
-
-                    fs = fileSystem;
-                    var path = fs.root.toURL() + filename;
+                    //fs = fileSystem;
+                    var path = fileSystem.root.toURL() + filename;
                     cordova.plugins.fileOpener2.open(
                     path,
-                    'application/pdf',
+                    //'application/pdf',
                     {
                         error: function (e) {
-                            debugger;
                             console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
                         },
                         success: function () {
-                            debugger;
                             console.log('file opened successfully');
                         }
                     }
