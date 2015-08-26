@@ -125,6 +125,7 @@
         debugger;
     }
     function openFile(e) {
+        console.log("opening");
         var item = e.item.children("a");
         var data = item.data();
         var docID = data.documentid;
