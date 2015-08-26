@@ -185,7 +185,7 @@
                     var path = fileSystem.root.toURL() + filename;
                     cordova.plugins.fileOpener2.open(
                     path,
-                    'application/word',
+                    'application/docx',
                     {
                         error: function (e) {
                             debugger;
