@@ -178,17 +178,21 @@
                     return fileType;
                 }
 
+                debugger;
                 function fsSuccess(fileSystem) {
                     //fs = fileSystem;
+                    debugger;
                     var path = fileSystem.root.toURL() + filename;
                     cordova.plugins.fileOpener2.open(
                     path,
-                    //'application/pdf',
+                    'application/word',
                     {
                         error: function (e) {
+                            debugger;
                             console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
                         },
                         success: function () {
+                            debugger;
                             console.log('file opened successfully');
                         }
                     }
@@ -196,7 +200,6 @@
                 }
 
                 function fsFail(event) {
-
                     console.log(event.target.error.code);
                 }
 
