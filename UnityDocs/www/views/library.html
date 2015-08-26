@@ -128,6 +128,9 @@
         var item = e.item.children("a");
         var data = item.data();
         var docID = data.documentid;
+        var fileName = data.description;
+        
+        api.documentService().openDocument(testFiles.convertToTestFile(fileName));
     }
 </script>
 

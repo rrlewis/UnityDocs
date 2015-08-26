@@ -366,6 +366,19 @@
     },
 };
 
-var mockData = {
-    examplePDFURL: "samples/pdf-sample.pdf"
+var testFiles = {
+    convertToTestFile: function (name) {
+        var fileExtension = name.split(".")[1];
+        switch (fileExtension) {
+            case "doc":
+            case "docx":
+                return this.docx;
+                break;
+            case "pdf":
+                return this.pdf;
+                break;
+        }
+    },
+    docx: "Download/testdoc.docx",
+    pdf: "Download/Adobe Acrobat/Getting Started.pdf",
 };
