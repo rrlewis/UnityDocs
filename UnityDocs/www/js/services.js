@@ -168,13 +168,8 @@
                 // WIP
             },
             openDocument: function (filename) {
-
-                //var fs;
-                var fileType;
-
                 function getFileType(file) {
                     var fileType = file.split(".")[1];
-                    debugger;
                     var mimes = {
                         'jpg': 'image/jpeg',
                         'jpeg': 'image/jpeg',
@@ -303,14 +298,9 @@
                         'numbers': 'application/vnd.apple.numbers',
                         'pages': 'application/vnd.apple.pages',
                     };
-                    debugger;
                     return mimes[fileType];
                 }
-
-                debugger;
                 function fsSuccess(fileSystem) {
-                    //fs = fileSystem;
-                    debugger;
                     var path = fileSystem.root.toURL() + filename;
                     var mime = getFileType(path);
                     cordova.plugins.fileOpener2.open(
@@ -318,24 +308,19 @@
                     mime,
                     {
                         error: function (e) {
-                            debugger;
                             console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
                         },
                         success: function () {
-                            debugger;
                             console.log('file opened successfully');
                         }
                     }
                 );
                 }
-
                 function fsFail(event) {
                     console.log(event.target.error.code);
                 }
-
                 window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
                 window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
-
             },
             // Folders
             removeFolderFromLibrary: function (libraryName, folderName, parentFolder) {
