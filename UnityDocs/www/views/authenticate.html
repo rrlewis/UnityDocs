@@ -37,14 +37,18 @@
         <div class="center-text">
             <button data-role="button" class="km-primary" data-click="scope.authenticate">Sign In</button>
             <a data-role="button" data-click="openPDF">Open pdf</a>
-            <a data-role="button" data-click="openPDF">Open doc</a>
+            <a data-role="button" data-click="openDoc">Open doc</a>
         </div>
     </div>
 </div>
 <script>
 
-    function openPDF() {
+    function openDoc() {
         var file = "Download/testdoc.docx";
+        api.documentService().openDocument(file);
+    }
+    function openPDF() {
+        var file = "Download/Adobe Acrobat/Getting Started.pdf";
         api.documentService().openDocument(file);
     }
 </script>
