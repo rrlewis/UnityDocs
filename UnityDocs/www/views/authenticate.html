@@ -41,39 +41,11 @@
     </div>
 </div>
 <script>
-        var fs;
 
-        function fsSuccess(fileSystem, b) {
+    function openPDF() {
+        var file = "Getting Started.pdf";
+        api.documentService().openDocument(file).then(function (result) {
             debugger;
-            fs = fileSystem;
-        }
-
-        function fsFail(event) {
-            console.log(event.target.error.code);
-        }
-
-        function openPDF() {
-            var file = "samples/pdf-sample.pdf"
-            debugger;
-            window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
-
-            file = "file:///android_asset/www/" + file;
-
-            cordova.plugins.fileOpener2.open(
-            file, // You can also use a Cordova-style file uri: cdvfile://localhost/persistent/Download/starwars.pdf
-            'application/pdf',
-            {
-                error: function (e) {
-                    debugger;
-                    console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
-                },
-                success: function (e) {
-                    debugger;
-                    console.log('file opened successfully');
-
-                }
-            }
-        );
-        }
+        })
+    }
 </script>
