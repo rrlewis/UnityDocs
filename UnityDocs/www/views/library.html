@@ -64,7 +64,7 @@
 
 <!-- List Item template -->
 <script type="text/kendo-x-tmpl" id="library-item-template">
-    <a data-documentid="#:ImageID#" data-description="#:Description#">
+    <a data-documentid="#:ImageID#" data-description="#:Description#" data-type="#:Type#">
         # if (Type == 'FOLDER') { #
             <i class="fa fa-folder font-size-36"></i>
         # } else if (Type == 'DOCX' || Type == 'DOC') { #
@@ -124,10 +124,12 @@
         })
         debugger;
     }
+
     function openFile(e) {
         console.log("opening");
         var item = e.item.children("a");
         var data = item.data();
+        var type = data.type;
         var docID = data.documentid;
         var fileName = data.description;
         
