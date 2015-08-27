@@ -5,7 +5,7 @@
   <author href="http://www.sanderson.com/" email="Ronan.Lewis@sanderson.com">Ronan Lewis</author>
   <content src="index.html" />
   <access origin="*" />
-  <icon src="images/icon.ico" width="48" height="48"></icon>
+  <icon src="images/icon.png" width="48" height="48"></icon>
 
   <!-- Plugins -->
   <gap:plugin name="org.apache.cordova.file-transfer" version="0.4.6" />
