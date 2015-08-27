@@ -51,6 +51,7 @@ router.route('(/)views/libraries.html', function (params) { // LibraryController
 });
 
 router.route('(/)views/library.html', function (params) { // LibraryController
+    debugger;
     for (var prop in params) {
         if (params.hasOwnProperty(prop)) {
             if (params[prop] == 'undefined') {
