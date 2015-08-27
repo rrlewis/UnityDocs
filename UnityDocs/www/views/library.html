@@ -63,7 +63,7 @@
 <!-- List Item template -->
 <script type="text/kendo-x-tmpl" id="library-item-template">
     # if (Type == 'FOLDER') { #
-    <a href="\\#views/folder.html?indextypeorlibrary=#: scope.libraryName #&subfolder=#: Description #&key" data-type="#:Type#">
+    <a href="\\#views/library.html?indextypeorlibrary=#: scope.libraryName #&subfolder=#: Description #&key" data-type="#:Type#">
         <i class="fa fa-folder font-size-36"></i>
         #:Description#
     </a>

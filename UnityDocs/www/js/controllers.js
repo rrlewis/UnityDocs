@@ -92,41 +92,5 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 router.route('(/)views/file.html', function (params) {
 });
 
-router.route('(/)views/folder.html', function (params) {
-    for (var prop in params) {
-        if (params.hasOwnProperty(prop)) {
-            if (params[prop] == 'undefined') {
-                params[prop] = '';
-            }
-        }
-    }
-    scope.libraryName = params.indextypeorlibrary;
-    scope.data = new kendo.data.DataSource({
-        transport: {
-            read: {
-                url: api.rootUrl + "documentmanagement/getdocuments",
-                data: {
-                    indextypeorlibrary: params.indextypeorlibrary,
-                    key: params.key,
-                    subfolder: params.subfolder
-                },
-            }
-        },
-        schema: {
-            data: function (response) {
-                if (response.results.length == 0) {
-                    $("#folder [data-role=listview]").append(elements.emptyFolder);
-                } else {
-                    return response.results;
-                }
-            }
-        },
-        error: function (e) {
-        },
-        change: function (e) {
-        }
-    });
-});
-
 router.start();
 
