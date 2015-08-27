@@ -63,7 +63,7 @@
 <!-- List Item template -->
 <script type="text/kendo-x-tmpl" id="library-item-template">
     # if (Type == 'FOLDER') { #
-    <a href="\\#views/folder.html?indextypeorlibrary=#: scope.libraryName #&subfolder=#: Description #&key">
+    <a href="\\#views/folder.html?indextypeorlibrary=#: scope.libraryName #&subfolder=#: Description #&key" data-type="#:Type#">
         <i class="fa fa-folder font-size-36"></i>
         #:Description#
     </a>
@@ -133,7 +133,6 @@
         var item = e.item.children("a");
         var data = item.data();
         var type = data.type;
-        debugger;
         if (type != "FOLDER") {
             var docID = data.documentid;
             var fileName = data.description;
