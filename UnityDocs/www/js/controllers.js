@@ -51,7 +51,6 @@ router.route('(/)views/libraries.html', function (params) { // LibraryController
 });
 
 router.route('(/)views/library.html', function (params) { // LibraryController
-    debugger;
     for (var prop in params) {
         if (params.hasOwnProperty(prop)) {
             if (params[prop] == 'undefined') {
@@ -66,6 +65,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                 url: api.rootUrl + "documentmanagement/getdocuments",
                 data: {
                     indextypeorlibrary: params.indextypeorlibrary,
+                    subfolder: params.subfolder,
                     key: params.key,
                 },
             }
