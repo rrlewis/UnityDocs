@@ -133,10 +133,11 @@
         var item = e.item.children("a");
         var data = item.data();
         var type = data.type;
-        if (type != "FOLDER") { 
-        var docID = data.documentid;
-        var fileName = data.description;
-        api.documentService().openDocument(testFiles.convertToTestFile(fileName));
-            }
+        debugger;
+        if (type != "FOLDER") {
+            var docID = data.documentid;
+            var fileName = data.description;
+            api.documentService().openDocument(testFiles.convertToTestFile(fileName));
+        }
     }
 </script>
