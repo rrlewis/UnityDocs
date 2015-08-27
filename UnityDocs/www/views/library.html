@@ -69,7 +69,7 @@
     </a>
     # } else { #
     <a data-documentid="#:ImageID#" data-description="#:Description#" data-type="#:Type#">
-        if (Type == 'DOCX' || Type == 'DOC') { #
+        # if (Type == 'DOCX' || Type == 'DOC') { #
         <i class="fa fa-file-word-o font-size-36"></i>
         # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF') { #
         <i class="fa fa-file-image-o font-size-36"></i>
@@ -132,8 +132,11 @@
         console.log("opening");
         var item = e.item.children("a");
         var data = item.data();
+        var type = data.type;
+        if (type != "FOLDER") { 
         var docID = data.documentid;
         var fileName = data.description;
         api.documentService().openDocument(testFiles.convertToTestFile(fileName));
+            }
     }
 </script>
