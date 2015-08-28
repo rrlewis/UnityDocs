@@ -59,6 +59,9 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         }
     } // Empties the parameter if it is 'undefined'.
     app.pane.loader.show();
+    if (typeof params.subfolder == 'undefined') {
+        params.subfolder == '';
+    }
     scope.data = new kendo.data.DataSource({
         transport: {
             read: {
