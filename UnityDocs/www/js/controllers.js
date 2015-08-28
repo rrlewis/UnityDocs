@@ -58,7 +58,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
             }
         }
     } // Empties the parameter if it is 'undefined'.
-
+    app.pane.loader.show();
     scope.data = new kendo.data.DataSource({
         transport: {
             read: {
@@ -72,18 +72,20 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         },
         schema: {
             data: function (response) {
+                app.pane.loader.hide();
                 if (response.results.length == 0) {
                     $("#library [data-role=listview]").append(elements.emptyLibrary);
                 } else {
-                    var g = "";
                     return response.results;
                 }
             }
         },
         error: function (e) {
-            scope.data.data(mockData.libraries[params.indextypeorlibrary]);
+            app.pane.loader.hide();
+            console.log(e);
         },
         change: function (e) {
+            console.log(e);
         }
     });
 
