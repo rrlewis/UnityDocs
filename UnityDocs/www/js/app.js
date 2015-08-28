@@ -18,13 +18,6 @@ var app = new kendo.mobile.Application(document.body,
 
     document.addEventListener('deviceready', onDeviceReady.bind(this), false);
 
-    $(document).ajaxStart(function () {
-        app.pane.loader.show();
-    });
-    $(document).ajaxComplete(function () {
-        app.pane.loader.hide();
-    });
-
     function onDeviceReady() {
         // Handle the Cordova pause and resume events
         document.addEventListener('pause', onPause.bind(this), false);

@@ -64,15 +64,14 @@ router.route('(/)views/library.html', function (params) { // LibraryController
             read: {
                 url: api.rootUrl + "documentmanagement/getdocuments",
                 data: {
-                    indextypeorlibrary: params.indextypeorlibrary,
-                    subfolder: params.subfolder,
-                    key: params.key,
+                    indextypeorlibrary: encodeURI(params.indextypeorlibrary),
+                    subfolder: encodeURI(params.subfolder),
+                    key: encodeURI(params.key),
                 },
             }
         },
         schema: {
             data: function (response) {
-                app.pane.loader.hide();
                 if (response.results.length == 0) {
                     $("#library [data-role=listview]").append(elements.emptyLibrary);
                 } else {
@@ -81,10 +80,10 @@ router.route('(/)views/library.html', function (params) { // LibraryController
             }
         },
         error: function (e) {
-            app.pane.loader.hide();
             console.log(e);
         },
         change: function (e) {
+            app.pane.loader.hide();
             console.log(e);
         }
     });
