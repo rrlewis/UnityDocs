@@ -14,10 +14,13 @@ var router = new kendo.Router({
 
 
 router.route('(/)(views/authenticate.html)', function (params) { // AuthenticateController
+
     scope.authenticate = function () {
         var formData = $("form[name=auth-form]").serializeObject();
         api.authService().authenticate(formData).then(function (result) {
             if (result.LoggedIn) {
+                formData.autoLogIn = true;
+                currentUser = formData;
                 router.navigate("views/libraries.html");
             } else {
                 $("#attempt-failed").text(result.ErrorMessage).slideDown(100);
@@ -95,6 +98,10 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 });
 
 router.route('(/)views/file.html', function (params) {
+});
+
+router.route('(/)views/account.html', function (params) {
+
 });
 
 router.start();

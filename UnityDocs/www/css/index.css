@@ -1,3 +1,40 @@
 ﻿html, body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif !important;
 }
+
+/* Library List Items */
+
+ul.km-listview.data-source li {
+    padding: 0;
+}
+
+    ul.km-listview.data-source li a.library-link {
+        padding: 15px;
+        display: block;
+        text-decoration: none;
+    }
+
+        ul.km-listview.data-source li a.library-link i.km-thumbnail.fa.font-size-36 {
+            text-align: center;
+            line-height: 75px;
+        }
+
+        ul.km-listview.data-source li a.library-link p.extra-info {
+            font-size: 0.7em;
+        }
+
+    ul.km-listview.data-source li a[data-role=button] {
+        margin-top: 26.25px;
+        margin-right: 10px;
+        border-radius: 50%;
+        height: 50px;
+        line-height: 50px;
+        width: 50px;
+        padding: 0;
+    }
+
+        ul.km-listview.data-source li a[data-role=button]:active {
+            background: #0D61AD;
+            border-color: #0D61AD;
+            color:white;
+        }

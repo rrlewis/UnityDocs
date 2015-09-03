@@ -29,14 +29,24 @@
     <!-- Main Layout -->
     <section data-role="layout" data-id="default-layout">
         <header data-role="header">
-            <div data-role="navbar">
-                <a data-role="backbutton" data-align="left" id="back-button"><i class="fa fa-chevron-left"></i></a>
+            <div data-role="navbar" class="km-accent">
+                <a data-role="button" data-rel="drawer" href="#drawer" data-icon="hamburger" data-align="left"></a>
                 <span data-role="view-title" id="view-title">Unity Docs</span>
             </div>
         </header>
         <!--View content will render here-->
     </section>
-
+    <div data-role="drawer" id="drawer">
+        <header data-role="header">
+            <div data-role="navbar">
+                <span data-role="view-title">Options</span>
+            </div>
+        </header>
+        <ul data-role="listview" class="km-listview-icons">
+            <li data-icon="home"><a href="#views/libraries.html">Home</a></li>
+            <li data-icon="user"><a href="#views/account.html">Account</a></li>
+        </ul>
+    </div>
     <!-- Auth Layout -->
     <section data-role="layout" data-id="auth-layout"></section>
 

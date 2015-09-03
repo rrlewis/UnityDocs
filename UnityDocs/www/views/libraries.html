@@ -1,15 +1,10 @@
 ﻿<div id="libraries" data-reload="true" data-role="view" data-layout="default-layout" data-title="Libraries" data-init="loadData">
-    <header data-role="header">
-        <div data-role="navbar">
-            <a data-role="backbutton" data-align="left" id="logout-button"><i class="fa fa-sign-out"></i></a>
-            <span data-role="view-title" id="view-title">Unity Docs</span>
-        </div>
-    </header>
     <ul data-role="listview" class="data-source sortable" data-template="library-template" data-source="scope.data" data-pull-to-refresh="true">
         <li>Empty</li>
     </ul>
 </div>
 
+<!-- Edit Modal Template -->
 <div data-role="modalview" id="edit-modal" style="width: 100%; height: 100%;" data-modal="false">
     <div data-role="header">
         <div data-role="navbar">
@@ -66,22 +61,22 @@
     </form>
     <div data-role="footer">
         <div data-role="navbar">
-            <a data-align="right" data-click="closeModalView" data-role="button">Cancel</a>
-            <a data-align="right" data-click="closeModalView" data-role="button">Save</a>
+            <a data-click="closeModalView" data-role="button">Done</a>
         </div>
     </div>
 </div>
 
 <!-- List Item template -->
 <script type="text/kendo-x-tmpl" id="library-template">
-
-    <a href="\\#views/library.html?indextypeorlibrary=#:Name#&key" data-rel="external">
-        <i class="fa fa-database font-size-36"></i>
-        #:Name#
+    <a data-role="button" class="km-primary km-button-right km-icon-button" data-click="openEditModal" data-libname="#:Name#"><i class="fa fa-pencil"></i></a>
+    <a href="\\#views/library.html?indextypeorlibrary=#: Name #&key" class="library-link">
+        <i class="km-thumbnail fa fa-database font-size-36"></i>
+        <h4>#:Name#</h4>
+        <p class="extra-info">Last modified at #:LastModifiedAt# by #:LastModifiedBy#.</p>
+        <p class="extra-info">Document Count: #:DocumentCount#</p>
     </a>
-    <button data-role="detailbutton" style="padding:3px;" data-click="openEditModal" data-libName="#:Name#" data-icon="edit"></button>
-
 </script>
+
 
 <script>
     function closeModalView(e) {

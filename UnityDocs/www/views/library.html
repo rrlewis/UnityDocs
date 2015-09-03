@@ -5,7 +5,9 @@
 <div data-role="modalview" id="info-modal" style="width: 100%; height: 100%;" data-modal="false">
     <div data-role="header">
         <div data-role="navbar">
+            <a data-align="right" data-click="closeModalView" data-role="button">Delete</a>
             <span data-role="view-title"></span>
+            <a data-align="left" data-click="closeModalView" data-role="button"><i class="fa fa-chevron-left"></i></a>
         </div>
     </div>
     <form action="./index.html">
@@ -42,27 +44,34 @@
             </li>
             <li>
                 <label>
-                    Tags
-                    <input data-field="Tags" type="text" readonly />
+                    Tags <a data-role="button" href="#tag-info" data-rel="popover"><i class="fa fa-question"></i></a>
+                    <input data-field="Tags" type="text" />
                 </label>
             </li>
         </ul>
     </form>
-    <ul data-role="buttongroup">
-        <li data-click="deleteFolder">Delete</li>
-        <li>Open</li>
-    </ul>
     <div data-role="footer">
         <div data-role="navbar">
-            <a data-align="right" data-click="closeModalView" data-role="button">Cancel</a>
-            <a data-align="right" data-click="closeModalView" data-role="button">Save</a>
+            <a data-align="right" data-click="closeModalView" data-role="button">Version History</a>
+            <a data-align="right" data-click="closeModalView" data-role="button">Done</a>
+        </div>
+    </div>
+    <div id="tag-info" data-role="popover">
+        <div data-role="view">
+            A string with each tag delimited by a ; (semi-colon).
         </div>
     </div>
 </div>
 
+
+
+<div data-role="modalview" id="version-history" style="width:100%; height:100%;" data-modal="false">
+
+</div>
+
 <!-- List Item template -->
 <script type="text/kendo-x-tmpl" id="library-item-template">
-    # if (Type == 'FOLDER') { #
+    <!--# if (Type == 'FOLDER') { #
     <a href="\\#views/library.html?indextypeorlibrary=#: scope.libraryName #&subfolder=#: Description #&key" data-type="#:Type#">
         <i class="fa fa-folder font-size-36"></i>
         #:Description#
@@ -85,7 +94,48 @@
         #:Description#
     </a>
     # } #
-    <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>
+    <button data-role="detailbutton" data-click="openInfoModal" data-description="#:Description#" data-icon="more-h" style="padding:3px;"></button>-->
+
+    <a data-role="button" class="km-primary km-button-right km-icon-button" data-click="openInfoModal" data-description="#:Description#"><i class="fa fa-info"></i></a>
+    <a href="\\#views/library.html?indextypeorlibrary=#: scope.libraryName #&subfolder=#: Description #&key" class="library-link">
+        # if (Type == 'FOLDER') { #
+        <i class="km-thumbnail fa fa-folder font-size-36"></i>
+        # } else if (Type == 'DOCX' || Type == 'DOC') { #
+        <i class="km-thumbnail fa fa-file-word-o font-size-36"></i>
+        # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF') { #
+        <i class="km-thumbnail fa fa-file-image-o font-size-36"></i>
+        # } else if (Type == 'XLSM' || Type == 'XLS' || Type == 'XLSX') { #
+        <i class="km-thumbnail fa fa-file-excel-o font-size-36"></i>
+        # } else if (Type == 'PDF') { #
+        <i class="km-thumbnail fa fa-file-pdf-o font-size-36"></i>
+        # } else if (Type == 'TXT') { #
+        <i class="km-thumbnail fa fa-file-text-o font-size-36"></i>
+        # } else { #
+        <i class="km-thumbnail fa fa-file-o font-size-36"></i>
+        # } #
+
+        <h4>#:Description#</h4>
+
+        <p class="extra-info">Last modified at #:Modified# by #:ModifiedBy#.</p>
+        # if (CheckedOutBy == null){ #
+        <p class="extra-info">
+            # if (Type == 'FOLDER') {#
+            &nbsp;
+            # } else { #
+            Checked Out By: Nobody.
+            # } #
+        </p>
+        # } else { #
+        <p class="extra-info">
+            # if (Type == 'FOLDER') {#
+            &nbsp;
+            # } else { #
+            Checked Out By: #:CheckedOutBy#.
+            # } #
+        </p>
+        # } #
+    </a>
+
 </script>
 
 <script>

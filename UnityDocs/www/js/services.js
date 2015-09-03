@@ -320,7 +320,11 @@
                     console.log(event.target.error.code);
                 }
                 window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
+                if (typeof LocalFileSystem != "undefined") {
+                    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
+                } else {
+                    console.log("Local File System is not defined.");
+                }
             },
             // Folders
             removeFolderFromLibrary: function (libraryName, folderName, parentFolder) {
@@ -364,6 +368,37 @@
             },
         };
     },
+    userService: function () {
+        var $this = this;
+        return {
+            getCurrentUser: function () {
+                return currentUser.get();
+            },
+            setCurrentUser: function (data) {
+                currentUser.set(data);
+            },
+        }
+    }
+};
+
+var currentUser = {
+    set: function (data) {
+        var userProperties = ["autoLogIn", "username", "password", "connectionname"];
+        for (var prop in data) {
+            if (data.hasOwnProperty(prop)) {
+                if (userProperties.indexOf(prop) > -1) {
+                    this.data[prop] = data[prop];
+                }
+            }
+        }
+    },
+    get: function () {
+        if (JSON.stringify(this.data) != JSON.stringify({})) {
+            return this.data;
+        }
+        return false;
+    },
+    data: {},
 };
 
 var testFiles = {
