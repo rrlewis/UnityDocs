@@ -98,6 +98,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 });
 
 router.route('(/)views/file.html', function (params) {
+    debugger;
     var fileTransfer = new FileTransfer();
     fileTransfer.download(
         api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID,

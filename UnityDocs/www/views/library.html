@@ -72,7 +72,7 @@
 <!-- List Item template -->
 <script type="text/kendo-x-tmpl" id="library-item-template">
     <a data-role="button" class="km-primary km-button-right km-icon-button" data-click="openInfoModal" data-description="#:Description#"><i class="fa fa-info"></i></a>
-    <a href="\\#views/file.html?imageID=#:ImageID#path=#:Path#" class="library-link">
+    <a href="\\#views/file.html?imageID=#:ImageID#&path=#:Path#" class="library-link">
         # if (Type == 'FOLDER') { #
         <i class="km-thumbnail fa fa-folder font-size-36"></i>
         # } else if (Type == 'DOCX' || Type == 'DOC') { #
