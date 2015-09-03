@@ -98,7 +98,20 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 });
 
 router.route('(/)views/file.html', function (params) {
-    api.documentService().getDocument(params.imageID);
+    fileTransfer.download(
+        api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID,
+        params.path,
+        function (entry) {
+            debugger;
+            console.log("download complete: " + entry.toURL());
+        },
+        function (error) {
+            debugger;
+            console.log("download error source " + error.source);
+            console.log("download error target " + error.target);
+            console.log("upload error code" + error.code);
+        }
+    );
 });
 
 router.route('(/)views/account.html', function (params) {
