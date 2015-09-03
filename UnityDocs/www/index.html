@@ -36,7 +36,7 @@
         </header>
         <!--View content will render here-->
     </section>
-    <div data-role="drawer" id="drawer">
+    <div data-role="drawer" id="drawer" data-before-show="onBeforeShow">
         <header data-role="header">
             <div data-role="navbar">
                 <span data-role="view-title">Options</span>
@@ -67,5 +67,16 @@
 
     <script src="js/index.js"></script>
     <script type="text/javascript" src="http://debug3.build.phonegap.com/target/target-script-min.js#70308104-2ee2-11e5-aa8b-22000b620b71"></script>
+
+    <script>
+        function onBeforeShow(e) {
+            //check for view id to prevent
+            //display of Drawer
+            if (app.view().id == "views/authenticate.html") {
+                e.preventDefault();
+            }
+        }
+    </script>
+
 </body>
 </html>

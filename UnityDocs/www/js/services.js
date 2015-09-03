@@ -72,7 +72,6 @@
             getDocument: function (ID, versionNumber) {
                 return $.ajax({
                     url: $this.rootUrl + "DocumentManagement/GetDocument",
-
                     data: {
                         VersionNumber: versionNumber,
                         documentid: ID,

@@ -98,6 +98,10 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 });
 
 router.route('(/)views/file.html', function (params) {
+    debugger;
+    api.documentService().getDocument(params.imageID).then(function (result) {
+        debugger;
+    })
 });
 
 router.route('(/)views/account.html', function (params) {
