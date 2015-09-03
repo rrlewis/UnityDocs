@@ -70,16 +70,7 @@
                 })
             },
             getDocument: function (ID, versionNumber) {
-                return $.ajax({
-                    url: $this.rootUrl + "DocumentManagement/GetDocument",
-                    data: {
-                        VersionNumber: versionNumber,
-                        documentid: ID,
-                    },
-                    success: function (results) {
-                        return results;
-                    }
-                })
+                window.location.href = $this.rootUrl + "DocumentManagement/GetDocument?documentid=" + ID;
             },
             getDocumentRecord: function (documentID) {
                 return $.ajax({
