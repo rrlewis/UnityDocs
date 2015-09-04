@@ -99,12 +99,13 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 
 router.route('(/)views/file.html', function (params) {
     debugger;
-
+    var filename = "Test";
     function fsSuccess(fileSystem) {
-        var path = fileSystem.root.toURL() + filename;
         debugger;
+        var path = fileSystem.root.toURL() + filename;
     }
     function fsFail(event) {
+        debugger;
         console.log(event.target.error.code);
     }
     window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
