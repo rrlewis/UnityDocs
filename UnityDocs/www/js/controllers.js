@@ -99,21 +99,36 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 
 router.route('(/)views/file.html', function (params) {
     debugger;
-    var fileTransfer = new FileTransfer();
-    fileTransfer.download(
-        api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID,
-        params.path,
-        function (entry) {
-            debugger;
-            console.log("download complete: " + entry.toURL());
-        },
-        function (error) {
-            debugger;
-            console.log("download error source " + error.source);
-            console.log("download error target " + error.target);
-            console.log("upload error code" + error.code);
-        }
-    );
+
+    function fsSuccess(fileSystem) {
+        var path = fileSystem.root.toURL() + filename;
+        debugger;
+    }
+    function fsFail(event) {
+        console.log(event.target.error.code);
+    }
+    window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+    if (typeof LocalFileSystem != "undefined") {
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
+    } else {
+        console.log("Local File System is not defined.");
+    }
+
+    //var fileTransfer = new FileTransfer();
+    //fileTransfer.download(
+    //    api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID,
+    //    params.path,
+    //    function (entry) {
+    //        debugger;
+    //        console.log("download complete: " + entry.toURL());
+    //    },
+    //    function (error) {
+    //        debugger;
+    //        console.log("download error source " + error.source);
+    //        console.log("download error target " + error.target);
+    //        console.log("upload error code" + error.code);
+    //    }
+    //);
 });
 
 router.route('(/)views/account.html', function (params) {

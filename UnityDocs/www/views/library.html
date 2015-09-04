@@ -10,50 +10,50 @@
             <a data-align="left" data-click="closeModalView" data-role="button"><i class="fa fa-chevron-left"></i></a>
         </div>
     </div>
-    <form action="./index.html">
+    <form name="extra-info">
         <ul data-role="listview" data-style="inset">
             <li>
                 <label>
                     Type
-                    <input data-field="Type" type="text" readonly />
+                    <input data-field="Type" name="Type" type="text" readonly />
                 </label>
             </li>
             <li>
                 <label>
                     Name
-                    <input data-field="Description" type="text" readonly />
+                    <input data-field="Description" name="Description" type="text" readonly />
                 </label>
             </li>
             <li>
                 <label>
                     Modified
-                    <input data-field="Modified" type="text" readonly />
+                    <input data-field="Modified" name="Modified" type="text" readonly />
                 </label>
             </li>
             <li>
                 <label>
                     Modified By
-                    <input data-field="ModifiedBy" type="text" readonly />
+                    <input data-field="ModifiedBy" name="ModifiedBy" type="text" readonly />
                 </label>
             </li>
             <li>
                 <label>
                     Checked Out By
-                    <input data-field="CheckedOutByFullName" type="text" readonly />
+                    <input data-field="CheckedOutByFullName" name="CheckedOutByFullName" type="text" readonly />
                 </label>
             </li>
             <li>
                 <label>
                     Tags <a data-role="button" href="#tag-info" data-rel="popover"><i class="fa fa-question"></i></a>
-                    <input data-field="Tags" type="text" />
+                    <input data-field="Tags" name="Tags" type="text" />
                 </label>
             </li>
         </ul>
     </form>
     <div data-role="footer">
         <div data-role="navbar">
-            <a data-align="right" data-click="closeModalView" data-role="button">Version History</a>
-            <a data-align="right" data-click="closeModalView" data-role="button">Done</a>
+            <a data-align="right" data-click="openVersionHistory" data-role="button">Version History</a>
+            <a data-align="right" data-click="saveInfo" data-role="button">Done</a>
         </div>
     </div>
     <div id="tag-info" data-role="popover">
@@ -114,6 +114,7 @@
 </script>
 
 <script>
+    var originalData = {};
     function closeModalView(e) {
         // find the closest modal view, relative to the button element.
         var modalView = e.sender.element.closest("[data-role=modalview]").data("kendoMobileModalView");
@@ -139,6 +140,8 @@
         }
         $("#info-modal [data-role=view-title]").text(data.description);
         modalView.open();
+        originalData = $("form[name=extra-info]").serializeObject();
+        originalData.ImageID = library.ImageID;
     }
 
     function deleteFolder() {
@@ -153,15 +156,14 @@
         debugger;
     }
 
-    function openFile(e) {
-        console.log("opening");
-        var item = e.item.children("a");
-        var data = item.data();
-        var type = data.type;
-        if (type != "FOLDER") {
-            var docID = data.documentid;
-            var fileName = data.description;
-            api.documentService().openDocument(testFiles.convertToTestFile(fileName));
+    function saveInfo(e) {
+        var newData = $("form[name=extra-info]").serializeObject();
+        if (newData.Tags != originalData.Tags) {
+            api.documentService().updateDocumentTags(originalData.ImageID, newData.Tags).then(function (result) {
+                debugger;
+            })
         }
+        originalData = {};
+        closeModalView(e);
     }
 </script>

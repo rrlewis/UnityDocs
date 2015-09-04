@@ -126,6 +126,9 @@
                     },
                     success: function (results) {
                         return results;
+                    },
+                    error: function (a, b, c) {
+                        console.log(a, b, c);
                     }
                 })
             },
