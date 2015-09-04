@@ -99,10 +99,9 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 
 router.route('(/)views/file.html', function (params) {
     debugger;
-    var filename = "Test";
     function fsSuccess(fileSystem) {
         debugger;
-        var path = fileSystem.root.toURL() + filename;
+        var path = fileSystem.root.toURL();
     }
     function fsFail(event) {
         debugger;
