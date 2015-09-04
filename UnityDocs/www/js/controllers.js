@@ -100,7 +100,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 router.route('(/)views/file.html', function (params) {
     debugger;
     function fsSuccess(fileSystem) {
-        var path = fileSystem.root.toURL() + "downloads/";
+        var path = fileSystem.root.toURL() + "Download/";
         var fileTransfer = new FileTransfer();
         fileTransfer.download(
             api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID,
