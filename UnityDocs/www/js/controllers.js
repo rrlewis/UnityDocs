@@ -100,22 +100,28 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 router.route('(/)views/file.html', function (params) {
     debugger;
     function fsSuccess(fileSystem) {
-        var path = fileSystem.root.toURL() + "UnityDocs/testdownload.docx";
-        var fileTransfer = new FileTransfer();
-        fileTransfer.download(
-            api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID,
-            path,
-            function (entry) {
+        fileSystem.root.getDirectory("UnityDocs", { create: true, exclusive: false },
+            function (DATADIR) {
+                var fileTransfer = new FileTransfer();
+                fileTransfer.download(
+                    api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID,
+                    DATADIR.toURL(),
+                    function (entry) {
+                        debugger;
+                        console.log("download complete: " + entry.toURL());
+                    },
+                    function (error) {
+                        debugger;
+                        console.log("download error source " + error.source);
+                        console.log("download error target " + error.target);
+                        console.log("upload error code" + error.code);
+                    }
+                );
+            }, 
+            function (a,b,c) {
                 debugger;
-                console.log("download complete: " + entry.toURL());
-            },
-            function (error) {
-                debugger;
-                console.log("download error source " + error.source);
-                console.log("download error target " + error.target);
-                console.log("upload error code" + error.code);
-            }
-        );
+            });
+
     }
     function fsFail(event) {
         console.log(event.target.error.code);
