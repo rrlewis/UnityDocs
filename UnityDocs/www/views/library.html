@@ -76,7 +76,7 @@
     <!-- FIX THIS TEMPLATE -->
     
     # if (Type == 'FOLDER') { #
-    <a href="\\#views/library.html?indextypeorlibrary=#:Description#&key" class="library-link">
+    <a href="\\#views/library.html?indextypeorlibrary=#:scope.libraryName#&subfolder=#:Description#&key" class="library-link">
         <i class="km-thumbnail fa fa-folder font-size-36"></i>
         <h4>#:Description#</h4>
         <p class="extra-info">Last modified at #:Modified# by #:ModifiedBy#.</p>
@@ -86,7 +86,7 @@
     </a>
     # } else { #
     <a href="\\#views/file.html?imageID=#:ImageID#" class="library-link">
-        if (Type == 'DOCX' || Type == 'DOC') { #
+        # if (Type == 'DOCX' || Type == 'DOC') { #
         <i class="km-thumbnail fa fa-file-word-o font-size-36"></i>
         # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF') { #
         <i class="km-thumbnail fa fa-file-image-o font-size-36"></i>
