@@ -105,7 +105,7 @@ router.route('(/)views/file.html', function (params) {
                 debugger;
                 var fileTransfer = new FileTransfer();
                 var localPath = fileEntry.toURL();
-                if (device.platform === "Android" && localPath.indexOf("file://") === 0) {
+                if (localPath.indexOf("file://") === 0) {
                     localPath = localPath.substring(7);
                 }
                 fileTransfer.download(
