@@ -72,7 +72,9 @@
         function onBeforeShow(e) {
             //check for view id to prevent
             //display of Drawer
-            if (app.view().id == "views/authenticate.html") {
+            var disableDrawer = ["views/authenticate.html"];
+            if (disableDrawer.indexOf(app.view().id) > -1) {
+                console.log("Drawer disabled on " + app.view().id);
                 e.preventDefault();
             }
         }

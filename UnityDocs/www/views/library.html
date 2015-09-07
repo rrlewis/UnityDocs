@@ -72,49 +72,48 @@
 <!-- List Item template -->
 <script type="text/kendo-x-tmpl" id="library-item-template">
     <a data-role="button" class="km-primary km-button-right km-icon-button" data-click="openInfoModal" data-description="#:Description#"><i class="fa fa-info"></i></a>
+
+    <!-- FIX THIS TEMPLATE -->
+    
     # if (Type == 'FOLDER') { #
     <a href="\\#views/library.html?indextypeorlibrary=#:Description#&key" class="library-link">
-        # else { #
-        <a href="\\#views/file.html?imageID=#:ImageID#" class="library-link">
-            # } #
-            # if (Type == 'FOLDER') { #
-            <i class="km-thumbnail fa fa-folder font-size-36"></i>
-            # } else if (Type == 'DOCX' || Type == 'DOC') { #
-            <i class="km-thumbnail fa fa-file-word-o font-size-36"></i>
-            # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF') { #
-            <i class="km-thumbnail fa fa-file-image-o font-size-36"></i>
-            # } else if (Type == 'XLSM' || Type == 'XLS' || Type == 'XLSX') { #
-            <i class="km-thumbnail fa fa-file-excel-o font-size-36"></i>
-            # } else if (Type == 'PDF') { #
-            <i class="km-thumbnail fa fa-file-pdf-o font-size-36"></i>
-            # } else if (Type == 'TXT') { #
-            <i class="km-thumbnail fa fa-file-text-o font-size-36"></i>
-            # } else { #
-            <i class="km-thumbnail fa fa-file-o font-size-36"></i>
-            # } #
+        <i class="km-thumbnail fa fa-folder font-size-36"></i>
+        <h4>#:Description#</h4>
+        <p class="extra-info">Last modified at #:Modified# by #:ModifiedBy#.</p>
+        <p class="extra-info">
+            &nbsp;
+        </p>
+    </a>
+    # } else { #
+    <a href="\\#views/file.html?imageID=#:ImageID#" class="library-link">
+        if (Type == 'DOCX' || Type == 'DOC') { #
+        <i class="km-thumbnail fa fa-file-word-o font-size-36"></i>
+        # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF') { #
+        <i class="km-thumbnail fa fa-file-image-o font-size-36"></i>
+        # } else if (Type == 'XLSM' || Type == 'XLS' || Type == 'XLSX') { #
+        <i class="km-thumbnail fa fa-file-excel-o font-size-36"></i>
+        # } else if (Type == 'PDF') { #
+        <i class="km-thumbnail fa fa-file-pdf-o font-size-36"></i>
+        # } else if (Type == 'TXT') { #
+        <i class="km-thumbnail fa fa-file-text-o font-size-36"></i>
+        # } else { #
+        <i class="km-thumbnail fa fa-file-o font-size-36"></i>
+        # } #
 
-            <h4>#:Description#</h4>
+        <h4>#:Description#</h4>
 
-            <p class="extra-info">Last modified at #:Modified# by #:ModifiedBy#.</p>
-            # if (CheckedOutBy == null){ #
-            <p class="extra-info">
-                # if (Type == 'FOLDER') {#
-                &nbsp;
-                # } else { #
-                Checked Out By: Nobody.
-                # } #
-            </p>
-            # } else { #
-            <p class="extra-info">
-                # if (Type == 'FOLDER') {#
-                &nbsp;
-                # } else { #
-                Checked Out By: #:CheckedOutBy#.
-                # } #
-            </p>
-            # } #
-        </a>
-
+        <p class="extra-info">Last modified at #:Modified# by #:ModifiedBy#.</p>
+        # if (CheckedOutBy == null){ #
+        <p class="extra-info">
+            Checked Out By: Nobody.
+        </p>
+        # } else { #
+        <p class="extra-info">
+            Checked Out By: #:CheckedOutBy#.
+        </p>
+        # } #
+    </a>
+    # } #
 </script>
 
 <script>
