@@ -103,6 +103,7 @@ router.route('(/)views/file.html', function (params) {
         fileSystem.root.getDirectory("UnityDocs", { create: true, exclusive: false },
             function (DATADIR) {
                 var fileTransfer = new FileTransfer();
+                var path = DATADIR.toURL();
                 fileTransfer.download(
                     api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID,
                     DATADIR.toURL(),
