@@ -100,13 +100,17 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 router.route('(/)views/file.html', function (params) {
     debugger;
     function fsSuccess(fileSystem) {
-        fileSystem.root.getDirectory("UnityDocs", { create: true, exclusive: false },
-            function (DATADIR) {
+        fileSystem.root.getFile("Document1.docx", { create: true, exclusive: false },
+            function (fileEntry) {
+                debugger;
                 var fileTransfer = new FileTransfer();
-                var path = DATADIR.toURL();
+                var localPath = fileEntry.toURL();
+                if (device.platform === "Android" && localPath.indexOf("file://") === 0) {
+                    localPath = localPath.substring(7);
+                }
                 fileTransfer.download(
                     api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID,
-                    DATADIR.toURL(),
+                    localPath,
                     function (entry) {
                         debugger;
                         console.log("download complete: " + entry.toURL());
