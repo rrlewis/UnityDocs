@@ -99,7 +99,10 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 
 router.route('(/)views/file.html', function (params) {
 
-    function fsFail(e1, e2, e3) { // Error handler.
+    function fsFail(e) { // Error handler.
+        console.log("--ERROR--");
+        console.log(e);
+        console.log("---------");
         debugger;
     }
 
@@ -110,7 +113,7 @@ router.route('(/)views/file.html', function (params) {
 
     function gotDirectory(directoryEntry) {
         debugger;
-        directoryEntry.getFile(params.description, { create: true, exclusive: true }, gotFile, fsFail);
+        directoryEntry.getFile(params.description, { create: true }, gotFile, fsFail);
     }
 
     function gotFile(fileEntry) {
