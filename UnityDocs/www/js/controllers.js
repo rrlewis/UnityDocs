@@ -110,7 +110,7 @@ router.route('(/)views/file.html', function (params) {
 
     function gotDirectory(directoryEntry) {
         debugger;
-        dirEntry.getFile(params.description, { create: true, exclusive: true }, gotFile);
+        directoryEntry.getFile(params.description, { create: true, exclusive: true }, gotFile);
     }
 
     function gotFile(fileEntry) {
