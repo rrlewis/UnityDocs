@@ -113,11 +113,6 @@ router.route('(/)views/file.html', function (params) {
 
     function gotDirectory(directoryEntry) {
         debugger;
-        directoryEntry.getFile(params.description, { create: true, exclusive: true }, gotFile, fsFail);
-    }
-
-    function gotFile(fileEntry) {
-        debugger;
         var fileTransfer = new FileTransfer();
         var localPath = fileEntry.toURL();
         if (localPath.indexOf("file://") === 0) {
@@ -139,6 +134,10 @@ router.route('(/)views/file.html', function (params) {
                 console.log("upload error code" + error.code);
             }
         );
+    }
+
+    function gotFile(fileEntry) {
+
     }
 
     window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
