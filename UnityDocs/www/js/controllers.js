@@ -113,7 +113,7 @@ router.route('(/)views/file.html', function (params) {
 
     function gotDirectory(directoryEntry) {
         debugger;
-        directoryEntry.getFile(params.description, { create: true }, gotFile, fsFail);
+        directoryEntry.getFile(params.description, { create: true, exclusive: true }, gotFile, fsFail);
     }
 
     function gotFile(fileEntry) {
