@@ -100,7 +100,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 router.route('(/)views/file.html', function (params) {
     debugger;
     function fsSuccess(fileSystem) {
-        fileSystem.getDirectory("UnityDocs", { create: true, exclusive: false },
+        fileSystem.root.getDirectory("UnityDocs", { create: true, exclusive: false },
             function (directoryEntry) {
                 debugger;
                 var dirPath = directoryEntry.toURL();
