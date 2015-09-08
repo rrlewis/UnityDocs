@@ -107,7 +107,7 @@ router.route('(/)views/file.html', function (params) {
                 if (dirPath.indexOf("file://") === 0) {
                     dirPath = dirPath.substring(7);
                 }
-                fileSystem.root.getFile(dirPath + "Document1.docx", { create: true, exclusive: false },
+                directoryEntry.getFile("Document1.docx", { create: true, exclusive: false },
                     function (fileEntry) {
                         debugger;
                         var fileTransfer = new FileTransfer();
