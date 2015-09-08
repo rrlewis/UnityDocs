@@ -130,14 +130,14 @@ router.route('(/)views/file.html', function (params) {
                             }
                         );
                     }, // success
-        function (a, b, c) {
-            debugger;
-        } // fail
-    );
+                    function (a, b, c) {
+                        debugger;
+                    } // fail
+                );
             },
-        function () {
-
-        })
+            function (a,b,c) {
+                debugger;
+            })
 
 
     }
