@@ -100,32 +100,45 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 router.route('(/)views/file.html', function (params) {
     debugger;
     function fsSuccess(fileSystem) {
-        fileSystem.root.getFile("Document1.docx", { create: true, exclusive: false },
-            function (fileEntry) {
+        fileSystem.getDirectory("UnityDocs", { create: true, exclusive: false },
+            function (directoryEntry) {
                 debugger;
-                var fileTransfer = new FileTransfer();
-                var localPath = fileEntry.toURL();
-                if (localPath.indexOf("file://") === 0) {
-                    localPath = localPath.substring(7);
+                var dirPath = directoryEntry.toURL();
+                if (dirPath.indexOf("file://") === 0) {
+                    dirPath = dirPath.substring(7);
                 }
-                fileTransfer.download(
-                    api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID,
-                    localPath,
-                    function (entry) {
+                fileSystem.root.getFile(dirPath + "Document1.docx", { create: true, exclusive: false },
+                    function (fileEntry) {
                         debugger;
-                        console.log("download complete: " + entry.toURL());
-                    },
-                    function (error) {
-                        debugger;
-                        console.log("download error source " + error.source);
-                        console.log("download error target " + error.target);
-                        console.log("upload error code" + error.code);
-                    }
-                );
-            }, 
-            function (a,b,c) {
-                debugger;
-            });
+                        var fileTransfer = new FileTransfer();
+                        var localPath = fileEntry.toURL();
+                        if (localPath.indexOf("file://") === 0) {
+                            localPath = localPath.substring(7);
+                        }
+                        fileTransfer.download(
+                            api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID,
+                            localPath,
+                            function (entry) {
+                                debugger;
+                                console.log("download complete: " + entry.toURL());
+                            },
+                            function (error) {
+                                debugger;
+                                console.log("download error source " + error.source);
+                                console.log("download error target " + error.target);
+                                console.log("upload error code" + error.code);
+                            }
+                        );
+                    }, // success
+        function (a, b, c) {
+            debugger;
+        } // fail
+    );
+            },
+        function () {
+
+        })
+
 
     }
     function fsFail(event) {
