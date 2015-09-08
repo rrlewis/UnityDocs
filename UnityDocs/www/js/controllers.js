@@ -98,59 +98,52 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 });
 
 router.route('(/)views/file.html', function (params) {
-    debugger;
-    function fsSuccess(fileSystem) {
-        fileSystem.root.getDirectory("UnityDocs", { create: true, exclusive: false },
-            function (directoryEntry) {
+
+    function fsFail(e1, e2, e3) { // Error handler.
+        debugger;
+    }
+
+    function gotFileSystem(fileSystem) {
+        debugger;
+        fileSystem.root.getDirectory("UnityDocs", { create: true }, gotDirectory);
+    }
+
+    function gotDirectory(directoryEntry) {
+        debugger;
+        dirEntry.getFile(params.description, { create: true, exclusive: true }, gotFile);
+    }
+
+    function gotFile(fileEntry) {
+        debugger;
+        var fileTransfer = new FileTransfer();
+        var localPath = fileEntry.toURL();
+        if (localPath.indexOf("file://") === 0) {
+            localPath = localPath.substring(7);
+        }
+        fileTransfer.download(
+            api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID,
+            localPath,
+            function (entry) {
+                // Successfully downloaded.
                 debugger;
-                var dirPath = directoryEntry.toURL();
-                if (dirPath.indexOf("file://") === 0) {
-                    dirPath = dirPath.substring(7);
-                }
-                directoryEntry.getFile("Document1.docx", { create: true, exclusive: false },
-                    function (fileEntry) {
-                        debugger;
-                        var fileTransfer = new FileTransfer();
-                        var localPath = fileEntry.toURL();
-                        if (localPath.indexOf("file://") === 0) {
-                            localPath = localPath.substring(7);
-                        }
-                        fileTransfer.download(
-                            api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID,
-                            localPath,
-                            function (entry) {
-                                debugger;
-                                console.log("download complete: " + entry.toURL());
-                            },
-                            function (error) {
-                                debugger;
-                                console.log("download error source " + error.source);
-                                console.log("download error target " + error.target);
-                                console.log("upload error code" + error.code);
-                            }
-                        );
-                    }, // success
-                    function (a, b, c) {
-                        debugger;
-                    } // fail
-                );
+                console.log("download complete: " + entry.toURL());
             },
-            function (a,b,c) {
+            function (error) {
+                // Failed to download.
                 debugger;
-            })
-
-
+                console.log("download error source " + error.source);
+                console.log("download error target " + error.target);
+                console.log("upload error code" + error.code);
+            }
+        );
     }
-    function fsFail(event) {
-        console.log(event.target.error.code);
-    }
+
     window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
     if (typeof LocalFileSystem != "undefined") {
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFileSystem, fsFail);
     } else {
         console.log("Local File System is not defined.");
     }
-
 
 });
 
