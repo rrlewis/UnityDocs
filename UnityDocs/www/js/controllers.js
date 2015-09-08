@@ -105,12 +105,12 @@ router.route('(/)views/file.html', function (params) {
 
     function gotFileSystem(fileSystem) {
         debugger;
-        fileSystem.root.getDirectory("UnityDocs", { create: true }, gotDirectory);
+        fileSystem.root.getDirectory("UnityDocs", { create: true }, gotDirectory, fsFail);
     }
 
     function gotDirectory(directoryEntry) {
         debugger;
-        directoryEntry.getFile(params.description, { create: true, exclusive: true }, gotFile);
+        directoryEntry.getFile(params.description, { create: true, exclusive: true }, gotFile, fsFail);
     }
 
     function gotFile(fileEntry) {
@@ -144,7 +144,6 @@ router.route('(/)views/file.html', function (params) {
     } else {
         console.log("Local File System is not defined.");
     }
-
 });
 
 router.route('(/)views/account.html', function (params) {
