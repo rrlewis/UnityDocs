@@ -114,7 +114,7 @@ router.route('(/)views/file.html', function (params) {
     function gotDirectory(directoryEntry) {
         debugger;
         var fileTransfer = new FileTransfer();
-        var localPath = directoryEntry.toURL();
+        var localPath = directoryEntry.toURL() + "/" + params.description;
         if (localPath.indexOf("file://") === 0) {
             localPath = localPath.substring(7);
         }
