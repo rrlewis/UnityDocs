@@ -98,6 +98,39 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 });
 
 router.route('(/)views/file.html', function (params) {
+    debugger;
+    //The directory to store data
+    var directory = cordova.file.externalDataDirectory;
+
+    var fileName = params.description;
+
+    //URL of the document on the server
+    var url = api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID;
+
+    //Check for the file. 
+    window.resolveLocalFileSystemURL(directory + fileName, readFile, downloadAndReadFile);
+
+    function downloadAndReadFile(a,b,c) {
+        var fileTransfer = new FileTransfer();
+        console.log("About to start transfer");
+        fileTransfer.download(url, directory + fileName,
+            function (entry) {
+                debugger;
+                console.log("Success!");
+                readFile();
+            },
+            function (err) {
+                debugger;
+                console.log("Error");
+                console.dir(err);
+            });
+    }
+
+    function readFile(a, b, c) {
+        debugger;
+    }
+
+    /////////////////////////////////////////
 
     function fsFail(e) { // Error handler.
         console.log("--ERROR--");
@@ -106,43 +139,39 @@ router.route('(/)views/file.html', function (params) {
         debugger;
     }
 
-    function gotFileSystem(fileSystem) {
-        debugger;
-        fileSystem.root.getDirectory(cordova.file.externalDataDirectory.split("0/")[1], { create: true }, gotDirectory, fsFail);
-    }
-
-    function gotDirectory(directoryEntry) {
-        debugger;
-        var fileTransfer = new FileTransfer();
-        var localPath = directoryEntry.toURL(); //  + params.description
-        if (localPath.indexOf("file://") === 0) {
-            localPath = localPath.substring(7);
-        }
-        fileTransfer.download(
-            api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID,
-            localPath,
-            function (entry) {
-                // Successfully downloaded.
+    debugger;
+    function fsSuccess(fileSystem) {
+        fileSystem.root.getFile("Document1.docx", { create: true, exclusive: false },
+            function (fileEntry) {
                 debugger;
-                console.log("download complete: " + entry.toURL());
+                var fileTransfer = new FileTransfer();
+                var localPath = fileEntry.toURL();
+                if (localPath.indexOf("file://") === 0) {
+                    localPath = localPath.substring(7);
+                }
+                fileTransfer.download(
+                    api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID,
+                    localPath,
+                    function (entry) {
+                        debugger;
+                        console.log("download complete: " + entry.toURL());
+                    },
+                    function (error) {
+                        debugger;
+                        console.log("download error source " + error.source);
+                        console.log("download error target " + error.target);
+                        console.log("upload error code" + error.code);
+                    }
+                );
             },
-            function (error) {
-                // Failed to download.
+            function (a, b, c) {
                 debugger;
-                console.log("download error source " + error.source);
-                console.log("download error target " + error.target);
-                console.log("upload error code" + error.code);
-            }
-        );
-    }
-
-    function gotFile(fileEntry) {
+            });
 
     }
-
     window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
     if (typeof LocalFileSystem != "undefined") {
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFileSystem, fsFail);
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
     } else {
         console.log("Local File System is not defined.");
     }
