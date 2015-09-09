@@ -110,7 +110,8 @@ router.route('(/)views/file.html', function (params) {
     //Check for the file. 
     window.resolveLocalFileSystemURL(directory + fileName, readFile, downloadAndReadFile);
 
-    function downloadAndReadFile(a,b,c) {
+    function downloadAndReadFile(a, b, c) {
+        debugger;
         var fileTransfer = new FileTransfer();
         console.log("About to start transfer");
         fileTransfer.download(url, directory + fileName,
@@ -132,49 +133,49 @@ router.route('(/)views/file.html', function (params) {
 
     /////////////////////////////////////////
 
-    function fsFail(e) { // Error handler.
-        console.log("--ERROR--");
-        console.log(e);
-        console.log("---------");
-        debugger;
-    }
+    //function fsFail(e) { // Error handler.
+    //    console.log("--ERROR--");
+    //    console.log(e);
+    //    console.log("---------");
+    //    debugger;
+    //}
 
-    debugger;
-    function fsSuccess(fileSystem) {
-        fileSystem.root.getFile("Document1.docx", { create: true, exclusive: false },
-            function (fileEntry) {
-                debugger;
-                var fileTransfer = new FileTransfer();
-                var localPath = fileEntry.toURL();
-                if (localPath.indexOf("file://") === 0) {
-                    localPath = localPath.substring(7);
-                }
-                fileTransfer.download(
-                    api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID,
-                    localPath,
-                    function (entry) {
-                        debugger;
-                        console.log("download complete: " + entry.toURL());
-                    },
-                    function (error) {
-                        debugger;
-                        console.log("download error source " + error.source);
-                        console.log("download error target " + error.target);
-                        console.log("upload error code" + error.code);
-                    }
-                );
-            },
-            function (a, b, c) {
-                debugger;
-            });
+    //debugger;
+    //function fsSuccess(fileSystem) {
+    //    fileSystem.root.getFile("Document1.docx", { create: true, exclusive: false },
+    //        function (fileEntry) {
+    //            debugger;
+    //            var fileTransfer = new FileTransfer();
+    //            var localPath = fileEntry.toURL();
+    //            if (localPath.indexOf("file://") === 0) {
+    //                localPath = localPath.substring(7);
+    //            }
+    //            fileTransfer.download(
+    //                api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID,
+    //                localPath,
+    //                function (entry) {
+    //                    debugger;
+    //                    console.log("download complete: " + entry.toURL());
+    //                },
+    //                function (error) {
+    //                    debugger;
+    //                    console.log("download error source " + error.source);
+    //                    console.log("download error target " + error.target);
+    //                    console.log("upload error code" + error.code);
+    //                }
+    //            );
+    //        },
+    //        function (a, b, c) {
+    //            debugger;
+    //        });
 
-    }
-    window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-    if (typeof LocalFileSystem != "undefined") {
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
-    } else {
-        console.log("Local File System is not defined.");
-    }
+    //}
+    //window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+    //if (typeof LocalFileSystem != "undefined") {
+    //    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
+    //} else {
+    //    console.log("Local File System is not defined.");
+    //}
 });
 
 router.route('(/)views/account.html', function (params) {
