@@ -108,13 +108,13 @@ router.route('(/)views/file.html', function (params) {
 
     function gotFileSystem(fileSystem) {
         debugger;
-        fileSystem.root.getDirectory("Download", { create: true }, gotDirectory, fsFail);
+        fileSystem.root.getDirectory(cordova.file.externalDataDirectory.split("0/")[1], { create: true }, gotDirectory, fsFail);
     }
 
     function gotDirectory(directoryEntry) {
         debugger;
         var fileTransfer = new FileTransfer();
-        var localPath = directoryEntry.toURL() + "/" + params.description;
+        var localPath = directoryEntry.toURL() + params.description;
         if (localPath.indexOf("file://") === 0) {
             localPath = localPath.substring(7);
         }
