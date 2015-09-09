@@ -100,7 +100,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 router.route('(/)views/file.html', function (params) {
     debugger;
     //The directory to store data
-    var directory = cordova.file.externalDataDirectory;
+    var directory = cordova.file.externalRootDirectory; //cordova.file.externalCacheDirectory;
 
     var fileName = params.description;
 
