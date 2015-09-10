@@ -110,7 +110,7 @@ router.route('(/)views/file.html', function (params) {
     //Check for the file. 
     window.resolveLocalFileSystemURL(directory + fileName, readFile, downloadAndReadFile);
 
-    function downloadAndReadFile(a, b, c) {
+    function downloadAndReadFile(a) {
         debugger;
         var fileTransfer = new FileTransfer();
         console.log("About to start transfer");
@@ -118,7 +118,7 @@ router.route('(/)views/file.html', function (params) {
             function (entry) {
                 debugger;
                 console.log("Success!");
-                readFile();
+                readFile(entry);
             },
             function (err) {
                 debugger;
