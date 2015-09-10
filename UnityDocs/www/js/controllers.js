@@ -9,24 +9,32 @@ var router = new kendo.Router({
         scope = {};
         scope.url = e.url;
         console.log(scope.url);
+        if (currentUser.get() == null && e.url != "views/authenticate.html") {
+            router.navigate("views/authenticate.html");
+        }
     }
 });
 
 
 router.route('(/)(views/authenticate.html)', function (params) { // AuthenticateController
 
-    scope.authenticate = function () {
-        var formData = $("form[name=auth-form]").serializeObject();
-        api.authService().authenticate(formData).then(function (result) {
-            if (result.LoggedIn) {
-                formData.autoLogIn = true;
-                currentUser = formData;
-                router.navigate("views/libraries.html");
-            } else {
-                $("#attempt-failed").text(result.ErrorMessage).slideDown(100);
-            }
-        })
+    var loggedIn = function (result) {
+        if (result.LoggedIn) {
+            router.navigate("views/libraries.html");
+        } else {
+            $("#attempt-failed").text(result.ErrorMessage).slideDown(100);
+        }
     }
+
+    if (api.authService().isAutoLogin()) {
+        api.authService().authenticate(currentUser.get()).then(loggedIn);
+    } else {
+        scope.authenticate = function () {
+            var formData = $("form[name=auth-form]").serializeObject();
+            api.authService().authenticate(formData).then(loggedIn);
+        }
+    }
+    
 });
 
 router.route('(/)views/libraries.html', function (params) { // LibraryController
@@ -108,13 +116,13 @@ router.route('(/)views/file.html', function (params) {
     var url = api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID;
 
     //Check for the file. 
-    window.resolveLocalFileSystemURL(fileName, readFile, downloadAndReadFile);
+    window.resolveLocalFileSystemURL(directory + fileName, readFile, downloadAndReadFile);
 
     function downloadAndReadFile(a) {
         debugger;
         var fileTransfer = new FileTransfer();
         console.log("About to start transfer");
-        fileTransfer.download(url, fileName,
+        fileTransfer.download(url, directory + fileName,
             function (entry) {
                 debugger;
                 console.log("Success!");
@@ -179,7 +187,8 @@ router.route('(/)views/file.html', function (params) {
 });
 
 router.route('(/)views/account.html', function (params) {
-
+    scope.user = currentUser.get();
+    scope.logOut = currentUser.logOut;
 });
 
 router.start();

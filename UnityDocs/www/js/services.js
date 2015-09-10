@@ -4,17 +4,22 @@
     authService: function () {
         var $this = this;
         return {
-            authenticate: function (data) {
-                if (data.username == "" && data.password == "" && data.connectionname == "") // testing purposes only, remove for production
-                { data = { username: "SCL", password: "PASS", connectionname: "ute1" }; }
+            authenticate: function (user) {
+                if (user.username == "" && user.password == "" && user.connectionname == "") // testing purposes only, remove for production
+                { user = { username: "SCL", password: "PASS", connectionname: "ute1" }; }
 
                 return $.ajax({
                     url: $this.rootUrl + "login/apilogin",
-                    data: data,
+                    data: user,
                     success: function (results) {
+                        user.autoLogIn = true;
+                        currentUser.set(user);
                         return results;
                     }
                 });
+            },
+            isAutoLogin: function () {
+                return localStorage.getItem("uda") == "true" ? true : false;
             }
         };
     },
@@ -371,27 +376,39 @@
                 currentUser.set(data);
             },
         }
-    }
+    },
 };
 
 var currentUser = {
     set: function (data) {
-        var userProperties = ["autoLogIn", "username", "password", "connectionname"];
+        var user = { autoLogIn: null, username: null, password: null, connectionname: null };
         for (var prop in data) {
-            if (data.hasOwnProperty(prop)) {
-                if (userProperties.indexOf(prop) > -1) {
-                    this.data[prop] = data[prop];
-                }
+            if (data.hasOwnProperty(prop) && user.hasOwnProperty(prop)) {
+                user[prop] = data[prop];
             }
+        }
+        // save credentials to localStorage.
+        var stringifiedUser = JSON.stringify(user);
+        localStorage.setItem("ud", btoa(stringifiedUser));
+        if (user.autoLogIn) {
+            localStorage.setItem("uda", true);
+        } else {
+            localStorage.setItem("uda", false);
         }
     },
     get: function () {
-        if (JSON.stringify(this.data) != JSON.stringify({})) {
-            return this.data;
+        var user = localStorage.getItem("ud");
+        if (user != null) {
+            return JSON.parse(atob(user));
         }
-        return false;
+        return null;
     },
-    data: {},
+    logOut: function () {
+        // logout and remove autologin
+        localStorage.removeItem("uda");
+        localStorage.removeItem("ud");
+        router.navigate("views/authenticate.html");
+    }
 };
 
 var testFiles = {

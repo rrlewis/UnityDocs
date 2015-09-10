@@ -22,17 +22,19 @@ var app = new kendo.mobile.Application(document.body,
         // Handle the Cordova pause and resume events
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
-        console.log("DEVICE READY!");
         // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
+        console.log("Device ready.");
     };
 
     function onPause() {
         // TODO: This application has been suspended. Save application state here.
+        console.log("Pausing application.");
     };
 
     function onResume() {
         // TODO: This application has been reactivated. Restore application state here.
     };
+    console.log("Resuming application.");
 
 
 })();
