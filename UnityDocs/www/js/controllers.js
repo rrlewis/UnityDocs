@@ -108,13 +108,13 @@ router.route('(/)views/file.html', function (params) {
     var url = api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID;
 
     //Check for the file. 
-    window.resolveLocalFileSystemURL(directory + fileName, readFile, downloadAndReadFile);
+    window.resolveLocalFileSystemURL(fileName, readFile, downloadAndReadFile);
 
     function downloadAndReadFile(a) {
         debugger;
         var fileTransfer = new FileTransfer();
         console.log("About to start transfer");
-        fileTransfer.download(url, directory + fileName,
+        fileTransfer.download(url, fileName,
             function (entry) {
                 debugger;
                 console.log("Success!");
