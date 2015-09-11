@@ -34,7 +34,7 @@ router.route('(/)(views/authenticate.html)', function (params) { // Authenticate
             api.authService().authenticate(formData).then(loggedIn);
         }
     }
-    
+
 });
 
 router.route('(/)views/libraries.html', function (params) { // LibraryController
@@ -139,56 +139,15 @@ router.route('(/)views/file.html', function (params) {
         debugger;
     }
 
-    /////////////////////////////////////////
-
-    //function fsFail(e) { // Error handler.
-    //    console.log("--ERROR--");
-    //    console.log(e);
-    //    console.log("---------");
-    //    debugger;
-    //}
-
-    //debugger;
-    //function fsSuccess(fileSystem) {
-    //    fileSystem.root.getFile("Document1.docx", { create: true, exclusive: false },
-    //        function (fileEntry) {
-    //            debugger;
-    //            var fileTransfer = new FileTransfer();
-    //            var localPath = fileEntry.toURL();
-    //            if (localPath.indexOf("file://") === 0) {
-    //                localPath = localPath.substring(7);
-    //            }
-    //            fileTransfer.download(
-    //                api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID,
-    //                localPath,
-    //                function (entry) {
-    //                    debugger;
-    //                    console.log("download complete: " + entry.toURL());
-    //                },
-    //                function (error) {
-    //                    debugger;
-    //                    console.log("download error source " + error.source);
-    //                    console.log("download error target " + error.target);
-    //                    console.log("upload error code" + error.code);
-    //                }
-    //            );
-    //        },
-    //        function (a, b, c) {
-    //            debugger;
-    //        });
-
-    //}
-    //window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-    //if (typeof LocalFileSystem != "undefined") {
-    //    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
-    //} else {
-    //    console.log("Local File System is not defined.");
-    //}
 });
 
 router.route('(/)views/account.html', function (params) {
     scope.user = currentUser.get();
     scope.logOut = currentUser.logOut;
+    scope.onInit = function () {
+        $("#account input[name=username]").val(scope.user.username);
+        $("#account input[name=connectionname]").val(scope.user.connectionname);
+    }
 });
 
 router.start();

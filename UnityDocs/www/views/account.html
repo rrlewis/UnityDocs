@@ -1,27 +1,21 @@
-﻿<div id="account" data-role="view" data-layout="default-layout" data-title="Account">
+﻿<div id="account" data-role="view" data-layout="default-layout" data-title="Account" data-init="scope.onInit">
     <form action="./index.html">
         <ul data-role="listview" data-style="inset">
             <li>
                 <label>
                     Username
-                    <input name="username" type="text" value="" />
-                </label>
-            </li>
-            <li>
-                <label>
-                    Password
-                    <input name="password" type="text" value="" />
+                    <input name="username" type="text" value="" readonly />
                 </label>
             </li>
             <li>
                 <label>
                     Database
-                    <input name="connectionname" type="text" value="" />
+                    <input name="connectionname" type="text" value="" readonly />
                 </label>
             </li>
             <li>
                 <div class="center-text">
-                    <button data-role="button" data-click="scope.logOut">Log Out</button>
+                    <button data-role="button" data-click="scope.logOut" class="km-negative">Log Out</button>
                 </div>
             </li>
         </ul>
