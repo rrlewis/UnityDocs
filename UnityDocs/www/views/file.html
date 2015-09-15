@@ -9,7 +9,7 @@
     }
     function gotFile(fileEntry) {
         debugger;
-        window.open(fileEntry.toURL());
+        window.open(fileEntry.toURL(), '_blank', 'location=no,closebuttoncaption=Close,enableViewportScale=yes');
     }
 
     function fail(fail) {
