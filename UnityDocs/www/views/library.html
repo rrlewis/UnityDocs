@@ -11,7 +11,7 @@
         </div>
     </div>
     <form name="extra-info">
-        <ul data-role="listview" data-style="inset">
+        <ul data-role="listview">
             <li>
                 <label>
                     Type
@@ -44,8 +44,16 @@
             </li>
             <li>
                 <label>
-                    Tags <a data-role="button" href="#tag-info" data-rel="popover"><i class="fa fa-question"></i></a>
-                    <input data-field="Tags" name="Tags" type="text" />
+                    Tags 
+                    <input data-field="Tags" name="Tags" type="text" placeholder="A string with each tag delimited by a ; (semi-colon)." />
+                </label>
+            </li>
+            <li>
+                <label>
+                    Comments
+                    <textarea data-field="Comments" name="Comments" readonly style="resize:vertical;">
+
+                    </textarea>
                 </label>
             </li>
         </ul>
@@ -56,20 +64,13 @@
             <a data-align="right" data-click="saveInfo" data-role="button">Done</a>
         </div>
     </div>
-    <div id="tag-info" data-role="popover">
-        <div data-role="view">
-            A string with each tag delimited by a ; (semi-colon).
-        </div>
-    </div>
 </div>
-
-
 
 <div data-role="modalview" id="version-history" style="width:100%; height:100%;" data-modal="false">
     <div data-role="header">
         <div data-role="navbar">
             <span data-role="view-title"></span>
-            <a data-align="left" data-click="closeModalView" data-role="button"><i class="fa fa-close"></i></a>
+            <a data-align="left" data-click="closeVersionHistory" data-role="button"><i class="fa fa-close"></i></a>
         </div>
     </div>
     <ul data-role="listview" class="data-source sortable" data-template="version-history-template"></ul>
@@ -121,7 +122,7 @@
     # } #
 </script>
 
-<!-- Version History Template -->
+<!-- Version History template -->
 <script type="text/kendo-x-tmpl" id="version-history-template">
     <div>
         <ul>
@@ -139,7 +140,9 @@
                 <span class="bold-text">Comments</span>
                 <br />
                 <br />
+                # if (Comments != null) { #
                 #:Comments#
+                # } #
             </li>
         </ul>
     </div>
@@ -170,6 +173,14 @@
                 }
             }
         }
+        api.documentService().getVersionHistory(scope.libraryName, scope.selectedItem.ImageID).then(function (results) {
+            var listView = $("#version-history ul.data-source").data("kendoMobileListView");
+            var dataSource = new kendo.data.DataSource({ data: results.results });
+            $("#info-modal textarea[data-field=Comments").val(results.results[0].Comments == null ? 'No comments.' : results.results[0].Comments);
+            $("#version-history [data-role=view-title]").text(scope.selectedItem.Description + " History");
+            listView.setDataSource(dataSource);
+        });
+
         $("#info-modal [data-role=view-title]").text(data.description);
         modalView.open();
         originalData = $("form[name=extra-info]").serializeObject();
@@ -201,23 +212,12 @@
 
     function openVersionHistory(e) {
         var modalView = $("#version-history").data("kendoMobileModalView");
-        var libraryName = scope.libraryName;
-        var docID = scope.selectedItem.ImageID;
-        api.documentService().getVersionHistory(libraryName, docID).then(function (results) {
-            console.log(results.properties);
-            var listView = $("#version-history ul.data-source").data("kendoMobileListView");
-            //test
-            if (results.results.length == 0) {
-                results.results = [
-                    { VersionNumber: 0, Modified: "2015-04-28T15:10:11", ModifiedBy: "Ronan", ModifiedByFullName: "Ronan Lewis", Comments: "Test Comment" },
-                    { VersionNumber: 1, Modified: "2015-04-28T15:10:11", ModifiedBy: "Ronan", ModifiedByFullName: "Ronan Lewis", Comments: "Test Comment2" }
-                ];
-            }
-            var dataSource = new kendo.data.DataSource({ data: results.results });
-            $("#version-history [data-role=view-title]").text(scope.selectedItem.Description + " History");
-            modalView.open();
-            listView.setDataSource(dataSource);
-        });
+        modalView.open();
+    }
+
+    function closeVersionHistory(e) {
+        $("form[name=extra-info]").trigger('reset');
+        closeModalView(e);
     }
 </script>
 

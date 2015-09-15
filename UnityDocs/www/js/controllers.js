@@ -17,7 +17,6 @@ var router = new kendo.Router({
 
 
 router.route('(/)(views/authenticate.html)', function (params) { // AuthenticateController
-
     var loggedIn = function (result) {
         if (result.LoggedIn) {
             router.navigate("views/libraries.html");
@@ -25,7 +24,6 @@ router.route('(/)(views/authenticate.html)', function (params) { // Authenticate
             $("#attempt-failed").text(result.ErrorMessage).slideDown(100);
         }
     }
-
     if (api.authService().isAutoLogin()) {
         api.authService().authenticate(currentUser.get()).then(loggedIn);
     } else {
@@ -34,7 +32,6 @@ router.route('(/)(views/authenticate.html)', function (params) { // Authenticate
             api.authService().authenticate(formData).then(loggedIn);
         }
     }
-
 });
 
 router.route('(/)views/libraries.html', function (params) { // LibraryController
@@ -101,7 +98,6 @@ router.route('(/)views/library.html', function (params) { // LibraryController
             console.log(e);
         }
     });
-
     scope.libraryName = params.indextypeorlibrary;
 });
 
@@ -135,7 +131,8 @@ router.route('(/)views/file.html', function (params) {
             });
     }
 
-    function readFile(a, b, c) {
+    function readFile(entry) {
+        window.open(entr.toURL());
         debugger;
     }
 

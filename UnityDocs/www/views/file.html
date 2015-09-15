@@ -1,3 +1,19 @@
 ﻿<div data-role="view" data-layout="default-layout">
     File
+    <button data-role="button" data-click="readOnly">Read Only</button>
 </div>
+
+<script>
+    function readOnly() {
+        window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory + "Download/testdoc.docx", gotFile, fail);
+    }
+    function gotFile(fileEntry) {
+        debugger;
+        window.open(fileEntry.toURL());
+    }
+
+    function fail(fail) {
+        debugger;
+        console.log(fail);
+    }
+</script>
