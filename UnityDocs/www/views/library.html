@@ -5,9 +5,9 @@
 <div data-role="modalview" id="info-modal" style="width: 100%; height: 100%;" data-modal="false">
     <div data-role="header">
         <div data-role="navbar">
-            <a data-align="right" data-click="closeModalView" data-role="button">Delete</a>
+            <a data-align="right" data-click="closeModalView" data-role="button" data-icon="delete">Delete</a>
             <span data-role="view-title"></span>
-            <a data-align="left" data-click="closeModalView" data-role="button"><i class="fa fa-chevron-left"></i></a>
+            <a data-align="left" data-click="openVersionHistory" data-role="button" data-icon="history">History</a>
         </div>
     </div>
     <form name="extra-info">
@@ -58,8 +58,7 @@
     </form>
     <div data-role="footer">
         <div data-role="navbar">
-            <a data-align="right" data-click="openVersionHistory" data-role="button">Version History</a>
-            <a data-align="right" data-click="saveInfo" data-role="button">Done</a>
+            <a data-click="closeInfoModal" data-role="button">Done</a>
         </div>
     </div>
 </div>
@@ -159,6 +158,20 @@
         modalView.close();
     }
 
+    function testShareSheet() {
+        var options = {
+            'title': 'What do you want with this image?',
+            'buttonLabels': ['Share via Facebook', 'Share via Twitter'],
+            'androidEnableCancelButton': true, // default false
+            'winphoneEnableCancelButton': true, // default false
+            'addCancelButtonWithLabel': 'Cancel',
+            'addDestructiveButtonWithLabel': 'Delete it'
+        };
+        // Depending on the buttonIndex, you can now call shareViaFacebook or shareViaTwitter
+        // of the SocialSharing plugin (https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin)
+        window.plugins.actionsheet.show(options, callback);
+    };
+
     function openInfoModal(e) {
         var modalView = $("#info-modal").data("kendoMobileModalView");
         var data = e.button.data();
@@ -190,26 +203,8 @@
         originalData.ImageID = scope.selectedItem.ImageID;
     }
 
-    function deleteFolder() {
-        var folderName = $("#info-modal [data-field=Description]").val();
-
-        var libraryName = scope.libraryName;
-
-        api.documentService().removeFolderFromLibrary(scope.libraryName, folderName).then(function (results) {
-            debugger;
-
-        })
-        debugger;
-    }
-
-    function saveInfo(e) {
-        var newData = $("form[name=extra-info]").serializeObject();
-        if (newData.Tags != originalData.Tags) {
-            api.documentService().updateDocumentTags(originalData.ImageID, newData.Tags).then(function (result) {
-                debugger;
-            })
-        }
-        originalData = {};
+    function closeInfoModal(e) {
+        $("form[name=extra-info]").trigger('reset');
         closeModalView(e);
     }
 
@@ -219,7 +214,6 @@
     }
 
     function closeVersionHistory(e) {
-        $("form[name=extra-info]").trigger('reset');
         closeModalView(e);
     }
 </script>

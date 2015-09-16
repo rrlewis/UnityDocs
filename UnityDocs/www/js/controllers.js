@@ -122,65 +122,24 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         window.resolveLocalFileSystemURL(directory + fileName, readFile, downloadAndReadFile);
 
         function downloadAndReadFile(a) {
-            debugger;
             var fileTransfer = new FileTransfer();
             console.log("About to start transfer");
             fileTransfer.download(url, directory + fileName,
                 function (entry) {
-                    debugger;
                     console.log("Success!");
                     readFile(entry);
                 },
                 function (err) {
-                    debugger;
                     console.log("Error");
                     console.dir(err);
                 });
         }
 
         function readFile(entry) {
-            debugger;
             var transfer = api.documentService().openDocument(entry.toURL());
         }
 
     }
-});
-
-router.route('(/)views/file.html', function (params) {
-    debugger;
-    //The directory to store data
-    var directory = cordova.file.externalDataDirectory; //cordova.file.externalCacheDirectory for volatile storage;
-
-    var fileName = params.description;
-
-    //URL of the document on the server
-    var url = api.rootUrl + "DocumentManagement/GetDocument?documentid=" + params.imageID;
-
-    //Check for the file. 
-    window.resolveLocalFileSystemURL(directory + fileName, readFile, downloadAndReadFile);
-
-    function downloadAndReadFile(a) {
-        debugger;
-        var fileTransfer = new FileTransfer();
-        console.log("About to start transfer");
-        fileTransfer.download(url, directory + fileName,
-            function (entry) {
-                debugger;
-                console.log("Success!");
-                readFile(entry);
-            },
-            function (err) {
-                debugger;
-                console.log("Error");
-                console.dir(err);
-            });
-    }
-
-    function readFile(entry) {
-        debugger;
-        var transfer = api.documentService().openDocument(entry.toURL());
-    }
-
 });
 
 router.route('(/)views/account.html', function (params) {
