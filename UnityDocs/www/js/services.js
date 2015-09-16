@@ -166,6 +166,7 @@
                 // WIP
             },
             openDocument: function (filename) {
+                debugger;
                 function getFileType(file) {
                     var fileType = file.split(".")[1];
                     var mimes = {
@@ -299,6 +300,7 @@
                     return mimes[fileType];
                 }
                 function fsSuccess(fileSystem) {
+                    debugger;
                     var path = fileSystem.root.toURL() + filename;
                     var mime = getFileType(path);
                     cordova.plugins.fileOpener2.open(
@@ -315,6 +317,7 @@
                 );
                 }
                 function fsFail(event) {
+                    debugger;
                     console.log(event.target.error.code);
                 }
                 window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;

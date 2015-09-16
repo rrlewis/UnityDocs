@@ -132,8 +132,8 @@ router.route('(/)views/file.html', function (params) {
     }
 
     function readFile(entry) {
-        window.open(entr.toURL());
         debugger;
+        api.documentService().openDocument(entry.toURL());
     }
 
 });
