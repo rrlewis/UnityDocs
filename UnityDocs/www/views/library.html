@@ -167,9 +167,16 @@
             'addCancelButtonWithLabel': 'Cancel',
             'addDestructiveButtonWithLabel': 'Delete it'
         };
+        var callback = function (buttonIndex) {
+            setTimeout(function () {
+                // like other Cordova plugins (prompt, confirm) the buttonIndex is 1-based (first button is index 1)
+                console.log('button index clicked: ' + buttonIndex);
+            });
+        };
         // Depending on the buttonIndex, you can now call shareViaFacebook or shareViaTwitter
         // of the SocialSharing plugin (https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin)
         window.plugins.actionsheet.show(options, callback);
+        
     };
 
     function openInfoModal(e) {
