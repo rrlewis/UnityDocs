@@ -110,6 +110,9 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         //The directory to store data
         var directory = cordova.file.externalDataDirectory; //cordova.file.externalCacheDirectory for volatile storage;
 
+        var description = e.item.children(".library-link").data("description");
+        var imageID = e.item.children(".library-link").data("imageid");
+
         var fileName = description;
 
         //URL of the document on the server
