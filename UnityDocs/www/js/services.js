@@ -168,7 +168,8 @@
             openDocument: function (filename) {
                 debugger;
                 function getFileType(file) {
-                    var fileType = file.split(".")[1];
+                    file = file.split(".");
+                    var fileType = file[file.length - 1];
                     var mimes = {
                         'jpg': 'image/jpeg',
                         'jpeg': 'image/jpeg',
