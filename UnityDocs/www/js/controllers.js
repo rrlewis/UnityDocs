@@ -99,12 +99,54 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         }
     });
     scope.libraryName = params.indextypeorlibrary;
+    scope.openFile = function (e) {
+        if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text")) {
+            e.preventDefault();
+            return;
+        }
+        if (e.item.children(".library-link").data("type") == "FOLDER") {
+            return;
+        }
+        //The directory to store data
+        var directory = cordova.file.externalDataDirectory; //cordova.file.externalCacheDirectory for volatile storage;
+
+        var fileName = description;
+
+        //URL of the document on the server
+        var url = api.rootUrl + "DocumentManagement/GetDocument?documentid=" + imageID;
+
+        //Check for the file. 
+        window.resolveLocalFileSystemURL(directory + fileName, readFile, downloadAndReadFile);
+
+        function downloadAndReadFile(a) {
+            debugger;
+            var fileTransfer = new FileTransfer();
+            console.log("About to start transfer");
+            fileTransfer.download(url, directory + fileName,
+                function (entry) {
+                    debugger;
+                    console.log("Success!");
+                    readFile(entry);
+                },
+                function (err) {
+                    debugger;
+                    console.log("Error");
+                    console.dir(err);
+                });
+        }
+
+        function readFile(entry) {
+            debugger;
+            var transfer = api.documentService().openDocument(entry.toURL());
+        }
+
+    }
 });
 
 router.route('(/)views/file.html', function (params) {
     debugger;
     //The directory to store data
-    var directory = cordova.file.externalRootDirectory; //cordova.file.externalCacheDirectory;
+    var directory = cordova.file.externalDataDirectory; //cordova.file.externalCacheDirectory for volatile storage;
 
     var fileName = params.description;
 
@@ -133,7 +175,7 @@ router.route('(/)views/file.html', function (params) {
 
     function readFile(entry) {
         debugger;
-        api.documentService().openDocument(entry.toURL());
+        var transfer = api.documentService().openDocument(entry.toURL());
     }
 
 });

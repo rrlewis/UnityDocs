@@ -301,10 +301,9 @@
                 }
                 function fsSuccess(fileSystem) {
                     debugger;
-                    var path = fileSystem.root.toURL() + filename;
-                    var mime = getFileType(path);
+                    var mime = getFileType(filename);
                     cordova.plugins.fileOpener2.open(
-                    path,
+                    filename,
                     mime,
                     {
                         error: function (e) {

@@ -1,5 +1,5 @@
 ﻿<div id="library" data-reload="true" data-role="view" data-layout="default-layout" data-title="Library">
-    <ul data-role="listview" class="data-source sortable" data-template="library-item-template" data-source="scope.data" data-pull-to-refresh="true"></ul>
+    <ul data-role="listview" data-click="scope.openFile" class="data-source sortable" data-template="library-item-template" data-source="scope.data" data-pull-to-refresh="true"></ul>
 </div>
 
 <div data-role="modalview" id="info-modal" style="width: 100%; height: 100%;" data-modal="false">
@@ -82,7 +82,7 @@
 
     <!-- FIX THIS TEMPLATE -->
     # if (Type == 'FOLDER') { #
-    <a href="\\#views/library.html?indextypeorlibrary=#:scope.libraryName#&subfolder=#:Description#&key" class="library-link">
+    <a href="\\#views/library.html?indextypeorlibrary=#:scope.libraryName#&subfolder=#:Description#&key" data-type="#:Type#" class="library-link">
         <i class="km-thumbnail fa fa-folder font-size-36"></i>
         <h4>#:Description#</h4>
         <p class="extra-info">Last modified at #:Modified# by #:ModifiedBy#.</p>
@@ -91,7 +91,7 @@
         </p>
     </a>
     # } else { #
-    <a href="\\#views/file.html?imageID=#:ImageID#&description=#:Description#" class="library-link">
+    <a data-type="#:Type#" data-description="#:Description#" data-imageid="#:ImageID#" class="library-link">
         # if (Type == 'DOCX' || Type == 'DOC') { #
         <i class="km-thumbnail fa fa-file-word-o font-size-36"></i>
         # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF') { #
