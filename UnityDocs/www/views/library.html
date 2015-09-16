@@ -13,47 +13,45 @@
     <form name="extra-info">
         <ul data-role="listview">
             <li>
-                <label>
+                <label class="km-inline-field km-label-above">
                     Type
                     <input data-field="Type" name="Type" type="text" readonly />
                 </label>
             </li>
             <li>
-                <label>
+                <label class="km-inline-field km-label-above">
                     Name
                     <input data-field="Description" name="Description" type="text" readonly />
                 </label>
             </li>
             <li>
-                <label>
+                <label class="km-inline-field km-label-above">
                     Modified
                     <input data-field="Modified" name="Modified" type="text" readonly />
                 </label>
             </li>
             <li>
-                <label>
+                <label class="km-inline-field km-label-above">
                     Modified By
                     <input data-field="ModifiedBy" name="ModifiedBy" type="text" readonly />
                 </label>
             </li>
             <li>
-                <label>
+                <label class="km-inline-field km-label-above">
                     Checked Out By
                     <input data-field="CheckedOutByFullName" name="CheckedOutByFullName" type="text" readonly />
                 </label>
             </li>
             <li>
-                <label>
-                    Tags 
-                    <input data-field="Tags" name="Tags" type="text" placeholder="A string with each tag delimited by a ; (semi-colon)." />
+                <label class="km-inline-field km-label-above">
+                    Tags
+                    <input data-field="Tags" name="Tags" type="text" placeholder="A string with each tag delimited by a ;" />
                 </label>
             </li>
             <li>
-                <label>
+                <label class="km-inline-field km-label-above">
                     Comments
-                    <textarea data-field="Comments" name="Comments" readonly style="resize:vertical;">
-
-                    </textarea>
+                    <textarea data-field="Comments" name="Comments" readonly style="resize:vertical;"></textarea>
                 </label>
             </li>
         </ul>
@@ -78,7 +76,7 @@
 
 <!-- List Item template -->
 <script type="text/kendo-x-tmpl" id="library-item-template">
-    <a data-role="button" class="km-primary km-button-right km-icon-button" data-click="openInfoModal" data-description="#:Description#"><i class="fa fa-info"></i></a>
+    <a data-role="button" class="info-button km-primary km-button-right km-icon-button" data-click="openInfoModal" data-description="#:Description#"><i class="fa fa-info"></i></a>
 
     <!-- FIX THIS TEMPLATE -->
     # if (Type == 'FOLDER') { #
@@ -91,6 +89,11 @@
         </p>
     </a>
     # } else { #
+    # if (CheckedOutBy == null){ #
+    <span class="item-state-icon positive"><i class="fa fa-check"></i></span>
+    # } else { #
+    <span class="item-state-icon negative"><i class="fa fa-close"></i></span>
+    # } #
     <a data-type="#:Type#" data-description="#:Description#" data-imageid="#:ImageID#" class="library-link">
         # if (Type == 'DOCX' || Type == 'DOC') { #
         <i class="km-thumbnail fa fa-file-word-o font-size-36"></i>
@@ -222,14 +225,22 @@
 </script>
 
 <style>
-    #version-history div ul{
-        list-style:none;
-        padding:0;
+    #version-history div ul {
+        list-style: none;
+        padding: 0;
     }
-    #version-history div ul li{
-        margin-top:10px;
-        margin-bottom:10px;
-        padding-left:10px;
-        padding-right:10px;
+
+        #version-history div ul li {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+    #info-modal form[name=extra-info] li {
+        padding: 1.4em .84em .61em .84em;
+    }
+    #info-modal form[name=extra-info] li label{
+        width:100%;
     }
 </style>
