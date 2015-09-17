@@ -122,7 +122,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 
         var options = {
             'title': 'What do you want with this file?',
-            'buttonLabels': ['Read', 'Edit', 'Check Out'],
+            'buttonLabels': buttonLabels,
             'androidEnableCancelButton': true, // default false
             'addCancelButtonWithLabel': 'Cancel',
         };
