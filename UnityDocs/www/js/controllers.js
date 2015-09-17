@@ -99,20 +99,65 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         }
     });
     scope.libraryName = params.indextypeorlibrary;
-    scope.openFile = function (e) {
+
+    scope.getFileOptions = function (e) {
         if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text")) {
-            e.preventDefault();
             return;
         }
         if (e.item.children(".library-link").data("type") == "FOLDER") {
             return;
         }
+        var link = e.item.children(".library-link");
+        var docData = {};
+        docData.imageID = link.data("imageid");
+        docData.description = link.data("description");
+        docData.type = link.data("type");
+        docData.checkedoutby = link.data("checkedoutby");
+        var buttonLabels = ['Read', 'Edit'];
+        if (docData.checkedoutby == null) {
+            buttonLabels.push("Check Out");
+        } else {
+            buttonLabels.push("Check In");
+        }
+
+        var options = {
+            'title': 'What do you want with this file?',
+            'buttonLabels': ['Read', 'Edit', 'Check Out'],
+            'androidEnableCancelButton': true, // default false
+            'addCancelButtonWithLabel': 'Cancel',
+        };
+        var callback = function (buttonIndex) {
+            setTimeout(function () {
+                // like other Cordova plugins (prompt, confirm) the buttonIndex is 1-based (first button is index 1)
+                switch (buttonIndex) {
+                    case 1:
+                        // Read
+                        break;
+                    case 2:
+                        // Edit
+                        editFile(e);
+                        break;
+                    case 3:
+                        // Check Out/ Check In
+                        break;
+                }
+            });
+        };
+        window.plugins.actionsheet.show(options, callback);
+    };
+
+    function editFile(e) {
+        if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text")) {
+            return;
+        }
+        if (e.item.children(".library-link").data("type") == "FOLDER") {
+            return;
+        }
+
         //The directory to store data
         var directory = cordova.file.externalDataDirectory; //cordova.file.externalCacheDirectory for volatile storage;
-
         var description = e.item.children(".library-link").data("description");
         var imageID = e.item.children(".library-link").data("imageid");
-
         var fileName = description;
 
         //URL of the document on the server
@@ -120,7 +165,6 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 
         //Check for the file. 
         window.resolveLocalFileSystemURL(directory + fileName, readFile, downloadAndReadFile);
-
         function downloadAndReadFile(a) {
             var fileTransfer = new FileTransfer();
             console.log("About to start transfer");
@@ -134,11 +178,9 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                     console.dir(err);
                 });
         }
-
         function readFile(entry) {
             var transfer = api.documentService().openDocument(entry.toURL());
         }
-
     }
 });
 

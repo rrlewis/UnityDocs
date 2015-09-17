@@ -1,5 +1,5 @@
 ﻿<div id="library" data-reload="true" data-role="view" data-layout="default-layout" data-title="Library">
-    <ul data-role="listview" data-click="scope.openFile" class="data-source sortable" data-template="library-item-template" data-source="scope.data" data-pull-to-refresh="true"></ul>
+    <ul data-role="listview" data-click="scope.getFileOptions" class="data-source sortable" data-template="library-item-template" data-source="scope.data" data-pull-to-refresh="true"></ul>
 </div>
 
 <div data-role="modalview" id="info-modal" style="width: 100%; height: 100%;" data-modal="false">
@@ -93,7 +93,7 @@
     # } else { #
     <span class="item-state-icon negative"><i class="fa fa-close"></i></span>
     # } #
-    <a data-type="#:Type#" data-description="#:Description#" data-imageid="#:ImageID#" class="library-link">
+    <a data-type="#:Type#" data-description="#:Description#" data-imageid="#:ImageID#" data-checkedoutby="#:CheckedOutBy#" class="library-link">
         # if (Type == 'DOCX' || Type == 'DOC') { #
         <i class="km-thumbnail fa fa-file-word-o font-size-36"></i>
         # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF') { #
@@ -157,27 +157,6 @@
         var modalView = e.sender.element.closest("[data-role=modalview]").data("kendoMobileModalView");
         modalView.close();
     }
-
-    function testShareSheet() {
-        var options = {
-            'title': 'What do you want with this image?',
-            'buttonLabels': ['Share via Facebook', 'Share via Twitter'],
-            'androidEnableCancelButton': true, // default false
-            'winphoneEnableCancelButton': true, // default false
-            'addCancelButtonWithLabel': 'Cancel',
-            'addDestructiveButtonWithLabel': 'Delete it'
-        };
-        var callback = function (buttonIndex) {
-            setTimeout(function () {
-                // like other Cordova plugins (prompt, confirm) the buttonIndex is 1-based (first button is index 1)
-                console.log('button index clicked: ' + buttonIndex);
-            });
-        };
-        // Depending on the buttonIndex, you can now call shareViaFacebook or shareViaTwitter
-        // of the SocialSharing plugin (https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin)
-        window.plugins.actionsheet.show(options, callback);
-        
-    };
 
     function openInfoModal(e) {
         var modalView = $("#info-modal").data("kendoMobileModalView");

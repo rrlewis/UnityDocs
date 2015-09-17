@@ -62,7 +62,3 @@
 .bold-text {
     font-weight: bold;
 }
-
-.km-list input[type=text]:not(.k-input) {
-    width: 65%;
-}
