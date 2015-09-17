@@ -141,13 +141,11 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                         // Check Out / Check In
                         if (buttonLabels[2] == "Check In") {
                             // check file in
-                            api.documentService().undoCheckOutDocument(docData.imageID);
+                            api.documentService().undoCheckOutDocument(docData.imageID).then(scope.refreshData);
                         } else
                         if (buttonLabels[2] == "Check Out") {
                             // check file out
-                            api.documentService().checkOutDocument(docData.imageID).then(function (result) {
-                                debugger;
-                            });
+                            api.documentService().checkOutDocument(docData.imageID).then(scope.refreshData);
                         }
                         break;
                 }
@@ -155,6 +153,10 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         };
         window.plugins.actionsheet.show(options, callback);
     };
+
+    scope.refreshData = function () {
+        $("#library ul[data-role=listview]").data("kendoMobileListView").refresh();
+    }
 
     function editFile(e) {
         if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text")) {
