@@ -74,6 +74,12 @@
 </div>
 
 <div id="check-in-modal" data-role="modalview" style="width:100%; height:100%;" data-modal="false">
+    <div data-role="header">
+        <div data-role="navbar">
+            <span data-role="view-title"></span>
+            <a data-align="left" data-click="closeModalView" data-role="button">Cancel</a>
+        </div>
+    </div>
     <form>
         <ul data-role="listview">
             <li>
@@ -105,6 +111,11 @@
             </li>
         </ul>
     </form>
+    <div data-role="footer">
+        <div data-role="navbar">
+            <a data-click="closeModalView" data-role="button">Upload</a>
+        </div>
+    </div>
 </div>
 
 <!-- List Item template -->
