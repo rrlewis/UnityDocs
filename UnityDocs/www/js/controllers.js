@@ -121,7 +121,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         }
 
         var options = {
-            'title': 'What do you want with this file?',
+            'title': 'What do you want with ' + docData.description,
             'buttonLabels': buttonLabels,
             'androidEnableCancelButton': true, // default false
             'addCancelButtonWithLabel': 'Cancel',
@@ -138,7 +138,15 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                         editFile(e);
                         break;
                     case 3:
-                        // Check Out/ Check In
+                        // Check Out / Check In
+                        if (buttonLabels[2] == "Check In") {
+                            // check file in
+                            api.documentService().undoCheckOutDocument(docData.imageID);
+                        } else
+                        if (buttonLabels[2] == "Check Out") {
+                            // check file out
+                            api.documentService().checkOutDocument(docData.imageID);
+                        }
                         break;
                 }
             });
