@@ -70,6 +70,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
     if (typeof params.subfolder == 'undefined') {
         params.subfolder = '';
     }
+
     scope.data = new kendo.data.DataSource({
         transport: {
             read: {
@@ -141,7 +142,8 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                         // Check Out / Check In
                         if (buttonLabels[2] == "Check In") {
                             // check file in
-                            api.documentService().undoCheckOutDocument(docData.imageID).then(scope.refreshData);
+                            $("#check-in-modal").data("kendoMobileModalView").open();
+                            //api.documentService().undoCheckOutDocument(docData.imageID).then(scope.refreshData);
                         } else
                         if (buttonLabels[2] == "Check Out") {
                             // check file out

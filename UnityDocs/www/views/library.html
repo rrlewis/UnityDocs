@@ -73,6 +73,40 @@
     <ul data-role="listview" class="data-source sortable" data-template="version-history-template"></ul>
 </div>
 
+<div id="check-in-modal" data-role="modalview" style="width:100%; height:100%;" data-modal="false">
+    <form>
+        <ul data-role="listview">
+            <li>
+                <label class="km-inline-field km-label-above">
+                    Filename
+                    <input data-field="Filename" name="Filename" type="text" />
+                </label>
+            </li>
+            <li>
+                <label class="km-inline-field km-label-above">
+                    Version
+                    <select data-field="Version" name="Version">
+                        <option value="Major Version">Major Version</option>
+                        <option value="Minor Version">Minor Version</option>
+                    </select>
+                </label>
+            </li>
+            <li>
+                <label class="km-inline-field km-label-above">
+                    Comments
+                    <textarea data-field="Comments" name="Comments" readonly style="resize:vertical;"></textarea>
+                </label>
+            </li>
+            <li>
+                <label class="km-inline-field km-label-above">
+                    Tags
+                    <input data-field="Tags" name="Tags" type="text" />
+                </label>
+            </li>
+        </ul>
+    </form>
+</div>
+
 <!-- List Item template -->
 <script type="text/kendo-x-tmpl" id="library-item-template">
     <a data-role="button" class="info-button km-primary km-button-right km-icon-button" data-click="openInfoModal" data-description="#:Description#"><i class="fa fa-info"></i></a>
@@ -149,6 +183,7 @@
         </ul>
     </div>
 </script>
+
 
 <script>
     var originalData = {};
