@@ -145,7 +145,9 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                         } else
                         if (buttonLabels[2] == "Check Out") {
                             // check file out
-                            api.documentService().checkOutDocument(docData.imageID);
+                            api.documentService().checkOutDocument(docData.imageID).then(function (result) {
+                                debugger;
+                            });
                         }
                         break;
                 }
