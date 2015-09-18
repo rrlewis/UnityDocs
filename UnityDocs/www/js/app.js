@@ -8,7 +8,7 @@ var app = new kendo.mobile.Application(document.body,
         platform: "android",
         skin: 'nova',
         initial: "views/authenticate.html",
-        transition: 'slide',
+        //transition: 'slide',
     });
 
 
