@@ -142,6 +142,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                         // Check Out / Check In
                         if (buttonLabels[2] == "Check In") {
                             // check file in
+                            $("#check-in-modal div[data-role=header] span[data-role=view-title]").text("Check In: " + docData.description);
                             $("#check-in-modal").data("kendoMobileModalView").open();
                             //api.documentService().undoCheckOutDocument(docData.imageID).then(scope.refreshData);
                         } else
