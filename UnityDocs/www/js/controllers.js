@@ -8,10 +8,14 @@ var router = new kendo.Router({
         //fires any time the route changes
         scope = {};
         scope.url = e.url;
+        if (typeof cancelSearch != "undefined") {
+            cancelSearch();
+        }
         console.log(scope.url);
         if (currentUser.get() == null && e.url != "views/authenticate.html") {
             router.navigate("views/authenticate.html");
         }
+        //checkSearch();
     }
 });
 
@@ -116,7 +120,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         docData.description = link.data("description");
         docData.type = link.data("type");
         docData.checkedoutby = link.data("checkedoutby");
-        var buttonLabels = ['Read', 'Edit'];
+        var buttonLabels = ['Read', 'Edit', 'Email'];
         if (docData.checkedoutby == null) {
             buttonLabels.push("Check Out");
         } else {
@@ -141,6 +145,9 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                         editFile(e);
                         break;
                     case 3:
+                        // Email file
+                        break;
+                    case 4:
                         // Check Out / Check In
                         if (buttonLabels[2] == "Check In") {
                             // check file in
@@ -148,10 +155,10 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                             $("#check-in-modal").data("kendoMobileModalView").open();
                             //api.documentService().undoCheckOutDocument(docData.imageID).then(scope.refreshData);
                         } else
-                        if (buttonLabels[2] == "Check Out") {
-                            // check file out
-                            api.documentService().checkOutDocument(docData.imageID).then(scope.refreshData);
-                        }
+                            if (buttonLabels[2] == "Check Out") {
+                                // check file out
+                                api.documentService().checkOutDocument(docData.imageID).then(scope.refreshData);
+                            }
                         break;
                 }
             });
@@ -211,3 +218,13 @@ router.route('(/)views/account.html', function (params) {
 });
 
 router.start();
+
+function checkSearch(e) {
+    var viewID = e.view.element.attr('id');
+    app.searchEnabled = $("#" + viewID + " ul[data-role=listview]").hasClass("data-source");
+    if (app.searchEnabled) {
+        $("#" + viewID + " #searchBtn").show();
+    } else {
+        $("#" + viewID + " #searchBtn").hide();
+    }
+}

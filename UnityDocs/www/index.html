@@ -27,11 +27,18 @@
 </head>
 <body>
     <!-- Main Layout -->
-    <section data-role="layout" data-id="default-layout">
-        <header data-role="header">
+    <section data-role="layout" data-id="default-layout" data-show="checkSearch">
+        <header data-role="header" class="shadow-1 search">
             <div data-role="navbar" class="km-accent">
                 <a data-role="button" data-rel="drawer" href="#drawer" data-icon="hamburger" data-align="left"></a>
+                <a data-role="button" data-align="left" style="display:none;" data-click="cancelSearch"><i class="fa fa-arrow-left"></i></a>
                 <span data-role="view-title" id="view-title">Unity Docs</span>
+                <form action="javascript:search()">
+                    <input type="search" onkeyup="search()" onchange="search()" placeholder="Search..." />
+                </form>
+                <a data-role="button" data-icon="search" data-click="startSearch" id="searchBtn" data-align="right"></a>
+                <a data-role="button" data-icon="more-v" data-align="right"></a>
+                <a data-role="button" data-icon="close" data-click="clearSearch" style="display:none;" data-align="right"></a>
             </div>
         </header>
         <!--View content will render here-->
@@ -58,7 +65,7 @@
 
     <!-- Cordova reference, this is added to your app when it's built. -->
     <script src="cordova.js"></script>
-    <script src="js/kendo/NativePageTransitionsKendoAdapter.js"></script>
+    <!--<script src="js/kendo/NativePageTransitionsKendoAdapter.js"></script>-->
     <!--<script src="phonegap.js"></script>-->
     <script src="js/platformOverrides.js"></script>
     <script src="js/services.js"></script>
@@ -79,7 +86,58 @@
                 e.preventDefault();
             }
         }
+
+        function startSearch(e) {
+            if (app.searchEnabled) {
+                $("header.search [data-role=view-title]").hide();
+                $("header.search form").css("display", "inline-block");
+                $("header.search [data-role=button][data-rel=drawer], header.search [data-role=button]:not(:has(i))").hide();
+                $("header.search [data-role=button]:has(i), header.search [data-role=button][data-icon=close]").show();
+            }
+        }
+        function cancelSearch(e) {
+            if (app.searchEnabled) {
+                $("header.search [data-role=view-title]").show();
+                $("header.search form").hide();
+                $("header.search [data-role=button][data-rel=drawer], header.search [data-role=button]:not(:has(i))").show();
+                $("header.search [data-role=button]:has(i), header.search [data-role=button][data-icon=close]").hide();
+                clearSearch();
+            }
+        }
+
+        function search() {
+            var searchFor = $("#" + app.view().element.attr("id") + " header.search input[type=search]").val();
+            scope.data.filter({ field: "Description", operator: "contains", value: searchFor });
+        }
+
+        function clearSearch() {
+            if (app.searchEnabled) {
+                $("header.search form").trigger('reset');
+                if (typeof scope.data != "undefined") {
+                    scope.data.filter({});
+                }
+            }
+        }
     </script>
+
+    <style>
+        header.search form {
+            display: none;
+            width: 100%;
+        }
+
+            header.search form input[type=search] {
+                background-color: transparent;
+                color: white;
+                border: 0;
+                font-size: 19px;
+                width: 75%;
+            }
+
+                header.search form input[type=search]::-webkit-search-cancel-button {
+                    display: none;
+                }
+    </style>
 
 </body>
 </html>
