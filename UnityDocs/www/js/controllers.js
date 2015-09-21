@@ -77,6 +77,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         params.subfolder = '';
     }
 
+
     scope.data = new kendo.data.DataSource({
         transport: {
             read: {
@@ -168,6 +169,14 @@ router.route('(/)views/library.html', function (params) { // LibraryController
 
     scope.refreshData = function () {
         scope.data.read()
+    }
+
+    scope.init = function () {
+        if (params.subfolder == '') {
+            $("#library [data-role=view-title]").text(params.indextypeorlibrary);
+        } else {
+            $("#library [data-role=view-title]").text(params.subfolder);
+        }
     }
 
     function editFile(e) {
