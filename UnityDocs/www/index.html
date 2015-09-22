@@ -31,14 +31,13 @@
         <header data-role="header" class="shadow-1 search">
             <div data-role="navbar" class="km-accent">
                 <a data-role="button" data-rel="drawer" href="#drawer" data-icon="hamburger" data-align="left"></a>
-                <a data-role="button" data-align="left" style="display:none;" data-click="cancelSearch"><i class="fa fa-arrow-left"></i></a>
                 <span data-role="view-title" id="view-title">Unity Docs</span>
-                <form action="javascript:search()">
-                    <input type="search" onkeyup="search()" onchange="search()" placeholder="Search..." />
+                <form action="javascript:filter.filter()">
+                    <input type="search" onkeyup="filter.filter()" onchange="filter.filter()" placeholder="Search..." />
                 </form>
-                <a data-role="button" data-icon="search" data-click="startSearch" id="searchBtn" data-align="right"></a>
-                <a data-role="button" data-icon="more-v" data-align="right"></a>
-                <a data-role="button" data-icon="close" data-click="clearSearch" style="display:none;" data-align="right"></a>
+                <a data-role="button" data-icon="search" data-click="filter.startFilter" id="searchBtn" data-align="right"></a>
+                <a data-role="button" data-icon="more-v" data-align="right" id="sortBtn"></a>
+                <a data-role="button" data-icon="close" data-click="filter.cancelFilter" style="display:none;" data-align="right"></a>
             </div>
         </header>
         <!--View content will render here-->
@@ -87,34 +86,34 @@
             }
         }
 
-        function startSearch(e) {
-            if (app.searchEnabled) {
-                $("header.search [data-role=view-title]").hide();
-                $("header.search form").css("display", "inline-block");
-                $("header.search [data-role=button][data-rel=drawer], header.search [data-role=button]:not(:has(i))").hide();
-                $("header.search [data-role=button]:has(i), header.search [data-role=button][data-icon=close]").show();
-            }
-        }
-        function cancelSearch(e) {
-            if (app.searchEnabled) {
-                $("header.search [data-role=view-title]").show();
-                $("header.search form").hide();
-                $("header.search [data-role=button][data-rel=drawer], header.search [data-role=button]:not(:has(i))").show();
-                $("header.search [data-role=button]:has(i), header.search [data-role=button][data-icon=close]").hide();
-                clearSearch();
-            }
-        }
-
-        function search() {
-            var searchFor = $("#" + app.view().element.attr("id") + " header.search input[type=search]").val();
-            scope.data.filter({ field: "Description", operator: "contains", value: searchFor });
-        }
-
-        function clearSearch() {
-            if (app.searchEnabled) {
-                $("header.search form").trigger('reset');
-                if (typeof scope.data != "undefined") {
-                    scope.data.filter({});
+        var filter = {
+            filter: function () {
+                var searchFor = $("#" + app.view().element.attr("id") + " header.search input[type=search]").val();
+                scope.data.filter({ field: "Description", operator: "contains", value: searchFor });
+            },
+            clearFilter: function () {
+                if (app.searchEnabled) {
+                    $("header.search form").trigger('reset');
+                    if (typeof scope.data != "undefined") {
+                        scope.data.filter({});
+                    }
+                }
+            },
+            cancelFilter: function () {
+                if (app.searchEnabled) {
+                    $("header.search [data-role=view-title]").show();
+                    $("header.search form").hide();
+                    $("header.search [data-role=button]:not(:has(i), [data-rel=drawer])").show();
+                    $("header.search [data-role=button]:has(i), header.search [data-role=button][data-icon=close]").hide();
+                    this.clearFilter();
+                }
+            },
+            startFilter: function () {
+                if (app.searchEnabled) {
+                    $("header.search [data-role=view-title]").hide();
+                    $("header.search form").css("display", "inline-block");
+                    $("header.search [data-role=button]:not(:has(i), [data-rel=drawer])").hide();
+                    $("header.search [data-role=button]:has(i), header.search [data-role=button][data-icon=close]").show();
                 }
             }
         }

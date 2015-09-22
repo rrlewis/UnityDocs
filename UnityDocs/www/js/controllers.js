@@ -9,7 +9,7 @@ var router = new kendo.Router({
         scope = {};
         scope.url = e.url;
         if (typeof cancelSearch != "undefined") {
-            cancelSearch();
+            filter.cancelFilter();
         }
         console.log(scope.url);
         if (currentUser.get() == null && e.url != "views/authenticate.html") {
@@ -129,7 +129,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         }
 
         var options = {
-            'title': 'What do you want with ' + docData.description,
+            'title': 'What do you want to do with ' + docData.description,
             'buttonLabels': buttonLabels,
             'androidEnableCancelButton': true, // default false
             'addCancelButtonWithLabel': 'Cancel',
@@ -143,10 +143,11 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                         break;
                     case 2:
                         // Edit
-                        editFile(e);
+                        downloadFile(e, "edit");
                         break;
                     case 3:
                         // Email file
+                        downloadFile(e, "email");
                         break;
                     case 4:
                         // Check Out / Check In
@@ -179,7 +180,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         }
     }
 
-    function editFile(e) {
+    function downloadFile(e, action) {
         if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text")) {
             return;
         }
@@ -197,8 +198,41 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         var url = api.rootUrl + "DocumentManagement/GetDocument?documentid=" + imageID;
 
         //Check for the file. 
-        window.resolveLocalFileSystemURL(directory + fileName, readFile, downloadAndReadFile);
-        function downloadAndReadFile(a) {
+        if (action == "edit") {
+            window.resolveLocalFileSystemURL(directory + fileName, readFile, downloadAndReadFile);
+        } else if (action == "email") {
+            window.resolveLocalFileSystemURL(directory + fileName, readFile, downloadAndEmailFile);
+        }
+        function downloadOnly() {
+            var fileTransfer = new FileTransfer();
+            console.log("About to start transfer");
+            fileTransfer.download(url, directory + fileName,
+                function (entry) {
+                    console.log("Success!");
+                },
+                function (err) {
+                    console.log("Error");
+                    console.dir(err);
+                });
+        }
+        function downloadAndEmailFile() {
+            var fileTransfer = new FileTransfer();
+            console.log("About to start transfer");
+            fileTransfer.download(url, directory + fileName,
+                function (entry) {
+                    debugger;
+                    console.log("Success!");
+                    function callback(a, b, c) {
+                        debugger;
+                    }
+                    window.plugins.emailComposer.showEmailComposerWithCallback(callback, docData.description, docData.description + " is attached.", /* to */[], /* cc */[/*currentUser.email*/], /* bcc */[], false, [entry.toURL()], [[docData.description, 'base64data1']]);
+                },
+                function (err) {
+                    console.log("Error");
+                    console.dir(err);
+                });
+        }
+        function downloadAndReadFile() {
             var fileTransfer = new FileTransfer();
             console.log("About to start transfer");
             fileTransfer.download(url, directory + fileName,
@@ -230,10 +264,12 @@ router.start();
 
 function checkSearch(e) {
     var viewID = e.view.element.attr('id');
-    app.searchEnabled = $("#" + viewID + " ul[data-role=listview]").hasClass("data-source");
+    app.searchEnabled = typeof scope.data != "undefined";
     if (app.searchEnabled) {
         $("#" + viewID + " #searchBtn").show();
+        $("#" + viewID + " #sortBtn").show();
     } else {
         $("#" + viewID + " #searchBtn").hide();
+        $("#" + viewID + " #sortBtn").hide();
     }
 }
