@@ -58,7 +58,6 @@
                     }
                 })
             },
-
             // Documents
             getDocumentsFromLibrary: function (indexTypeOrLibrary, key, subfolder) {
                 return $.ajax({
@@ -73,9 +72,6 @@
                         return results;
                     }
                 })
-            },
-            getDocument: function (ID, versionNumber) {
-                window.location.href = $this.rootUrl + "DocumentManagement/GetDocument?documentid=" + ID;
             },
             getDocumentRecord: function (documentID) {
                 return $.ajax({
@@ -165,165 +161,6 @@
             uploadDocument: function (library, documentID) {
                 // WIP
             },
-            openDocument: function (filename) {
-                function getFileType(file) {
-                    file = file.split(".");
-                    var fileType = file[file.length - 1];
-                    var mimes = {
-                        'jpg': 'image/jpeg',
-                        'jpeg': 'image/jpeg',
-                        'jpe': 'image/jpeg',
-                        'gif': 'image/gif',
-                        'png': 'image/png',
-                        'bmp': 'image/bmp',
-                        'tif': 'image/tiff',
-                        'tiff': 'image/tiff',
-                        'ico': 'image/x-icon',
-
-                        // Video formats
-                        'asf': 'video/x-ms-asf',
-                        'asx': 'video/x-ms-asf',
-                        'wmv': 'video/x-ms-wmv',
-                        'wmx': 'video/x-ms-wmx',
-                        'wm': 'video/x-ms-wm',
-                        'avi': 'video/avi',
-                        'divx': 'video/divx',
-                        'flv': 'video/x-flv',
-                        'qt': 'video/quicktime',
-                        'mov': 'video/quicktime',
-                        'mpe': 'video/mpeg',
-                        'mpg': 'video/mpeg',
-                        'mpeg': 'video/mpeg',
-                        'mp4': 'video/mp4',
-                        'm4v': 'video/mp4',
-                        'ogv': 'video/ogg',
-                        'webm': 'video/webm',
-                        'mkv': 'video/x-matroska',
-
-                        // Text formats
-                        'txt': 'text/plain',
-                        'asc': 'text/plain',
-                        'c': 'text/plain',
-                        'cc': 'text/plain',
-                        'h': 'text/plain',
-                        'csv': 'text/csv',
-                        'tsv': 'text/tab-separated-values',
-                        'ics': 'text/calendar',
-                        'rtx': 'text/richtext',
-                        'css': 'text/css',
-                        'htm': 'text/html',
-                        'html': 'text/html',
-
-                        // Audio formats
-                        'mp3': 'audio/mpeg',
-                        'm4a': 'audio/mpeg',
-                        'm4b': 'audio/mpeg',
-                        'ram': 'audio/x-realaudio',
-                        'ra': 'audio/x-realaudio',
-                        'wav': 'audio/wav',
-                        'ogg': 'audio/ogg',
-                        'oga': 'audio/ogg',
-                        'mid': 'audio/midi',
-                        'midi': 'audio/midi',
-                        'wma': 'audio/x-ms-wma',
-                        'wax': 'audio/x-ms-wax',
-                        'mka': 'audio/x-matroska',
-
-                        // Misc application formats
-                        'rtf': 'application/rtf',
-                        'js': 'application/javascript',
-                        'pdf': 'application/pdf',
-                        'swf': 'application/x-shockwave-flash',
-                        'class': 'application/java',
-                        'tar': 'application/x-tar',
-                        'zip': 'application/zip',
-                        'gzip': 'application/x-gzip',
-                        'gz': 'application/x-gzip',
-                        'rar': 'application/rar',
-                        '7z': 'application/x-7z-compressed',
-                        'exe': 'application/x-msdownload',
-
-                        // MS Office formats
-                        'doc': 'application/msword',
-                        'ppt': 'application/vnd.ms-powerpoint',
-                        'pps': 'application/vnd.ms-powerpoint',
-                        'pot': 'application/vnd.ms-powerpoint',
-                        'wri': 'application/vnd.ms-write',
-                        'xla': 'application/vnd.ms-excel',
-                        'xls': 'application/vnd.ms-excel',
-                        'xlt': 'application/vnd.ms-excel',
-                        'xlw': 'application/vnd.ms-excel',
-                        'mdb': 'application/vnd.ms-access',
-                        'mpp': 'application/vnd.ms-project',
-                        'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                        'docm': 'application/vnd.ms-word.document.macroEnabled.12',
-                        'dotx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
-                        'dotm': 'application/vnd.ms-word.template.macroEnabled.12',
-                        'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                        'xlsm': 'application/vnd.ms-excel.sheet.macroEnabled.12',
-                        'xlsb': 'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
-                        'xltx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
-                        'xltm': 'application/vnd.ms-excel.template.macroEnabled.12',
-                        'xlam': 'application/vnd.ms-excel.addin.macroEnabled.12',
-                        'pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-                        'pptm': 'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
-                        'ppsx': 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-                        'ppsm': 'application/vnd.ms-powerpoint.slideshow.macroEnabled.12',
-                        'potx': 'application/vnd.openxmlformats-officedocument.presentationml.template',
-                        'potm': 'application/vnd.ms-powerpoint.template.macroEnabled.12',
-                        'ppam': 'application/vnd.ms-powerpoint.addin.macroEnabled.12',
-                        'sldx': 'application/vnd.openxmlformats-officedocument.presentationml.slide',
-                        'sldm': 'application/vnd.ms-powerpoint.slide.macroEnabled.12',
-                        'onetoc': 'application/onenote',
-                        'onetoc2': 'application/onenote',
-                        'onetmp': 'application/onenote',
-                        'onepkg': 'application/onenote',
-
-                        // OpenOffice formats
-                        'odt': 'application/vnd.oasis.opendocument.text',
-                        'odp': 'application/vnd.oasis.opendocument.presentation',
-                        'ods': 'application/vnd.oasis.opendocument.spreadsheet',
-                        'o dg': 'application/vnd.oasis.opendocument.graphics',
-                        'odc': 'application/vnd.oasis.opendocument.chart',
-                        'odb': 'application/vnd.oasis.opendocument.database',
-                        'odf': 'application/vnd.oasis.opendocument.formula',
-
-                        // WordPerfect formats
-                        'wp': 'application/wordperfect',
-                        'wpd': 'application/wordperfect',
-
-                        // iWork formats
-                        'key': 'application/vnd.apple.keynote',
-                        'numbers': 'application/vnd.apple.numbers',
-                        'pages': 'application/vnd.apple.pages',
-                    };
-                    return mimes[fileType];
-                }
-                function fsSuccess(fileSystem) {
-                    var mime = getFileType(filename);
-                    cordova.plugins.fileOpener2.open(
-                    filename,
-                    mime,
-                    {
-                        error: function (e) {
-                            console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
-                        },
-                        success: function () {
-                            console.log('file opened successfully');
-                        }
-                    }
-                );
-                }
-                function fsFail(event) {
-                    console.log(event.target.error.code);
-                }
-                window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-                if (typeof LocalFileSystem != "undefined") {
-                    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
-                } else {
-                    console.log("Local File System is not defined.");
-                }
-            },
             // Folders
             removeFolderFromLibrary: function (libraryName, folderName, parentFolder) {
                 return $.ajax({
@@ -379,6 +216,212 @@
     },
 };
 
+var fileHandler = function () {
+    var $this = this;
+    return {
+        downloadFile: function (documentID, filename, success, fail) {
+            debugger;
+            var fileTransfer = new FileTransfer();
+            var fromURL = api.rootUrl + "DocumentManagement/GetDocument?documentid=" + documentID;
+            var toPath = this._downloadDir + filename;
+            window.resolveLocalFileSystemURL(toPath, fileExists, fileDoesntExist);
+            function fileDoesntExist() {
+                debugger;
+                fileTransfer.download(fromURL, toPath, success, fail);
+            }
+            function filExists(fileEntry) {
+                debugger;
+                console.log("File already exists. Running success callback.");
+                success(fileEntry);
+            }
+        },
+        emailFile: function (options) {
+            var requiredProperties = ['callback', 'isHTML', 'attachmentsData'];
+            var allProperties = ['callback', 'subject', 'body', 'to', 'cc', 'bcc', 'isHTML', 'attachmentPaths', 'attachmentData'];
+            for (var i = 0; i < allProperties.length; i++) {
+                var property = allProperties[i];
+                if (!options.hasOwnProperty(property)) {
+                    if (requiredProperties.indexOf(property) > -1) {
+                        console.log("Required property missing: " + requiredProp);
+                        return;
+                    }
+                    options[property] == null;
+                }
+            }
+            if (options.attachmentPaths.constructor != Array) {
+                options.attachmentPaths = [options.attachmentPaths];
+            }
+            if (options.attachmentData.constructor != Array) {
+                options.attachmentData = [options.attachmentData];
+            }
+            window.plugins.emailComposer.showEmailComposerWithCallback(options.callback, options.subject, options.body, options.to, options.cc, options.bcc, options.isHTML, options.attachmentPaths, options.attachmentData);
+        },
+        openFile: function (filename) {
+            function getFileType(file) {
+                file = file.split(".");
+                var fileType = file[file.length - 1];
+                var mimes = {
+                    'jpg': 'image/jpeg',
+                    'jpeg': 'image/jpeg',
+                    'jpe': 'image/jpeg',
+                    'gif': 'image/gif',
+                    'png': 'image/png',
+                    'bmp': 'image/bmp',
+                    'tif': 'image/tiff',
+                    'tiff': 'image/tiff',
+                    'ico': 'image/x-icon',
+
+                    // Video formats
+                    'asf': 'video/x-ms-asf',
+                    'asx': 'video/x-ms-asf',
+                    'wmv': 'video/x-ms-wmv',
+                    'wmx': 'video/x-ms-wmx',
+                    'wm': 'video/x-ms-wm',
+                    'avi': 'video/avi',
+                    'divx': 'video/divx',
+                    'flv': 'video/x-flv',
+                    'qt': 'video/quicktime',
+                    'mov': 'video/quicktime',
+                    'mpe': 'video/mpeg',
+                    'mpg': 'video/mpeg',
+                    'mpeg': 'video/mpeg',
+                    'mp4': 'video/mp4',
+                    'm4v': 'video/mp4',
+                    'ogv': 'video/ogg',
+                    'webm': 'video/webm',
+                    'mkv': 'video/x-matroska',
+
+                    // Text formats
+                    'txt': 'text/plain',
+                    'asc': 'text/plain',
+                    'c': 'text/plain',
+                    'cc': 'text/plain',
+                    'h': 'text/plain',
+                    'csv': 'text/csv',
+                    'tsv': 'text/tab-separated-values',
+                    'ics': 'text/calendar',
+                    'rtx': 'text/richtext',
+                    'css': 'text/css',
+                    'htm': 'text/html',
+                    'html': 'text/html',
+
+                    // Audio formats
+                    'mp3': 'audio/mpeg',
+                    'm4a': 'audio/mpeg',
+                    'm4b': 'audio/mpeg',
+                    'ram': 'audio/x-realaudio',
+                    'ra': 'audio/x-realaudio',
+                    'wav': 'audio/wav',
+                    'ogg': 'audio/ogg',
+                    'oga': 'audio/ogg',
+                    'mid': 'audio/midi',
+                    'midi': 'audio/midi',
+                    'wma': 'audio/x-ms-wma',
+                    'wax': 'audio/x-ms-wax',
+                    'mka': 'audio/x-matroska',
+
+                    // Misc application formats
+                    'rtf': 'application/rtf',
+                    'js': 'application/javascript',
+                    'pdf': 'application/pdf',
+                    'swf': 'application/x-shockwave-flash',
+                    'class': 'application/java',
+                    'tar': 'application/x-tar',
+                    'zip': 'application/zip',
+                    'gzip': 'application/x-gzip',
+                    'gz': 'application/x-gzip',
+                    'rar': 'application/rar',
+                    '7z': 'application/x-7z-compressed',
+                    'exe': 'application/x-msdownload',
+
+                    // MS Office formats
+                    'doc': 'application/msword',
+                    'ppt': 'application/vnd.ms-powerpoint',
+                    'pps': 'application/vnd.ms-powerpoint',
+                    'pot': 'application/vnd.ms-powerpoint',
+                    'wri': 'application/vnd.ms-write',
+                    'xla': 'application/vnd.ms-excel',
+                    'xls': 'application/vnd.ms-excel',
+                    'xlt': 'application/vnd.ms-excel',
+                    'xlw': 'application/vnd.ms-excel',
+                    'mdb': 'application/vnd.ms-access',
+                    'mpp': 'application/vnd.ms-project',
+                    'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                    'docm': 'application/vnd.ms-word.document.macroEnabled.12',
+                    'dotx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
+                    'dotm': 'application/vnd.ms-word.template.macroEnabled.12',
+                    'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    'xlsm': 'application/vnd.ms-excel.sheet.macroEnabled.12',
+                    'xlsb': 'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
+                    'xltx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+                    'xltm': 'application/vnd.ms-excel.template.macroEnabled.12',
+                    'xlam': 'application/vnd.ms-excel.addin.macroEnabled.12',
+                    'pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                    'pptm': 'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
+                    'ppsx': 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+                    'ppsm': 'application/vnd.ms-powerpoint.slideshow.macroEnabled.12',
+                    'potx': 'application/vnd.openxmlformats-officedocument.presentationml.template',
+                    'potm': 'application/vnd.ms-powerpoint.template.macroEnabled.12',
+                    'ppam': 'application/vnd.ms-powerpoint.addin.macroEnabled.12',
+                    'sldx': 'application/vnd.openxmlformats-officedocument.presentationml.slide',
+                    'sldm': 'application/vnd.ms-powerpoint.slide.macroEnabled.12',
+                    'onetoc': 'application/onenote',
+                    'onetoc2': 'application/onenote',
+                    'onetmp': 'application/onenote',
+                    'onepkg': 'application/onenote',
+
+                    // OpenOffice formats
+                    'odt': 'application/vnd.oasis.opendocument.text',
+                    'odp': 'application/vnd.oasis.opendocument.presentation',
+                    'ods': 'application/vnd.oasis.opendocument.spreadsheet',
+                    'o dg': 'application/vnd.oasis.opendocument.graphics',
+                    'odc': 'application/vnd.oasis.opendocument.chart',
+                    'odb': 'application/vnd.oasis.opendocument.database',
+                    'odf': 'application/vnd.oasis.opendocument.formula',
+
+                    // WordPerfect formats
+                    'wp': 'application/wordperfect',
+                    'wpd': 'application/wordperfect',
+
+                    // iWork formats
+                    'key': 'application/vnd.apple.keynote',
+                    'numbers': 'application/vnd.apple.numbers',
+                    'pages': 'application/vnd.apple.pages',
+                };
+                return mimes[fileType];
+            }
+            function fsSuccess(fileSystem) {
+                var mime = getFileType(filename);
+                cordova.plugins.fileOpener2.open(
+                filename,
+                mime,
+                {
+                    error: function (e) {
+                        console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
+                    },
+                    success: function () {
+                        console.log('file opened successfully');
+                    }
+                }
+            );
+            }
+            function fsFail(event) {
+                console.log(event.target.error.code);
+            }
+            window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+            if (typeof LocalFileSystem != "undefined") {
+                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
+            } else {
+                console.log("Local File System is not defined.");
+            }
+        },
+        checkFileIn: function () {
+        },
+        checkFileOut: function () {
+        }
+    };
+};
+
 var currentUser = {
     set: function (data) {
         var user = { autoLogIn: null, username: null, password: null, connectionname: null };
@@ -409,21 +452,4 @@ var currentUser = {
         localStorage.removeItem("ud");
         router.navigate("views/authenticate.html");
     }
-};
-
-var testFiles = {
-    convertToTestFile: function (name) {
-        var fileExtension = name.split(".")[1];
-        switch (fileExtension) {
-            case "doc":
-            case "docx":
-                return this.docx;
-                break;
-            case "pdf":
-                return this.pdf;
-                break;
-        }
-    },
-    docx: "Download/testdoc.docx",
-    pdf: "Download/Adobe Acrobat/Getting Started.pdf",
 };

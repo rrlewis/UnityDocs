@@ -116,11 +116,13 @@ router.route('(/)views/library.html', function (params) { // LibraryController
             return;
         }
         var link = e.item.children(".library-link");
+
         var docData = {};
         docData.imageID = link.data("imageid");
         docData.description = link.data("description");
         docData.type = link.data("type");
         docData.checkedoutby = link.data("checkedoutby");
+
         var buttonLabels = ['Read', 'Edit', 'Email'];
         if (docData.checkedoutby == null) {
             buttonLabels.push("Check Out");
@@ -128,13 +130,13 @@ router.route('(/)views/library.html', function (params) { // LibraryController
             buttonLabels.push("Check In");
         }
 
-        var options = {
+        var actionSheetOptions = {
             'title': 'What do you want to do with ' + docData.description,
             'buttonLabels': buttonLabels,
             'androidEnableCancelButton': true, // default false
             'addCancelButtonWithLabel': 'Cancel',
         };
-        var callback = function (buttonIndex) {
+        function gotAction(buttonIndex) {
             setTimeout(function () {
                 // like other Cordova plugins (prompt, confirm) the buttonIndex is 1-based (first button is index 1)
                 switch (buttonIndex) {
@@ -143,7 +145,25 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                         break;
                     case 2:
                         // Edit
-                        downloadFile(e, "edit");
+                        debugger;
+                        if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text")) {
+                            return;
+                        }
+                        if (e.item.children(".library-link").data("type") == "FOLDER") {
+                            return;
+                        }
+                        var filename = e.item.children(".library-link").data("description");
+                        var documentID = e.item.children(".library-link").data("imageid");
+                        fileHandler().downloadFile(documentID, filename,
+                            function (fileEntry) {
+                                this;
+                                debugger;
+                                fileHandler().openFile(fileEntry.toURL());
+                            },
+                            function (error) {
+                                debugger;
+                                console.log(error);
+                            });
                         break;
                     case 3:
                         // Email file
@@ -165,7 +185,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                 }
             });
         };
-        window.plugins.actionsheet.show(options, callback);
+        window.plugins.actionsheet.show(actionSheetOptions, gotAction);
     };
 
     scope.refreshData = function () {
@@ -246,7 +266,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                 });
         }
         function readFile(entry) {
-            var transfer = api.documentService().openDocument(entry.toURL());
+            var transfer = fileHandler().openFile(entry.toURL());
         }
     }
 });
