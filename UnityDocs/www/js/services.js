@@ -218,12 +218,13 @@
 
 var fileHandler = function () {
     var $this = this;
+    this._downloadDir = cordova.file.externalDataDirectory;
     return {
         downloadFile: function (documentID, filename, success, fail) {
             debugger;
             var fileTransfer = new FileTransfer();
             var fromURL = api.rootUrl + "DocumentManagement/GetDocument?documentid=" + documentID;
-            var toPath = this._downloadDir + filename;
+            var toPath = $this._downloadDir + filename;
             window.resolveLocalFileSystemURL(toPath, fileExists, fileDoesntExist);
             function fileDoesntExist() {
                 debugger;
