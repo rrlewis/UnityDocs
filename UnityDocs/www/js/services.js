@@ -229,7 +229,7 @@ var fileHandler = function () {
                 debugger;
                 fileTransfer.download(fromURL, toPath, success, fail);
             }
-            function filExists(fileEntry) {
+            function fileExists(fileEntry) {
                 debugger;
                 console.log("File already exists. Running success callback.");
                 success(fileEntry);
