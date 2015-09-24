@@ -234,6 +234,7 @@ var fileHandler = function () {
             }
         },
         emailFile: function (options) {
+            debugger;
             var requiredProperties = ['callback', 'isHTML', 'attachmentsData'];
             var allProperties = ['callback', 'subject', 'body', 'to', 'cc', 'bcc', 'isHTML', 'attachmentPaths', 'attachmentData'];
             for (var i = 0; i < allProperties.length; i++) {
@@ -246,6 +247,7 @@ var fileHandler = function () {
                     options[property] == null;
                 }
             }
+            debugger;
             if (options.attachmentPaths.constructor != Array) {
                 options.attachmentPaths = [options.attachmentPaths];
             }

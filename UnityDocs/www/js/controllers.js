@@ -172,9 +172,9 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                                     },
                                     subject: docData.description,
                                     body: "test body",
-                                    to: "Ronan.Lewis@sanderson.com",
-                                    cc: "Ronan.Lewis@sanderson.com",
-                                    bcc: "Ronan.Lewis@sanderson.com",
+                                    to: ["Ronan.Lewis@sanderson.com"],
+                                    cc: ["Ronan.Lewis@sanderson.com"],
+                                    bcc: ["Ronan.Lewis@sanderson.com"],
                                     isHTML: false,
                                     attachmentPaths: [fileEntry.toURL()],
                                     attachmentData: []
