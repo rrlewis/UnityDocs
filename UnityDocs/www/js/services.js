@@ -395,6 +395,7 @@ var fileHandler = function () {
                         console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
                     },
                     success: function (a,b,c) {
+                        fileSystem;
                         debugger;
                         console.log('file opened successfully');
                         checkInChecker.fileInEdit = true;
