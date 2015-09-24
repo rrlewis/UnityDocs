@@ -162,21 +162,22 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                         break;
                     case 3:
                         // Email file
-                        debugger;
                         fileHandler().downloadFile(docData.imageID, docData.description,
                             function (fileEntry) {
                                 var options = {
                                     subject: fileEntry.name, // string
                                     body: "test body", // string
-                                    to: ["Ronan.Lewis@sanderson.com"], // array
-                                    cc: ["Ronan.Lewis@sanderson.com"], // array
-                                    bcc: ["Ronan.Lewis@sanderson.com"], // array
+                                    to: [], // array
+                                    cc: [], // array
+                                    bcc: [], // array
                                     isHTML: false, // bool
                                     attachments: [fileEntry.toURL()], // array
                                 };
                                 fileHandler().emailFile(options,
-                                    function (a,b,c) {
-                                        debugger;
+                                    function (result) {
+                                        if (result == "OK") {
+                                            console.log("Email worked.")
+                                        }
                                     }
                                 );
                             },
