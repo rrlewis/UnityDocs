@@ -8,7 +8,7 @@
   <icon src="images/icon.png" width="48" height="48"></icon>
 
   <!-- Phonegap Version -->
-  <preference name="phonegap-version" value="5.2.0" />
+  <preference name="phonegap-version" value="cli-5.1.1" />
   
   <!-- Plugins -->
   <gap:plugin name="org.apache.cordova.file-transfer" version="0.4.6" />
