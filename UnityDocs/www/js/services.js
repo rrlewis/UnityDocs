@@ -233,26 +233,23 @@ var fileHandler = function () {
                 success(fileEntry);
             }
         },
-        emailFile: function (options) {
-            var requiredProperties = ['callback', 'isHTML', 'attachmentsData'];
-            var allProperties = ['callback', 'subject', 'body', 'to', 'cc', 'bcc', 'isHTML', 'attachmentPaths', 'attachmentData'];
-            for (var i = 0; i < allProperties.length; i++) {
-                var property = allProperties[i];
-                if (!options.hasOwnProperty(property)) {
-                    if (requiredProperties.indexOf(property) > -1) {
-                        console.log("Required property missing: " + requiredProp);
-                        return;
-                    }
-                    options[property] == null;
+        emailFile: function (options, callback) {
+            if (typeof options == "undefined") {
+                options = {};
+            }
+            if (typeof callback == "undefined") {
+                callback = function () {
                 }
             }
-            if (options.attachmentPaths.constructor != Array) {
-                options.attachmentPaths = [options.attachmentPaths];
-            }
-            if (options.attachmentData.constructor != Array) {
-                options.attachmentData = [options.attachmentData];
-            }
-            window.plugins.emailComposer.showEmailComposerWithCallback(options.callback, options.subject, options.body, options.to, options.cc, options.bcc, options.isHTML, options.attachmentPaths, options.attachmentData);
+            cordova.plugins.email.isAvailable(
+                function (isAvailable) {
+                    if (isAvailable) {
+                        cordova.plugins.email.open(options, callback);
+                    }
+                    console.log('Email service is not available');
+                }
+            );
+            //window.plugins.emailComposer.showEmailComposerWithCallback(options.callback, options.subject, options.body, options.to, options.cc, options.bcc, options.isHTML, options.attachmentPaths, options.attachmentData);
         },
         openFile: function (filename) {
             function getFileType(file) {

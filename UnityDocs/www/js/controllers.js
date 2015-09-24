@@ -166,25 +166,17 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                         fileHandler().downloadFile(docData.imageID, docData.description,
                             function (fileEntry) {
                                 var options = {
-                                    callback: function (result) {
-                                    },
-                                    subject: docData.description,
-                                    body: "test body",
-                                    to: ["Ronan.Lewis@sanderson.com"],
-                                    cc: ["Ronan.Lewis@sanderson.com"],
-                                    bcc: ["Ronan.Lewis@sanderson.com"],
-                                    isHTML: false,
-                                    attachmentPaths: [fileEntry.toURL()],
-                                    attachmentData: []
+                                    subject: fileEntry.name, // string
+                                    body: "test body", // string
+                                    to: ["Ronan.Lewis@sanderson.com"], // array
+                                    cc: ["Ronan.Lewis@sanderson.com"], // array
+                                    bcc: ["Ronan.Lewis@sanderson.com"], // array
+                                    isHTML: false, // bool
+                                    attachments: [fileEntry.toURL()], // array
                                 };
-                                fileEntry.file(
-                                    function (file) {
-                                        var reader = new FileReader();
-                                        reader.onloadend = function (e) {
-                                            options.attachmentData.push([fileEntry.toURL(), e.target.result]);
-                                            fileHandler().emailFile(options);
-                                        }
-                                        reader.readAsDataURL(file);
+                                fileHandler().emailFile(options,
+                                    function (a,b,c) {
+                                        debugger;
                                     }
                                 );
                             },
