@@ -189,7 +189,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                                             options.attachmentData.push([docData.description, e.target.result]);
                                             fileHandler().emailFile(options);
                                         }
-
+                                        reader.readAsDataURL(file);
                                     }
                                 );
                             },
