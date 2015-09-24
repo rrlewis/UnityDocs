@@ -145,29 +145,58 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                         break;
                     case 2:
                         // Edit
-                        debugger;
                         if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text")) {
                             return;
                         }
                         if (e.item.children(".library-link").data("type") == "FOLDER") {
                             return;
                         }
-                        var filename = e.item.children(".library-link").data("description");
-                        var documentID = e.item.children(".library-link").data("imageid");
-                        fileHandler().downloadFile(documentID, filename,
+                        fileHandler().downloadFile(docData.imageID, docData.description,
                             function (fileEntry) {
-                                this;
-                                debugger;
                                 fileHandler().openFile(fileEntry.toURL());
                             },
                             function (error) {
-                                debugger;
                                 console.log(error);
-                            });
+                            }
+                        );
                         break;
                     case 3:
                         // Email file
-                        downloadFile(e, "email");
+                        debugger;
+                        fileHandler().downloadFile(docData.imageID, docData.description,
+                            function (fileEntry) {
+                                debugger;
+                                var options = {
+                                    callback: function (result) {
+                                        debugger;
+                                    },
+                                    subject: docData.description,
+                                    body: "test body",
+                                    to: "Ronan.Lewis@sanderson.com",
+                                    cc: "Ronan.Lewis@sanderson.com",
+                                    bcc: "Ronan.Lewis@sanderson.com",
+                                    isHTML: false,
+                                    attachmentPaths: [fileEntry.toURL()],
+                                    attachmentData: []
+                                };
+                                debugger;
+                                fileEntry.file(
+                                    function (file) {
+                                        debugger;
+                                        var reader = new FileReader();
+                                        reader.onloadend = function (e) {
+                                            debugger;
+                                            options.attachmentData.push([docData.description, e.target.result]);
+                                            fileHandler().emailFile(options);
+                                        }
+
+                                    }
+                                );
+                            },
+                            function (error) {
+                                console.log(error);
+                            }
+                        );
                         break;
                     case 4:
                         // Check Out / Check In
