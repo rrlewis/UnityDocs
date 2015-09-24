@@ -394,8 +394,10 @@ var fileHandler = function () {
                     error: function (e) {
                         console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
                     },
-                    success: function () {
+                    success: function (a,b,c) {
+                        debugger;
                         console.log('file opened successfully');
+                        checkInChecker.fileInEdit = true;
                     }
                 }
             );
@@ -415,6 +417,11 @@ var fileHandler = function () {
         checkFileOut: function () {
         }
     };
+};
+
+var checkInChecker = {
+    fileInEdit: false,
+    fileInEditData: 
 };
 
 var currentUser = {
