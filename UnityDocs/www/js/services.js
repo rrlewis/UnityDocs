@@ -421,7 +421,7 @@ var fileHandler = function () {
 
 var checkInChecker = {
     fileInEdit: false,
-    fileInEditData: 
+    fileInEditData: {}
 };
 
 var currentUser = {
