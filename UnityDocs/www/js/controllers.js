@@ -165,10 +165,8 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                         debugger;
                         fileHandler().downloadFile(docData.imageID, docData.description,
                             function (fileEntry) {
-                                debugger;
                                 var options = {
                                     callback: function (result) {
-                                        debugger;
                                     },
                                     subject: docData.description,
                                     body: "test body",
@@ -179,14 +177,11 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                                     attachmentPaths: [fileEntry.toURL()],
                                     attachmentData: []
                                 };
-                                debugger;
                                 fileEntry.file(
                                     function (file) {
-                                        debugger;
                                         var reader = new FileReader();
                                         reader.onloadend = function (e) {
-                                            debugger;
-                                            options.attachmentData.push([docData.description, e.target.result]);
+                                            options.attachmentData.push([fileEntry.toURL(), e.target.result]);
                                             fileHandler().emailFile(options);
                                         }
                                         reader.readAsDataURL(file);
