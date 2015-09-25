@@ -396,7 +396,8 @@ var fileHandler = function () {
                     },
                     success: function (ok) {
                         debugger;
-                        fileSystem.root.getFile(filename.split("0/")[1], { create: false },
+                        var relPath = filename.split("0/")[1];
+                        fileSystem.root.getFile(relPath, { create: false },
                             function (fileEntry) {
                                 // success;
                                 debugger;
@@ -407,6 +408,7 @@ var fileHandler = function () {
                                         checkInChecker.fileInEdit = true;
                                         checkInChecker.fileInEditData.base64Data = evt.target.result;
                                         checkInChecker.fileInEditData.file = file;
+                                        checkInChecker.fileInEditData.filePath = fileEntry.toURL();
                                     }
                                     reader.readAsDataURL(file);
                                 }, function (err) {
@@ -445,12 +447,12 @@ var fileHandler = function () {
 
 var checkInChecker = {
     fileInEdit: false,
-    fileInEditData: { file: {}, base64Data: "" },
+    fileInEditData: { file: {}, base64Data: "", filePath: "" },
     compareFiles: function () {
         var $this = this;
         function fsSuccess(fileSystem) {
             debugger;
-            fileSystem.root.getFile($this.fileInEditData.file.fullPath.split("0/")[1], { create: false },
+            fileSystem.root.getFile($this.fileInEditData.filePath, { create: false },
                 function () {
                     debugger;
                     // success
