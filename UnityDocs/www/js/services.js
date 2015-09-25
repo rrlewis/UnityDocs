@@ -1,6 +1,6 @@
 ﻿var api = {
     rootUrl: "http://apprentice2/unity/api/",
-    //rootUrl: "http://localhost/unity/api/",
+    //rootUrl: "http://vmdevweb2008/unity/api/",
     authService: function () {
         var $this = this;
         return {
@@ -394,9 +394,9 @@ var fileHandler = function () {
                     error: function (e) {
                         console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
                     },
-                    success: function (a, b, c) {
+                    success: function (ok) {
                         debugger;
-                        fileSystem.root.getFile(filename, { create: false },
+                        fileSystem.root.getFile(filename.split("0/")[1], { create: false },
                             function (fileEntry) {
                                 // success;
                                 debugger;
