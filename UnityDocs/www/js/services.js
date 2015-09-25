@@ -449,10 +449,13 @@ var checkInChecker = {
     compareFiles: function () {
         var $this = this;
         function fsSuccess(fileSystem) {
+            debugger;
             fileSystem.root.getFile($this.fileInEditData.file.fullPath.split("0/")[1], { create: false },
                 function () {
+                    debugger;
                     // success
                     fileEntry.file(function (file) {
+                        debugger;
                         var reader = new FileReader();
                         reader.onloadend = function (evt) {
                             if (evt.target.result == $this.fileInEditData.base64Data) {
@@ -468,13 +471,15 @@ var checkInChecker = {
                         // failed to create file object.
                     });
                 },
-                function () {
+                function (err) {
+                    debugger;
                     // fail
                 });
         }
         function fsFail(event) {
             console.log(event);
         }
+        debugger;
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
     }
 };
