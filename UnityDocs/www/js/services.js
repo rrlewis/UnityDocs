@@ -454,7 +454,7 @@ var checkInChecker = {
             debugger;
             var relPath = $this.fileInEditData.filePath.split("0/")[1];
             fileSystem.root.getFile(relPath, { create: false },
-                function () {
+                function (fileEntry) {
                     debugger;
                     // success
                     fileEntry.file(function (file) {
