@@ -406,7 +406,7 @@ var fileHandler = function () {
                                         debugger;
                                         checkInChecker.fileInEdit = true;
                                         checkInChecker.fileInEditData.base64Data = evt.target.result;
-                                        checkInChecker.fileInEditData.name = file.name;
+                                        checkInChecker.fileInEditData.file = file;
                                     }
                                     reader.readAsDataURL(file);
                                 }, function (err) {
@@ -445,7 +445,38 @@ var fileHandler = function () {
 
 var checkInChecker = {
     fileInEdit: false,
-    fileInEditData: { name: "", base64Data: "" }
+    fileInEditData: { file: {}, base64Data: "" },
+    compareFiles: function () {
+        var $this = this;
+        function fsSuccess(fileSystem) {
+            fileSystem.root.getFile($this.fileInEditData.file.fullPath.split("0/")[1], { create: false },
+                function () {
+                    // success
+                    fileEntry.file(function (file) {
+                        var reader = new FileReader();
+                        reader.onloadend = function (evt) {
+                            if (evt.target.result == $this.fileInEditData.base64Data) {
+                                // files are same (not been edited).
+                                debugger;
+                            } else {
+                                // files are different (have been edited).
+                                debugger;
+                            }
+                        }
+                        reader.readAsDataURL(file);
+                    }, function (err) {
+                        // failed to create file object.
+                    });
+                },
+                function () {
+                    // fail
+                });
+        }
+        function fsFail(event) {
+            console.log(event);
+        }
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
+    }
 };
 
 var currentUser = {

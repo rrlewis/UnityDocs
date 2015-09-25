@@ -33,8 +33,12 @@ var app = new kendo.mobile.Application(document.body,
 
     function onResume() {
         // TODO: This application has been reactivated. Restore application state here.
+        console.log("Resuming application.");
+        if (checkInChecker.fileInEdit) {
+            checkInChecker.fileInEdit = false;
+            checkInChecker.compareFiles();
+        }
     };
-    console.log("Resuming application.");
 
 
 })();
