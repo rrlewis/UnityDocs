@@ -402,7 +402,7 @@ var fileHandler = function () {
                                 debugger;
                                 fileEntry.file(function (file) {
                                     var reader = new FileReader();
-                                    reader.onloadend = function (a,b,c) {
+                                    reader.onloadend = function (evt) {
                                         debugger;
                                         checkInChecker.fileInEdit = true;
                                         checkInChecker.fileInEditData.base64Data = evt.target.result;
