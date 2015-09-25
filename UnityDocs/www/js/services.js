@@ -400,6 +400,18 @@ var fileHandler = function () {
                             function (fileEntry) {
                                 // success;
                                 debugger;
+                                fileEntry.file(function (file) {
+                                    var reader = new FileReader();
+                                    reader.onloadend = function (a,b,c) {
+                                        debugger;
+                                        checkInChecker.fileInEdit = true;
+                                        checkInChecker.fileInEditData.base64Data = evt.target.result;
+                                        checkInChecker.fileInEditData.name = file.name;
+                                    }
+                                    reader.readAsDataURL(file);
+                                }, function (err) {
+                                    // failed to create file object.
+                                });
                             },
                             function (err) {
                                 // fail;
@@ -433,7 +445,7 @@ var fileHandler = function () {
 
 var checkInChecker = {
     fileInEdit: false,
-    fileInEditData: {}
+    fileInEditData: { name: "", base64Data: "" }
 };
 
 var currentUser = {
