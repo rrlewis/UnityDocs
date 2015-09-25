@@ -394,8 +394,19 @@ var fileHandler = function () {
                     error: function (e) {
                         console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
                     },
-                    success: function (a,b,c) {
-                        fileSystem;
+                    success: function (a, b, c) {
+                        debugger;
+                        fileSystem.root.getFile(filename, { create: false },
+                            function (fileEntry) {
+                                // success;
+                                debugger;
+                            },
+                            function (err) {
+                                // fail;
+                                debugger;
+                                console.log(err);
+                            }
+                            );
                         debugger;
                         console.log('file opened successfully');
                         checkInChecker.fileInEdit = true;
