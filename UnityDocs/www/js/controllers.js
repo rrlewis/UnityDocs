@@ -8,7 +8,7 @@ var router = new kendo.Router({
         //fires any time the route changes
         scope = {};
         scope.url = e.url;
-        if (typeof cancelSearch != "undefined") {
+        if (typeof filter.cancelFilter != "undefined") {
             filter.cancelFilter();
         }
         console.log(scope.url);
@@ -123,11 +123,13 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         docData.type = link.data("type");
         docData.checkedoutby = link.data("checkedoutby");
 
-        var buttonLabels = ['Read', 'Check Out & Edit', 'Email'];
+        var buttonLabels = ['Read', 'Email'];
         if (docData.checkedoutby == null) {
             buttonLabels.push("Check Out");
+            buttonLabels.push("Check Out & Edit");
         } else {
             buttonLabels.push("Check In");
+            buttonLabels.push("Edit");
         }
 
         var actionSheetOptions = {
@@ -144,23 +146,6 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                         // Read
                         break;
                     case 2:
-                        // Edit
-                        if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text")) {
-                            return;
-                        }
-                        if (e.item.children(".library-link").data("type") == "FOLDER") {
-                            return;
-                        }
-                        fileHandler().downloadFile(docData.imageID, docData.description,
-                            function (fileEntry) {
-                                fileHandler().openFile(fileEntry.toURL());
-                            },
-                            function (error) {
-                                console.log(error);
-                            }
-                        );
-                        break;
-                    case 3:
                         // Email file
                         fileHandler().downloadFile(docData.imageID, docData.description,
                             function (fileEntry) {
@@ -186,7 +171,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                             }
                         );
                         break;
-                    case 4:
+                    case 3:
                         // Check Out / Check In
                         if (buttonLabels[2] == "Check In") {
                             // check file in
@@ -198,6 +183,23 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                                 // check file out
                                 api.documentService().checkOutDocument(docData.imageID).then(scope.refreshData);
                             }
+                        break;
+                    case 4:
+                        // Edit / Check Out & Edit
+                        if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text")) {
+                            return;
+                        }
+                        if (e.item.children(".library-link").data("type") == "FOLDER") {
+                            return;
+                        }
+                        fileHandler().downloadFile(docData.imageID, docData.description,
+                            function (fileEntry) {
+                                fileHandler().openFile(fileEntry.toURL());
+                            },
+                            function (error) {
+                                console.log(error);
+                            }
+                        );
                         break;
                 }
             });
