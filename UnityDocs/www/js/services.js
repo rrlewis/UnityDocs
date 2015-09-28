@@ -466,6 +466,11 @@ var checkInChecker = {
                                 debugger;
                             } else {
                                 // files are different (have been edited).
+                                if (confirm("Do you want to check this file in?")) {
+                                    // check file in
+                                } else {
+                                    // dont check in
+                                }
                                 debugger;
                             }
                         }

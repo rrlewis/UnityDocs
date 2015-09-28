@@ -123,7 +123,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         docData.type = link.data("type");
         docData.checkedoutby = link.data("checkedoutby");
 
-        var buttonLabels = ['Read', 'Edit', 'Email'];
+        var buttonLabels = ['Read', 'Check Out & Edit', 'Email'];
         if (docData.checkedoutby == null) {
             buttonLabels.push("Check Out");
         } else {
