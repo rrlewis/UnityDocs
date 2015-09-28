@@ -8,7 +8,7 @@ var router = new kendo.Router({
         //fires any time the route changes
         scope = {};
         scope.url = e.url;
-        if (typeof filter.cancelFilter != "undefined") {
+        if (typeof filter != "undefined") {
             filter.cancelFilter();
         }
         console.log(scope.url);
