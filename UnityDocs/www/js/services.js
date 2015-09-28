@@ -468,6 +468,8 @@ var checkInChecker = {
                                 // files are different (have been edited).
                                 if (confirm("Do you want to check this file in?")) {
                                     // check file in
+                                    debugger;
+                                    api.documentService().undoCheckOutDocument($this.fileInEditData.file.imageID).then(scope.refreshData);
                                 } else {
                                     // dont check in
                                 }
