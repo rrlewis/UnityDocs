@@ -397,30 +397,34 @@ var fileHandler = function () {
                     success: function (ok) {
                         debugger;
                         var relPath = filename.split("0/")[1];
-                        fileSystem.root.getFile(relPath, { create: false },
-                            function (fileEntry) {
-                                // success;
-                                debugger;
-                                fileEntry.file(function (file) {
-                                    var reader = new FileReader();
-                                    reader.onloadend = function (evt) {
+                        fileSystem.root.getDirectory("UnityDocs", { create: true, exclusive: false },
+                            function (directoryEntry) {
+                                directoryEntry.getFile(relPath, { create: false },
+                                    function (fileEntry) {
+                                        // success;
                                         debugger;
-                                        checkInChecker.fileInEdit = true;
-                                        checkInChecker.fileInEditData.base64Data = evt.target.result;
-                                        checkInChecker.fileInEditData.file = file;
-                                        checkInChecker.fileInEditData.filePath = fileEntry.toURL();
+                                        fileEntry.file(function (file) {
+                                            var reader = new FileReader();
+                                            reader.onloadend = function (evt) {
+                                                debugger;
+                                                checkInChecker.fileInEdit = true;
+                                                checkInChecker.fileInEditData.base64Data = evt.target.result;
+                                                checkInChecker.fileInEditData.file = file;
+                                                checkInChecker.fileInEditData.filePath = fileEntry.toURL();
+                                            }
+                                            reader.readAsDataURL(file);
+                                        }, function (err) {
+                                            // failed to create file object.
+                                        });
+                                    },
+                                    function (err) {
+                                        // fail;
+                                        debugger;
+                                        console.log(err);
                                     }
-                                    reader.readAsDataURL(file);
-                                }, function (err) {
-                                    // failed to create file object.
-                                });
-                            },
-                            function (err) {
-                                // fail;
-                                debugger;
-                                console.log(err);
+                                );
                             }
-                            );
+                        );
                         debugger;
                         console.log('file opened successfully');
                         checkInChecker.fileInEdit = true;
@@ -493,7 +497,7 @@ var checkInChecker = {
                             debugger;
                             // fail
                         });
-                        },
+                },
                 function (fileError) {
                     debugger;
                 }
