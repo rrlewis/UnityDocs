@@ -466,7 +466,7 @@ var checkInChecker = {
                                 debugger;
                             } else {
                                 // files are different (have been edited).
-                                if (confirm("Do you want to check this file in?")) {
+                                if (confirm("This file has been edited, do you want to check it in?")) {
                                     // check file in
                                     debugger;
                                     if (typeof checkInCallback != "undefined") {
