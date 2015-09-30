@@ -453,43 +453,53 @@ var checkInChecker = {
         function fsSuccess(fileSystem) {
             debugger;
             var relPath = $this.fileInEditData.filePath.split("0/")[1];
-            fileSystem.root.getFile(relPath, { create: false },
-                function (fileEntry) {
-                    debugger;
-                    // success
-                    fileEntry.file(function (file) {
-                        debugger;
-                        var reader = new FileReader();
-                        reader.onloadend = function (evt) {
-                            if (evt.target.result == $this.fileInEditData.base64Data) {
-                                // files are same (not been edited).
+            debugger;
+            fileSystem.root.getDirectory("UnityDocs", { create: true, exclusive: false },
+                function (directoryEntry) {
+                    directoryEntry.getFile(relPath, { create: false },
+                        function (fileEntry) {
+                            debugger;
+                            // success
+                            fileEntry.file(function (file) {
                                 debugger;
-                            } else {
-                                // files are different (have been edited).
-                                if (confirm("This file has been edited, do you want to check it in?")) {
-                                    // check file in
-                                    debugger;
-                                    if (typeof checkInCallback != "undefined") {
-                                        checkInCallback(fileEntry.name);
-                                    }
-                                } else {
-                                    // dont check in
-                                    if (typeof cancelCallback != "undefined") {
-                                        cancelCallback();
+                                var reader = new FileReader();
+                                reader.onloadend = function (evt) {
+                                    if (evt.target.result == $this.fileInEditData.base64Data) {
+                                        // files are same (not been edited).
+                                        debugger;
+                                    } else {
+                                        // files are different (have been edited).
+                                        if (confirm("This file has been edited, do you want to check it in?")) {
+                                            // check file in
+                                            debugger;
+                                            if (typeof checkInCallback != "undefined") {
+                                                checkInCallback(fileEntry.name);
+                                            }
+                                        } else {
+                                            // dont check in
+                                            if (typeof cancelCallback != "undefined") {
+                                                cancelCallback();
+                                            }
+                                        }
+                                        debugger;
                                     }
                                 }
-                                debugger;
-                            }
-                        }
-                        reader.readAsDataURL(file);
-                    }, function (err) {
-                        // failed to create file object.
-                    });
-                },
-                function (err) {
+                                reader.readAsDataURL(file);
+                            }, function (err) {
+                                // failed to create file object.
+                            });
+                        },
+                        function (err) {
+                            debugger;
+                            // fail
+                        });
+                        },
+                function (fileError) {
                     debugger;
-                    // fail
-                });
+                }
+            );
+
+
         }
         function fsFail(event) {
             console.log(event);
@@ -530,3 +540,19 @@ var currentUser = {
         router.navigate("views/authenticate.html");
     }
 };
+
+window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
+    function (fileSystem) {
+        debugger;
+        fileSystem.root.getDirectory("UnityDocs", { create: true, exclusive: false },
+            function (directoryEntry) {
+                debugger;
+            },
+            function (fileError) {
+                debugger;
+            }
+            );
+    },
+    function (error) {
+        console.log(error);
+    });
