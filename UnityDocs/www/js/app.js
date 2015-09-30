@@ -36,7 +36,16 @@ var app = new kendo.mobile.Application(document.body,
         console.log("Resuming application.");
         if (checkInChecker.fileInEdit) {
             checkInChecker.fileInEdit = false;
-            checkInChecker.compareFiles();
+            checkInChecker.compareFiles(function (filename) {
+                // OK / Check In
+                if ($("#check-in-modal").exists()) {
+                    var checkInModal = $("#check-in-modal").data("kendoMobileModalView");
+                    $("#check-in-modal div[data-role=header] span[data-role=view-title]").text("Check In: " + filename);
+                    checkInModal.open();
+                }
+            }, function () {
+                // Cancel / Don't Check In
+            });
         }
     };
 

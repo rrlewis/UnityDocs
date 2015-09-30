@@ -448,7 +448,7 @@ var fileHandler = function () {
 var checkInChecker = {
     fileInEdit: false,
     fileInEditData: { file: {}, base64Data: "", filePath: "" },
-    compareFiles: function () {
+    compareFiles: function (checkInCallback, cancelCallback) {
         var $this = this;
         function fsSuccess(fileSystem) {
             debugger;
@@ -469,9 +469,14 @@ var checkInChecker = {
                                 if (confirm("Do you want to check this file in?")) {
                                     // check file in
                                     debugger;
-                                    api.documentService().undoCheckOutDocument($this.fileInEditData.file.imageID).then(scope.refreshData);
+                                    if (typeof checkInCallback != "undefined") {
+                                        checkInCallback(fileEntry.name);
+                                    }
                                 } else {
                                     // dont check in
+                                    if (typeof cancelCallback != "undefined") {
+                                        cancelCallback();
+                                    }
                                 }
                                 debugger;
                             }
