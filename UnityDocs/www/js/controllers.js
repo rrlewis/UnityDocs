@@ -194,7 +194,8 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                         }
                         fileHandler().downloadFile(docData.imageID, docData.description,
                             function (fileEntry) {
-                                fileHandler().openFile(fileEntry.toURL());
+                                debugger;
+                                fileHandler().openFile(fileEntry.name);
                             },
                             function (error) {
                                 console.log(error);

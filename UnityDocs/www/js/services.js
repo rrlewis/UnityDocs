@@ -396,10 +396,10 @@ var fileHandler = function () {
                     },
                     success: function (ok) {
                         debugger;
-                        var relPath = filename.split("0/")[1];
+                        //var relPath = filename.split("0/")[1];
                         fileSystem.root.getDirectory("UnityDocs", { create: true, exclusive: false },
                             function (directoryEntry) {
-                                directoryEntry.getFile(relPath, { create: false },
+                                directoryEntry.getFile(filename, { create: false },
                                     function (fileEntry) {
                                         // success;
                                         debugger;
