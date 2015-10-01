@@ -36,12 +36,19 @@
                     <input type="search" onkeyup="filter.filter()" onchange="filter.filter()" placeholder="Search..." />
                 </form>
                 <a data-role="button" data-icon="search" data-click="filter.startFilter" id="searchBtn" data-align="right"></a>
-                <a data-role="button" data-icon="more-v" data-align="right" id="sortBtn"></a>
+                <a data-role="button" data-icon="more-v" data-align="right" data-rel="actionsheet" href="#replyActionSheet" id="sortBtn"></a>
                 <a data-role="button" data-icon="close" data-click="filter.cancelFilter" style="display:none;" data-align="right"></a>
             </div>
         </header>
+
         <!--View content will render here-->
+        <ul data-role="actionsheet" id="replyActionSheet">
+            <li><a>View as thumbnails</a></li>
+            <li><a>Refresh</a></li>
+            <li><a>Sort</a></li>
+        </ul>
     </section>
+    <!-- Menu Drawer -->
     <div data-role="drawer" id="drawer" data-before-show="onBeforeShow">
         <header data-role="header">
             <div data-role="navbar">
@@ -53,6 +60,7 @@
             <li data-icon="user"><a href="#views/account.html">Account</a></li>
         </ul>
     </div>
+
     <!-- Auth Layout -->
     <section data-role="layout" data-id="auth-layout"></section>
 
@@ -115,6 +123,20 @@
                     $("header.search [data-role=button]:not(:has(i), [data-rel=drawer])").hide();
                     $("header.search [data-role=button]:has(i), header.search [data-role=button][data-icon=close]").show();
                 }
+            }
+        }
+
+        var actionSheet = {
+            functions: {
+                sort: {
+                    openSort: function () {
+                        //open sort modal
+                    },
+                    sortBy: function () {
+
+                    }
+                },
+
             }
         }
     </script>
