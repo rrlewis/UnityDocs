@@ -234,16 +234,28 @@ var fileHandler = function () {
                         function (directoryEntry) {
                             // got directory
                             debugger;
-                            window.resolveLocalFileSystemURL(toPath, fileExists, fileDoesntExist);
-                            function fileDoesntExist(fileError) {
-                                debugger;
-                                fileTransfer.download(fromURL, toPath, success, fail);
-                            }
-                            function fileExists(fileEntry) {
-                                debugger;
-                                console.log("File already exists. Running success callback.");
-                                success(fileEntry);
-                            }
+                            directoryEntry.getFile(filename, { create: true, exclusive: false },
+                                function (fileEntry) {
+                                    //got file
+                                    debugger;
+                                    window.resolveLocalFileSystemURL(toPath, fileExists, fileDoesntExist);
+                                    function fileDoesntExist(fileError) {
+                                        debugger;
+                                        fileTransfer.download(fromURL, toPath, success, fail);
+                                    }
+                                    function fileExists(fileEntry) {
+                                        debugger;
+                                        console.log("File already exists. Running success callback.");
+                                        success(fileEntry);
+                                    }
+                                },
+                                function (error) {
+                                    // failed to get file
+                                    debugger;
+                                    console.log(error);
+                                }
+                            )
+
                         },
                         function (error) {
                             // fail
