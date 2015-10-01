@@ -218,14 +218,16 @@
 
 var fileHandler = function () {
     var $this = this;
-    this._downloadDir = cordova.file.externalDataDirectory;
+    this._downloadDir = "file:///storage/emulated/0/UnityDocs/";
     return {
         downloadFile: function (documentID, filename, success, fail) {
             var fileTransfer = new FileTransfer();
             var fromURL = api.rootUrl + "DocumentManagement/GetDocument?documentid=" + documentID;
+            debugger;
             var toPath = $this._downloadDir + filename;
             window.resolveLocalFileSystemURL(toPath, fileExists, fileDoesntExist);
-            function fileDoesntExist() {
+            function fileDoesntExist(entry, entry2) {
+                debugger;
                 fileTransfer.download(fromURL, toPath, success, fail);
             }
             function fileExists(fileEntry) {
@@ -387,6 +389,16 @@ var fileHandler = function () {
             }
             function fsSuccess(fileSystem) {
                 var mime = getFileType(filename);
+                fileSystem.root.getDirectory("UnityDocs", { create: true, exclusive: false },
+                    function (directoryEntry) {
+                        //success
+                        console.log("Created new directory: " + directoryEntry.name);
+                    },
+                    function (error) {
+                        //fail
+                        console.log("Unable to create new directory: " + error.code);
+                    }
+                );
                 cordova.plugins.fileOpener2.open(
                 filename,
                 mime,
