@@ -45,7 +45,7 @@
         <ul data-role="actionsheet" id="replyActionSheet">
             <li><a>View as thumbnails</a></li>
             <li><a>Refresh</a></li>
-            <li><a>Sort</a></li>
+            <li><a data-click="actionSheet.functions.sort.openSort">Sort</a></li>
         </ul>
     </section>
     <!-- Menu Drawer -->
@@ -131,6 +131,30 @@
                 sort: {
                     openSort: function () {
                         //open sort modal
+                        var config = {
+                            title: "Sort",
+                            items: [
+                                { text: "Name (Ascending)", value: 1 },
+                                { text: "Name (Descending)", value: 2 },
+                                { text: "Newest", value: 3 },
+                                { text: "Oldest", value: 4 },
+                                { text: "Largest", value: 5 },
+                                { text: "Smallest", value: 6 }
+                            ],
+                            selectedValue: "1",
+                            doneButtonLabel: "Done",
+                            cancelButtonLabel: "Cancel"
+                        };
+
+                        // Show the picker
+                        window.plugins.listpicker.showPicker(config,
+                            function (item) {
+                                alert("You have selected " + item);
+                            },
+                            function () {
+                                alert("You have cancelled");
+                            }
+                        );
                     },
                     sortBy: function () {
 
