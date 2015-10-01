@@ -223,17 +223,41 @@ var fileHandler = function () {
         downloadFile: function (documentID, filename, success, fail) {
             var fileTransfer = new FileTransfer();
             var fromURL = api.rootUrl + "DocumentManagement/GetDocument?documentid=" + documentID;
-            debugger;
             var toPath = $this._downloadDir + filename;
-            window.resolveLocalFileSystemURL(toPath, fileExists, fileDoesntExist);
-            function fileDoesntExist(entry, entry2) {
-                debugger;
-                fileTransfer.download(fromURL, toPath, success, fail);
-            }
-            function fileExists(fileEntry) {
-                console.log("File already exists. Running success callback.");
-                success(fileEntry);
-            }
+            //
+            debugger;
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
+                function (fileSystem) {
+                    // got file system
+                    debugger;
+                    fileSystem.root.getDirectory("UnityDocs", { create: true, exclusive: false },
+                        function (directoryEntry) {
+                            // got directory
+                            debugger;
+                            window.resolveLocalFileSystemURL(toPath, fileExists, fileDoesntExist);
+                            function fileDoesntExist(fileError) {
+                                debugger;
+                                fileTransfer.download(fromURL, toPath, success, fail);
+                            }
+                            function fileExists(fileEntry) {
+                                debugger;
+                                console.log("File already exists. Running success callback.");
+                                success(fileEntry);
+                            }
+                        },
+                        function (error) {
+                            // fail
+                            debugger;
+                            console.log(error);
+                        }
+                    );
+                },
+                function (error) {
+                    //fail 
+                    console.log(error);
+                }
+            );
+            //
         },
         emailFile: function (options, callback) {
             if (typeof options == "undefined") {
