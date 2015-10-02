@@ -76,5 +76,5 @@ ul.km-listview.data-source li span.item-state-icon {
 }
 
     .km-popup-overlay.km-actionsheet-root .km-actionsheet-wrapper.km-actionsheet-auto.km-widget.km-popup ul[data-role=actionsheet] li a:active {
-        background-color:red;
+        background-color:rgba(15, 111, 198, 0.15);
     }
