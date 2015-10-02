@@ -36,16 +36,16 @@
                     <input type="search" onkeyup="filter.filter()" onchange="filter.filter()" placeholder="Search..." />
                 </form>
                 <a data-role="button" data-icon="search" data-click="filter.startFilter" id="searchBtn" data-align="right"></a>
-                <a data-role="button" data-icon="more-v" data-align="right" data-rel="actionsheet" href="#replyActionSheet" id="sortBtn"></a>
+                <a data-role="button" data-icon="more-v" data-align="right" data-rel="actionsheet" href="#options-action-sheet" id="sortBtn"></a>
                 <a data-role="button" data-icon="close" data-click="filter.cancelFilter" style="display:none;" data-align="right"></a>
             </div>
         </header>
 
         <!--View content will render here-->
-        <ul data-role="actionsheet" id="replyActionSheet">
+        <ul data-role="actionsheet" id="options-action-sheet">
             <li><a>View as thumbnails</a></li>
             <li><a>Refresh</a></li>
-            <li><a data-role="button" data-click="actionSheet.functions.sort.openSort">Sort</a></li>
+            <li><a data-touch="actionSheet.functions.sort.openSort">Sort</a></li>
         </ul>
     </section>
     <!-- Menu Drawer -->
