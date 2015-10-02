@@ -45,7 +45,7 @@
         <ul data-role="actionsheet" id="options-action-sheet">
             <li><a>View as thumbnails</a></li>
             <li><a>Refresh</a></li>
-            <li><a data-touch="actionSheet.functions.sort.openSort">Sort</a></li>
+            <li><a data-role="touch" data-tap="actionSheet.functions.sort.openSort">Sort</a></li>
         </ul>
     </section>
     <!-- Menu Drawer -->
@@ -125,12 +125,13 @@
                 }
             }
         }
-
+        
         var actionSheet = {
             functions: {
                 sort: {
                     openSort: function () {
                         //open sort modal
+                        debugger;
                         var config = {
                             title: "Sort",
                             items: [
