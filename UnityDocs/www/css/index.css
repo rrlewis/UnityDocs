@@ -37,31 +37,45 @@ ul.km-listview.data-source li {
         padding: 0;
         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     }
-    #libraries ul.km-listview.data-source li a[data-role=button].info-button {
-        visibility:collapse;
+
+#libraries ul.km-listview.data-source li a[data-role=button].info-button {
+    visibility: collapse;
+}
+
+ul.km-listview.data-source li a[data-role=button].info-button:active {
+    background: #0D61AD;
+    border-color: #0D61AD;
+    color: white;
+    box-shadow: none;
+}
+
+ul.km-listview.data-source li span.item-state-icon {
+    font-size: 32px;
+    margin: 10px;
+    margin-top: 26.25px;
+    line-height: 50px;
+    float: right;
+    margin-right: 25px;
+}
+
+    ul.km-listview.data-source li span.item-state-icon.negative {
+        color: red;
     }
-        ul.km-listview.data-source li a[data-role=button].info-button:active {
-            background: #0D61AD;
-            border-color: #0D61AD;
-            color: white;
-            box-shadow: none;
-        }
 
-    ul.km-listview.data-source li span.item-state-icon {
-        font-size: 32px;
-        margin: 10px;
-        margin-top: 26.25px;
-        line-height: 50px;
-        float: right;
-        margin-right: 25px;
+    ul.km-listview.data-source li span.item-state-icon.positive {
+        color: green;
     }
 
-        ul.km-listview.data-source li span.item-state-icon.negative {
-            color:red;
-        }
+/* ActionSheet Popup */
 
-        ul.km-listview.data-source li span.item-state-icon.positive {
-            color:green;
-        }
+.km-popup-overlay.km-actionsheet-root {
+    background-color: transparent;
+    pointer-events: none;
+}
+.km-popup-overlay.km-actionsheet-root .km-actionsheet-wrapper.km-actionsheet-auto.km-widget.km-popup {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
 
-
+    .km-popup-overlay.km-actionsheet-root .km-actionsheet-wrapper.km-actionsheet-auto.km-widget.km-popup ul[data-role=actionsheet] li a:active {
+        background-color:red;
+    }
