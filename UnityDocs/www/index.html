@@ -134,6 +134,7 @@
                     openSort: function () {
                         //open sort modal
                         debugger;
+                        var $this = this;
                         var config = {
                             title: "Sort",
                             items: [
@@ -151,15 +152,13 @@
 
                         // Show the picker
                         window.plugins.listpicker.showPicker(config,
-                            function (item) {
-                                alert("You have selected " + item);
-                            },
+                            $this.sortBy,
                             function () {
-                                alert("You have cancelled");
+                                
                             }
                         );
                     },
-                    sortBy: function () {
+                    sortBy: function (btnIndex) {
 
                     }
                 },

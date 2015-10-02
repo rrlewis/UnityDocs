@@ -518,9 +518,11 @@ var checkInChecker = {
                                 reader.onloadend = function (evt) {
                                     if (evt.target.result == $this.fileInEditData.base64Data) {
                                         // files are same (not been edited).
+                                        console.log("The file in the editor was not changed.");
                                         debugger;
                                     } else {
                                         // files are different (have been edited).
+                                        console.log("The file in the editor was changed, asking if it needs to be checked in.");
                                         if (confirm("This file has been edited, do you want to check it in?")) {
                                             // check file in
                                             debugger;

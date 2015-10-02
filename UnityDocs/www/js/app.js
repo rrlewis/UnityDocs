@@ -1,14 +1,10 @@
-﻿// For an introduction to the Blank template, see the following documentation:
-// http://go.microsoft.com/fwlink/?LinkID=397704
-// To debug code on page load in Ripple or on Android devices/emulators: launch your app, set breakpoints, 
-// and then run "window.location.reload()" in the JavaScript Console.
+﻿
 
 var app = new kendo.mobile.Application(document.body,
     {
         platform: "android",
         skin: 'nova',
         initial: "views/authenticate.html",
-        //transition: 'slide',
     });
 
 
@@ -35,7 +31,9 @@ var app = new kendo.mobile.Application(document.body,
         // TODO: This application has been reactivated. Restore application state here.
         console.log("Resuming application.");
         if (checkInChecker.fileInEdit) {
+            console.log("File has been in an editor during the application pause.");
             checkInChecker.fileInEdit = false;
+            console.log("Comparing current file data with the data saved before the pause.");
             checkInChecker.compareFiles(function (filename) {
                 // OK / Check In
                 if ($("#check-in-modal").exists()) {
@@ -48,6 +46,4 @@ var app = new kendo.mobile.Application(document.body,
             });
         }
     };
-
-
 })();
