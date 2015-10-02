@@ -69,7 +69,7 @@ ul.km-listview.data-source li span.item-state-icon {
 /* ActionSheet Popup */
 
 .km-popup-overlay.km-actionsheet-root {
-    background-color: transparent;
+    background-color: transparent !important;
 }
 .km-popup-overlay.km-actionsheet-root .km-actionsheet-wrapper.km-actionsheet-auto.km-widget.km-popup {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
