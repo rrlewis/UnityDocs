@@ -650,7 +650,7 @@ var dataOptionsActionSheet = {
             console.log("Search string: " + searchString);
             console.log("Current Library: " + currentLib);
 
-            router.navigate("views/authenticate.html?searchstring=" + searchString + "&library=" + currentLib);
+            router.navigate("views/searchresult.html?searchstring=" + searchString + "&library=" + currentLib);
 
             //api.documentService().searchLibrary(searchString, currentLib).then(function (results) {
             //    debugger;
