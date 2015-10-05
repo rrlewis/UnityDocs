@@ -53,6 +53,9 @@ router.route('(/)views/libraries.html', function (params) { // LibraryController
                 if (response.results.length == 0) {
                     $("#libraries [data-role=listview]").append(elements.emptyFolder);
                 } else {
+                    for (var x = 0; x < response.results.length; x++) {
+                        response.results[x].LastModifiedAt = response.results[x].LastModifiedAt.split("T").join(" at ");
+                    }
                     return response.results;
                 }
             }
