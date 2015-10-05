@@ -40,6 +40,7 @@ router.route('(/)(views/authenticate.html)', function (params) { // Authenticate
 
 router.route('(/)views/libraries.html', function (params) { // LibraryController
     app.pane.loader.show();
+    debugger;
     scope.data = new kendo.data.DataSource({
         transport: {
             read: {
