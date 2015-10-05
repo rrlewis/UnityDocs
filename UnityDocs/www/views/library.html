@@ -253,10 +253,17 @@
 
     function closeInfoModal(e) {
         var newData = $("form[name=extra-info]").serializeObject();
-        originalData;
-        debugger;
-        $("form[name=extra-info]").trigger('reset');
-        closeModalView(e);
+        if (newData.Tags != originalData.Tags) {
+            api.documentService().updateDocumentTags(originalData.ImageID, newData.Tags).then(function (result) {
+                debugger;
+                $("form[name=extra-info]").trigger('reset');
+                closeModalView(e);
+            })
+        } else {
+            $("form[name=extra-info]").trigger('reset');
+            closeModalView(e);
+        }
+
     }
 
     function openVersionHistory(e) {
