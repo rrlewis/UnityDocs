@@ -31,6 +31,7 @@
                 return $.ajax({
                     url: $this.rootUrl + "documentlibrary/getlibraries",
                     success: function (results) {
+                        debugger;
                         return results;
                     }
                 })
