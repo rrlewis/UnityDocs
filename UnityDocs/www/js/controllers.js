@@ -99,6 +99,9 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                 if (response.results.length == 0) {
                     $("#library [data-role=listview]").append(elements.emptyLibrary);
                 } else {
+                    for (var x = 0; x < response.results.length; x++) {
+                        response.results[x].LastModifiedAt = response.results[x].LastModifiedAt.split("T").join(" at ");
+                    }
                     return response.results;
                 }
             }
