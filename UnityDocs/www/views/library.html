@@ -2,206 +2,216 @@
     <ul data-role="listview" data-click="scope.getFileOptions" class="data-source sortable" data-template="library-item-template" data-source="scope.data" data-pull-to-refresh="true"></ul>
 </div>
 
-<div data-role="modalview" id="info-modal" style="width: 100%; height: 100%;" data-modal="false">
-    <div data-role="header">
-        <div data-role="navbar">
-            <a data-align="right" data-click="closeModalView" data-role="button" data-icon="delete">Delete</a>
-            <span data-role="view-title"></span>
-            <a data-align="left" data-click="openVersionHistory" data-role="button" data-icon="history">History</a>
-        </div>
-    </div>
-    <form name="extra-info">
-        <ul data-role="listview">
-            <li>
-                <label class="km-inline-field km-label-above">
-                    Type
-                    <input data-field="Type" name="Type" type="text" readonly />
-                </label>
-            </li>
-            <li>
-                <label class="km-inline-field km-label-above">
-                    Name
-                    <input data-field="Description" name="Description" type="text" readonly />
-                </label>
-            </li>
-            <li>
-                <label class="km-inline-field km-label-above">
-                    Modified
-                    <input data-field="Modified" name="Modified" type="text" readonly />
-                </label>
-            </li>
-            <li>
-                <label class="km-inline-field km-label-above">
-                    Modified By
-                    <input data-field="ModifiedBy" name="ModifiedBy" type="text" readonly />
-                </label>
-            </li>
-            <li>
-                <label class="km-inline-field km-label-above">
-                    Checked Out By
-                    <input data-field="CheckedOutByFullName" name="CheckedOutByFullName" type="text" readonly />
-                </label>
-            </li>
-            <li>
-                <label class="km-inline-field km-label-above">
-                    Tags
-                    <input data-field="Tags" name="Tags" type="text" placeholder="A string with each tag delimited by a ;" />
-                </label>
-            </li>
-            <li>
-                <label class="km-inline-field km-label-above">
-                    Comments
-                    <textarea data-field="Comments" name="Comments" readonly style="resize:vertical;"></textarea>
-                </label>
-            </li>
-        </ul>
-    </form>
-    <div data-role="footer">
-        <div data-role="navbar">
-            <a data-click="closeInfoModal" data-role="button">Done</a>
-        </div>
-    </div>
-</div>
 
-<div data-role="modalview" id="version-history" style="width:100%; height:100%;" data-modal="false">
-    <div data-role="header">
-        <div data-role="navbar">
-            <span data-role="view-title"></span>
-            <a data-align="left" data-click="closeVersionHistory" data-role="button"><i class="fa fa-close"></i></a>
+<!-- Modals -->
+
+    <!-- Info -->
+    <div data-role="modalview" id="info-modal" style="width: 100%; height: 100%;" data-modal="false">
+        <div data-role="header">
+            <div data-role="navbar">
+                <a data-align="right" data-click="closeModalView" data-role="button" data-icon="delete">Delete</a>
+                <span data-role="view-title"></span>
+                <a data-align="left" data-click="openVersionHistory" data-role="button" data-icon="history">History</a>
+            </div>
+        </div>
+        <form name="extra-info">
+            <ul data-role="listview">
+                <li>
+                    <label class="km-inline-field km-label-above">
+                        Type
+                        <input data-field="Type" name="Type" type="text" readonly />
+                    </label>
+                </li>
+                <li>
+                    <label class="km-inline-field km-label-above">
+                        Name
+                        <input data-field="Description" name="Description" type="text" readonly />
+                    </label>
+                </li>
+                <li>
+                    <label class="km-inline-field km-label-above">
+                        Modified
+                        <input data-field="Modified" name="Modified" type="text" readonly />
+                    </label>
+                </li>
+                <li>
+                    <label class="km-inline-field km-label-above">
+                        Modified By
+                        <input data-field="ModifiedBy" name="ModifiedBy" type="text" readonly />
+                    </label>
+                </li>
+                <li>
+                    <label class="km-inline-field km-label-above">
+                        Checked Out By
+                        <input data-field="CheckedOutByFullName" name="CheckedOutByFullName" type="text" readonly />
+                    </label>
+                </li>
+                <li>
+                    <label class="km-inline-field km-label-above">
+                        Tags
+                        <input data-field="Tags" name="Tags" type="text" placeholder="A string with each tag delimited by a ;" />
+                    </label>
+                </li>
+                <li>
+                    <label class="km-inline-field km-label-above">
+                        Comments
+                        <textarea data-field="Comments" name="Comments" readonly style="resize:vertical;"></textarea>
+                    </label>
+                </li>
+            </ul>
+        </form>
+        <div data-role="footer">
+            <div data-role="navbar">
+                <a data-click="closeInfoModal" data-role="button">Done</a>
+            </div>
         </div>
     </div>
-    <ul data-role="listview" class="data-source sortable" data-template="version-history-template"></ul>
-</div>
 
-<div id="check-in-modal" data-role="modalview" style="width:100%; height:100%;" data-modal="false">
-    <div data-role="header">
-        <div data-role="navbar">
-            <span data-role="view-title"></span>
-            <a data-align="left" data-click="closeModalView" data-role="button">Cancel</a>
+    <!-- Version History -->
+    <div data-role="modalview" id="version-history" style="width:100%; height:100%;" data-modal="false">
+        <div data-role="header">
+            <div data-role="navbar">
+                <span data-role="view-title"></span>
+                <a data-align="left" data-click="closeVersionHistory" data-role="button"><i class="fa fa-close"></i></a>
+            </div>
+        </div>
+        <ul data-role="listview" class="data-source sortable" data-template="version-history-template"></ul>
+    </div>
+
+    <!-- Check In -->
+    <div id="check-in-modal" data-role="modalview" style="width:100%; height:100%;" data-modal="false">
+        <div data-role="header">
+            <div data-role="navbar">
+                <span data-role="view-title"></span>
+                <a data-align="left" data-click="closeModalView" data-role="button">Cancel</a>
+            </div>
+        </div>
+        <form>
+            <ul data-role="listview">
+                <li>
+                    <label class="km-inline-field km-label-above">
+                        Filename
+                        <input data-field="Filename" name="Filename" type="text" />
+                    </label>
+                </li>
+                <li>
+                    <label class="km-inline-field km-label-above">
+                        Version
+                        <select data-field="Version" name="Version">
+                            <option value="Major Version">Major Version</option>
+                            <option value="Minor Version">Minor Version</option>
+                        </select>
+                    </label>
+                </li>
+                <li>
+                    <label class="km-inline-field km-label-above">
+                        Comments
+                        <textarea data-field="Comments" name="Comments" readonly style="resize:vertical;"></textarea>
+                    </label>
+                </li>
+                <li>
+                    <label class="km-inline-field km-label-above">
+                        Tags
+                        <input data-field="Tags" name="Tags" type="text" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        File
+                        <input data-field="File" name="File" type="file"/>
+                    </label>
+                </li>
+            </ul>
+        </form>
+        <div data-role="footer">
+            <div data-role="navbar">
+                <a data-click="closeModalView" data-role="button">Upload</a>
+            </div>
         </div>
     </div>
-    <form>
-        <ul data-role="listview">
-            <li>
-                <label class="km-inline-field km-label-above">
-                    Filename
-                    <input data-field="Filename" name="Filename" type="text" />
-                </label>
-            </li>
-            <li>
-                <label class="km-inline-field km-label-above">
-                    Version
-                    <select data-field="Version" name="Version">
-                        <option value="Major Version">Major Version</option>
-                        <option value="Minor Version">Minor Version</option>
-                    </select>
-                </label>
-            </li>
-            <li>
-                <label class="km-inline-field km-label-above">
-                    Comments
-                    <textarea data-field="Comments" name="Comments" readonly style="resize:vertical;"></textarea>
-                </label>
-            </li>
-            <li>
-                <label class="km-inline-field km-label-above">
-                    Tags
-                    <input data-field="Tags" name="Tags" type="text" />
-                </label>
-            </li>
-            <li>
-                <label>
-                    File
-                    <input data-field="File" name="File" type="file"/>
-                </label>
-            </li>
-        </ul>
-    </form>
-    <div data-role="footer">
-        <div data-role="navbar">
-            <a data-click="closeModalView" data-role="button">Upload</a>
-        </div>
-    </div>
-</div>
 
-<!-- List Item template -->
-<script type="text/kendo-x-tmpl" id="library-item-template">
-    <a data-role="button" class="info-button km-primary km-button-right km-icon-button" data-click="openInfoModal" data-description="#:Description#"><i class="fa fa-info"></i></a>
 
-    <!-- FIX THIS TEMPLATE -->
-    # if (Type == 'FOLDER') { #
-    <a href="\\#views/library.html?indextypeorlibrary=#:scope.libraryName#&subfolder=#:Description#&key" data-type="#:Type#" class="library-link">
-        <i class="km-thumbnail fa fa-folder font-size-36"></i>
-        <h4>#:Description#</h4>
-        <p class="extra-info">Last modified at #:Modified# by #:ModifiedBy#.</p>
-        <p class="extra-info">
-            &nbsp;
-        </p>
-    </a>
-    # } else { #
-    # if (CheckedOutBy == null){ #
-    <span class="item-state-icon positive"><i class="fa fa-check"></i></span>
-    # } else { #
-    <span class="item-state-icon negative"><i class="fa fa-close"></i></span>
-    # } #
-    <a data-type="#:Type#" data-description="#:Description#" data-imageid="#:ImageID#" data-checkedoutby="#:CheckedOutBy#" class="library-link">
-        # if (Type == 'DOCX' || Type == 'DOC') { #
-        <i class="km-thumbnail fa fa-file-word-o font-size-36"></i>
-        # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF') { #
-        <i class="km-thumbnail fa fa-file-image-o font-size-36"></i>
-        # } else if (Type == 'XLSM' || Type == 'XLS' || Type == 'XLSX') { #
-        <i class="km-thumbnail fa fa-file-excel-o font-size-36"></i>
-        # } else if (Type == 'PDF') { #
-        <i class="km-thumbnail fa fa-file-pdf-o font-size-36"></i>
-        # } else if (Type == 'TXT') { #
-        <i class="km-thumbnail fa fa-file-text-o font-size-36"></i>
+<!-- Templates -->
+
+    <!-- List Item -->
+    <script type="text/kendo-x-tmpl" id="library-item-template">
+        <a data-role="button" class="info-button km-primary km-button-right km-icon-button" data-click="openInfoModal" data-description="#:Description#"><i class="fa fa-info"></i></a>
+
+        <!-- FIX THIS TEMPLATE -->
+        # if (Type == 'FOLDER') { #
+        <a href="\\#views/library.html?indextypeorlibrary=#:scope.libraryName#&subfolder=#:Description#&key" data-type="#:Type#" class="library-link">
+            <i class="km-thumbnail fa fa-folder font-size-36"></i>
+            <h4>#:Description#</h4>
+            <p class="extra-info">Last modified on #:Modified# by #:ModifiedBy#.</p>
+            <p class="extra-info">
+                &nbsp;
+            </p>
+        </a>
         # } else { #
-        <i class="km-thumbnail fa fa-file-o font-size-36"></i>
-        # } #
-
-        <h4>#:Description#</h4>
-
-        <p class="extra-info">Last modified at #:Modified# by #:ModifiedBy#.</p>
         # if (CheckedOutBy == null){ #
-        <p class="extra-info">
-            Checked Out By: Nobody.
-        </p>
+        <span class="item-state-icon positive"><i class="fa fa-check"></i></span>
         # } else { #
-        <p class="extra-info">
-            Checked Out By: #:CheckedOutBy#.
-        </p>
+        <span class="item-state-icon negative"><i class="fa fa-close"></i></span>
         # } #
-    </a>
-    # } #
-</script>
+        <a data-type="#:Type#" data-description="#:Description#" data-imageid="#:ImageID#" data-checkedoutby="#:CheckedOutBy#" class="library-link">
+            # if (Type == 'DOCX' || Type == 'DOC') { #
+            <i class="km-thumbnail fa fa-file-word-o font-size-36"></i>
+            # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF') { #
+            <i class="km-thumbnail fa fa-file-image-o font-size-36"></i>
+            # } else if (Type == 'XLSM' || Type == 'XLS' || Type == 'XLSX') { #
+            <i class="km-thumbnail fa fa-file-excel-o font-size-36"></i>
+            # } else if (Type == 'PDF') { #
+            <i class="km-thumbnail fa fa-file-pdf-o font-size-36"></i>
+            # } else if (Type == 'TXT') { #
+            <i class="km-thumbnail fa fa-file-text-o font-size-36"></i>
+            # } else { #
+            <i class="km-thumbnail fa fa-file-o font-size-36"></i>
+            # } #
 
-<!-- Version History template -->
-<script type="text/kendo-x-tmpl" id="version-history-template">
-    <div>
-        <ul>
-            <li>
-                <span class="bold-text">Version:</span> #:VersionNumber#
-            </li>
-            <li>
-                <span class="bold-text">Last Modified At:</span> #:Modified#
-            </li>
-            <li>
-                <span class="bold-text">Last Modified By:</span> #:ModifiedBy#
-            </li>
-            <li>
-                <br />
-                <span class="bold-text">Comments</span>
-                <br />
-                <br />
-                # if (Comments != null) { #
-                #:Comments#
-                # } #
-            </li>
-        </ul>
-    </div>
-</script>
+            <h4>#:Description#</h4>
+
+            <p class="extra-info">Last modified at #:Modified# by #:ModifiedBy#.</p>
+            # if (CheckedOutBy == null){ #
+            <p class="extra-info">
+                Checked Out By: Nobody.
+            </p>
+            # } else { #
+            <p class="extra-info">
+                Checked Out By: #:CheckedOutBy#.
+            </p>
+            # } #
+        </a>
+        # } #
+    </script>
+
+    <!-- Version History -->
+    <script type="text/kendo-x-tmpl" id="version-history-template">
+        <div>
+            <ul>
+                <li>
+                    <span class="bold-text">Version:</span> #:VersionNumber#
+                </li>
+                <li>
+                    <span class="bold-text">Last Modified At:</span> #:Modified#
+                </li>
+                <li>
+                    <span class="bold-text">Last Modified By:</span> #:ModifiedBy#
+                </li>
+                <li>
+                    <br />
+                    <span class="bold-text">Comments</span>
+                    <br />
+                    <br />
+                    # if (Comments != null) { #
+                    #:Comments#
+                    # } #
+                </li>
+            </ul>
+        </div>
+    </script>
 
 
+<!-- Scripts and Styles -->
 <script>
     var originalData = {};
     function closeModalView(e) {
@@ -242,6 +252,9 @@
     }
 
     function closeInfoModal(e) {
+        var newData = $("form[name=extra-info]").serializeObject();
+        originalData;
+        debugger;
         $("form[name=extra-info]").trigger('reset');
         closeModalView(e);
     }
