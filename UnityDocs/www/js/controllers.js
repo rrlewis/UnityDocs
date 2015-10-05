@@ -40,7 +40,6 @@ router.route('(/)(views/authenticate.html)', function (params) { // Authenticate
 
 router.route('(/)views/libraries.html', function (params) { // LibraryController
     app.pane.loader.show();
-    debugger;
     scope.data = new kendo.data.DataSource({
         transport: {
             read: {
@@ -53,7 +52,6 @@ router.route('(/)views/libraries.html', function (params) { // LibraryController
                 if (response.results.length == 0) {
                     $("#libraries [data-role=listview]").append(elements.emptyFolder);
                 } else {
-                    debugger;
                     for (var x = 0; x < response.results.length; x++) {
                         response.results[x].LastModifiedAt = response.results[x].LastModifiedAt.split("T").join(" at ");
                     }
@@ -101,7 +99,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                     $("#library [data-role=listview]").append(elements.emptyLibrary);
                 } else {
                     for (var x = 0; x < response.results.length; x++) {
-                        response.results[x].LastModifiedAt = response.results[x].LastModifiedAt.split("T").join(" at ");
+                        response.results[x].Modified = response.results[x].Modified.split("T").join(" at ");
                     }
                     return response.results;
                 }
