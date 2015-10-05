@@ -646,8 +646,12 @@ var dataOptionsActionSheet = {
         },
         search: function (e) {
             var searchString = prompt("What would you like to search for?");
-            debugger;
-            api.documentService().searchLibrary(searchString);
+            var currentLib = window.location.href.split("?")[1].split("&")[0].split("=")[1];
+            console.log("Search string: " + searchString);
+            console.log("Current Library: " + currentLib);
+            api.documentService().searchLibrary(searchString, currentLib).then(function (results) {
+                debugger;
+            });
         }
     }
 }
