@@ -35,16 +35,17 @@
                 <form action="javascript:filter.filter()">
                     <input type="search" onkeyup="filter.filter()" onchange="filter.filter()" placeholder="Search..." />
                 </form>
-                <a data-role="button" data-icon="search" data-click="filter.startFilter" id="searchBtn" data-align="right"></a>
+                <a data-role="button" data-icon="filter" data-click="filter.startFilter" id="filter-btn" data-align="right"></a>
                 <a data-role="button" data-icon="more-v" data-align="right" data-rel="actionsheet" href="#options-actionsheet" id="options-btn"></a>
                 <a data-role="button" data-icon="close" data-click="filter.cancelFilter" style="display:none;" data-align="right"></a>
             </div>
         </header>
         <!-- options menu -->
         <ul data-role="actionsheet" id="options-actionsheet">
-            <li><a>View as thumbnails</a></li>
-            <li><a>Refresh</a></li>
-            <li><a data-role="touch" data-tap="actionSheet.functions.sort.openSort">Sort</a></li>
+            <li class=".sort-btns"><a>View as thumbnails</a></li>
+            <li class=".sort-btns"><a>Refresh</a></li>
+            <li class=".sort-btns"><a data-role="touch" data-tap="actionSheet.functions.sort.openSort">Sort</a></li>
+            <li id="search-btn"><a>Search Library</a></li>
         </ul>
 
         <!--View content will render here-->
@@ -115,7 +116,9 @@
                     $("header.search form").hide();
                     $("header.search [data-role=button]:not(:has(i), [data-rel=drawer])").show();
                     $("header.search [data-role=button]:has(i), header.search [data-role=button][data-icon=close]").hide();
-                    this.clearFilter();
+                    if (this.hasOwnProperty("clearFilter")) { 
+                        this.clearFilter();
+                    }
                 }
             },
             startFilter: function () {
@@ -131,27 +134,25 @@
         var actionSheet = {
             functions: {
                 sort: {
+                    config: {
+                        title: "Sort",
+                        items: [
+                            { text: "Name (Ascending)", value: 1 },
+                            { text: "Name (Descending)", value: 2 },
+                            { text: "Newest", value: 3 },
+                            { text: "Oldest", value: 4 },
+                            { text: "Largest", value: 5 },
+                            { text: "Smallest", value: 6 }
+                        ],
+                        selectedValue: 1,
+                        doneButtonLabel: "Done",
+                        cancelButtonLabel: "Cancel"
+                    },
                     openSort: function () {
                         //open sort modal
-                        debugger;
                         var $this = this;
-                        var config = {
-                            title: "Sort",
-                            items: [
-                                { text: "Name (Ascending)", value: 1 },
-                                { text: "Name (Descending)", value: 2 },
-                                { text: "Newest", value: 3 },
-                                { text: "Oldest", value: 4 },
-                                { text: "Largest", value: 5 },
-                                { text: "Smallest", value: 6 }
-                            ],
-                            selectedValue: "1",
-                            doneButtonLabel: "Done",
-                            cancelButtonLabel: "Cancel"
-                        };
-
                         // Show the picker
-                        window.plugins.listpicker.showPicker(config,
+                        window.plugins.listpicker.showPicker($this.config,
                             $this.sortBy,
                             function () {
                                 
@@ -159,10 +160,30 @@
                         );
                     },
                     sortBy: function (btnIndex) {
-
+                        var $this = this;
+                        switch (btnIndex) {
+                            case 1:
+                                // Name (Ascending)
+                                break;
+                            case 2:
+                                // Name (Descending)
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                break;
+                            case 5:
+                                break;
+                            case 6:
+                                break;
+                        }
+                        $this.config.selectedValue = btnIndex;
                     }
                 },
-
+                search: function (){
+                    var searchString = prompt("What would you like to search for?", false);
+                    debugger;
+                }
             }
         }
     </script>
@@ -185,6 +206,5 @@
                     display: none;
                 }
     </style>
-
 </body>
 </html>

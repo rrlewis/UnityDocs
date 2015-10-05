@@ -306,13 +306,19 @@ router.route('(/)views/account.html', function (params) {
 router.start();
 
 function checkSearch(e) {
-    var viewID = e.view.element.attr('id');
-    app.searchEnabled = typeof scope.data != "undefined";
-    if (app.searchEnabled) {
-        $("#" + viewID + " #searchBtn").show();
-        $("#" + viewID + " #sortBtn").show();
+    var viewID = app.view().element.attr("id");
+    app.searchEnabled = typeof scope.data != "undefined" && viewID == 'library';
+    app.filterEnabled = typeof scope.data != "undefined";
+    if (app.filterEnabled) {
+        $("#" + viewID + " #filter-btn").show();
+        $("#" + viewID + " #options-btn").show();
     } else {
-        $("#" + viewID + " #searchBtn").hide();
-        $("#" + viewID + " #sortBtn").hide();
+        $("#" + viewID + " #filter-btn").hide();
+        $("#" + viewID + " #options-btn").hide();
+    }
+    if (app.searchEnabled) {
+        $("#search-btn").show();
+    } else {
+        $("#search-btn").hide();
     }
 }

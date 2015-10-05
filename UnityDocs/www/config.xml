@@ -18,6 +18,7 @@
   <gap:plugin name="nl.x-services.plugins.actionsheet" version="1.1.1" />
   <gap:plugin name="de.appplant.cordova.plugin.email-composer" version="0.8.2" />
   <gap:plugin name="cordova-plugin-listpicker" source="npm" />
+  
   <gap:plugin name="it.mobimentum.phonegapspinnerplugin" version="1.2.1" />
 
 </widget>

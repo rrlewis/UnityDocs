@@ -594,19 +594,3 @@ var currentUser = {
         router.navigate("views/authenticate.html");
     }
 };
-
-window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
-    function (fileSystem) {
-        debugger;
-        fileSystem.root.getDirectory("UnityDocs", { create: true, exclusive: false },
-            function (directoryEntry) {
-                debugger;
-            },
-            function (fileError) {
-                debugger;
-            }
-            );
-    },
-    function (error) {
-        console.log(error);
-    });
