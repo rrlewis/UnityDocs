@@ -309,6 +309,12 @@ router.route('(/)views/account.html', function (params) {
     }
 });
 
+router.route('(/)views/searchresult.html', function (params) {
+    debugger;
+    var searchString = params.searchstring;
+    var library = params.library;
+});
+
 router.start();
 
 function checkSearch(e) {

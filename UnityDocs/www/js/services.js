@@ -649,9 +649,36 @@ var dataOptionsActionSheet = {
             var currentLib = window.location.href.split("?")[1].split("&")[0].split("=")[1];
             console.log("Search string: " + searchString);
             console.log("Current Library: " + currentLib);
-            api.documentService().searchLibrary(searchString, currentLib).then(function (results) {
-                debugger;
-            });
+
+            router.navigate("views/authenticate.html?searchstring=" + searchString + "&library=" + currentLib);
+
+            //api.documentService().searchLibrary(searchString, currentLib).then(function (results) {
+            //    debugger;
+            //});
         }
     }
 }
+
+//CheckedOutBy
+//CheckedOutByFullName
+//Date
+//Description
+//DocType
+//DocTypeDesc
+//ImageID
+//IsDocumentLibraryDocument
+//IsDraft
+//IsFolder
+//Key
+//LatestVersion
+//Modified
+//ModifiedBy
+//ModifiedByFullName
+//PageCount
+//ParentFolder
+//Path
+//Type
+//Tags
+//CreatedBy
+//CreatedByFullName
+//FileSize
