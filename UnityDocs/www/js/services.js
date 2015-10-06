@@ -655,3 +655,21 @@ var dataOptionsActionSheet = {
         }
     }
 }
+
+function checkSearch(e) {
+    var viewID = app.view().element.attr("id");
+    app.searchEnabled = typeof scope.data != "undefined" && viewID == 'library';
+    app.filterEnabled = typeof scope.data != "undefined";
+    if (app.filterEnabled) {
+        $("#" + viewID + " #filter-btn").show();
+        $("#" + viewID + " #options-btn").show();
+    } else {
+        $("#" + viewID + " #filter-btn").hide();
+        $("#" + viewID + " #options-btn").hide();
+    }
+    if (app.searchEnabled) {
+        $("#search-btn").show();
+    } else {
+        $("#search-btn").hide();
+    }
+}

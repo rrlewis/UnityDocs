@@ -1,9 +1,4 @@
-﻿
-
-
-
-
-(function () {
+﻿(function () {
     "use strict";
     kendo.culture("en-GB");
 
@@ -21,6 +16,7 @@
                 skin: 'nova',
                 initial: "views/authenticate.html",
             });
+        defineControllers();
     };
 
     function onPause() {
