@@ -651,34 +651,6 @@ var dataOptionsActionSheet = {
             console.log("Current Library: " + currentLib);
 
             router.navigate("views/searchresult.html?searchstring=" + searchString + "&library=" + currentLib);
-
-            //api.documentService().searchLibrary(searchString, currentLib).then(function (results) {
-            //    debugger;
-            //});
         }
     }
 }
-
-//CheckedOutBy
-//CheckedOutByFullName
-//Date
-//Description
-//DocType
-//DocTypeDesc
-//ImageID
-//IsDocumentLibraryDocument
-//IsDraft
-//IsFolder
-//Key
-//LatestVersion
-//Modified
-//ModifiedBy
-//ModifiedByFullName
-//PageCount
-//ParentFolder
-//Path
-//Type
-//Tags
-//CreatedBy
-//CreatedByFullName
-//FileSize

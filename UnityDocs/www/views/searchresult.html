@@ -1,1 +1,53 @@
-﻿results
+﻿<div id="searchresult" data-reload="true" data-role="view" data-layout="default-layout" data-title="Search Results">
+    <ul data-role="listview" class="data-source sortable" data-template="result-item-template" data-source="scope.data" data-pull-to-refresh="true"></ul>
+</div>
+
+<script type="text/kendo-x-tmpl" id="result-item-template">
+    <a data-role="button" class="info-button km-primary km-button-right km-icon-button" data-click="openInfoModal" data-description="#:Description#"><i class="fa fa-info"></i></a>
+
+    <!-- FIX THIS TEMPLATE -->
+    # if (Type == 'FOLDER') { #
+    <a href="\\#views/library.html?indextypeorlibrary=#:scope.libraryName#&subfolder=#:Description#&key" data-type="#:Type#" class="library-link">
+        <i class="km-thumbnail fa fa-folder font-size-36"></i>
+        <h4>#:Description#</h4>
+        <p class="extra-info">Last modified on #:Modified# by #:ModifiedBy#.</p>
+        <p class="extra-info">
+            &nbsp;
+        </p>
+    </a>
+    # } else { #
+    # if (CheckedOutBy == null){ #
+    <span class="item-state-icon positive"><i class="fa fa-check"></i></span>
+    # } else { #
+    <span class="item-state-icon negative"><i class="fa fa-close"></i></span>
+    # } #
+    <a data-type="#:Type#" data-description="#:Description#" data-imageid="#:ImageID#" data-checkedoutby="#:CheckedOutBy#" class="library-link">
+        # if (Type == 'DOCX' || Type == 'DOC') { #
+        <i class="km-thumbnail fa fa-file-word-o font-size-36"></i>
+        # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF') { #
+        <i class="km-thumbnail fa fa-file-image-o font-size-36"></i>
+        # } else if (Type == 'XLSM' || Type == 'XLS' || Type == 'XLSX') { #
+        <i class="km-thumbnail fa fa-file-excel-o font-size-36"></i>
+        # } else if (Type == 'PDF') { #
+        <i class="km-thumbnail fa fa-file-pdf-o font-size-36"></i>
+        # } else if (Type == 'TXT') { #
+        <i class="km-thumbnail fa fa-file-text-o font-size-36"></i>
+        # } else { #
+        <i class="km-thumbnail fa fa-file-o font-size-36"></i>
+        # } #
+
+        <h4>#:Description#</h4>
+
+        <p class="extra-info">Last modified at #:Modified# by #:ModifiedBy#.</p>
+        # if (CheckedOutBy == null){ #
+        <p class="extra-info">
+            Checked Out By: Nobody.
+        </p>
+        # } else { #
+        <p class="extra-info">
+            Checked Out By: #:CheckedOutBy#.
+        </p>
+        # } #
+    </a>
+    # } #
+</script>

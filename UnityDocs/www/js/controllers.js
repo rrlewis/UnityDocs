@@ -60,7 +60,6 @@ router.route('(/)views/libraries.html', function (params) { // LibraryController
             }
         },
         error: function (e) {
-            scope.data.data(mockData.libraries.data);
         },
         change: function (e) {
         }
@@ -313,6 +312,33 @@ router.route('(/)views/searchresult.html', function (params) {
     debugger;
     var searchString = params.searchstring;
     var library = params.library;
+    scope.data = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: api.rootUrl + "DocumentManagement/SearchDocuments",
+                data: {
+                    searchfor: searchString,
+                    IndexType: library
+                },
+            }
+        },
+        schema: {
+            data: function (response) {
+                if (response.results.length == 0) {
+                    $("#searchresults [data-role=listview]").append(elements.emptyFolder);
+                } else {
+                    for (var x = 0; x < response.results.length; x++) {
+                        response.results[x].LastModifiedAt = response.results[x].LastModifiedAt.split("T").join(" at ");
+                    }
+                    return response.results;
+                }
+            }
+        },
+        error: function (e) {
+        },
+        change: function (e) {
+        }
+    });
 });
 
 router.start();
