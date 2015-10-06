@@ -237,11 +237,12 @@ var fileHandler = function () {
                             directoryEntry.getFile(filename, { create: true, exclusive: false },
                                 function (fileEntry) {
                                     //got file
+                                    var p = fileEntry.toURL();
                                     debugger;
                                     window.resolveLocalFileSystemURL(toPath, fileExists, fileDoesntExist);
                                     function fileDoesntExist(fileError) {
                                         debugger;
-                                        fileTransfer.download(fromURL, toPath, success, fail);
+                                        fileTransfer.download(fromURL, fileEntry, success, fail);
                                     }
                                     function fileExists(fileEntry) {
                                         debugger;
