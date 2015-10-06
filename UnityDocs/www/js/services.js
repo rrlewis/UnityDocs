@@ -8,10 +8,13 @@
                 debugger;
                 if (user.username == "" && user.password == "" && user.connectionname == "") // testing purposes only, remove for production
                 { user = { username: "SCL", password: "PASS", connectionname: "ute1" }; }
-
+                var data = {};
+                data.username = user.username;
+                data.password = user.password;
+                data.connectionname = user.connectionname;
                 return $.ajax({
                     url: $this.rootUrl + "login/apilogin",
-                    data: user,
+                    data: data,
                     success: function (results) {
                         user.autoLogIn = true;
                         currentUser.set(user);
