@@ -6,6 +6,8 @@ var router = new kendo.Router({
     },
     change: function (e) {
         //fires any time the route changes
+        app;
+        debugger;
         scope = {};
         scope.url = e.url;
         if (typeof filter != "undefined") {
