@@ -20,7 +20,9 @@
                         currentUser.set(user);
                         return results;
                     },
-                    error: function (){}
+                    error: function (a,b,c) {
+                        debugger;
+                    }
                 });
             },
             isAutoLogin: function () {
