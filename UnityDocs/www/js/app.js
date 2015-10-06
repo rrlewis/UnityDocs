@@ -1,5 +1,4 @@
-﻿debugger;
-var deviceready = false;
+﻿var deviceready = false;
 var app = new kendo.mobile.Application(
     document.body,
     {
@@ -10,7 +9,6 @@ var app = new kendo.mobile.Application(
 );
 console.log("Set app");
 (function () {
-    debugger;
     "use strict";
     kendo.culture("en-GB");
 
@@ -23,7 +21,6 @@ console.log("Set app");
         document.addEventListener('resume', onResume.bind(this), false);
         // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
         console.log("Device ready.");
-        router.navigate("views/authenticate.html");
     };
 
     function onPause() {

@@ -1,6 +1,4 @@
-﻿debugger;
-
-var scope = {};
+﻿var scope = {};
 
 var router = new kendo.Router({
     routeMissing: function (e) {
@@ -23,7 +21,6 @@ var router = new kendo.Router({
 });
 
 router.route('(/)(views/authenticate.html)', function (params) { // AuthenticateController
-    debugger;
     var loggedIn = function (result) {
         if (result.LoggedIn) {
             router.navigate("views/libraries.html");
@@ -33,6 +30,7 @@ router.route('(/)(views/authenticate.html)', function (params) { // Authenticate
     }
     console.log("Hit auth controller");
     if (api.authService().isAutoLogin()) {
+        debugger;
         api.authService().authenticate(currentUser.get()).then(loggedIn);
     } else {
         scope.authenticate = function () {
