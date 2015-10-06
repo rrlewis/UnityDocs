@@ -26,16 +26,12 @@ router.route('(/)(views/authenticate.html)', function (params) { // Authenticate
             $("#attempt-failed").text(result.ErrorMessage).slideDown(100);
         }
     }
-    console.log("Hit auth controller");
-    debugger;
     if (api.authService().isAutoLogin()) {
-        debugger;
         api.authService().authenticate(currentUser.get()).then(loggedIn);
-    } else {
-        scope.authenticate = function () {
-            var formData = $("form[name=auth-form]").serializeObject();
-            api.authService().authenticate(formData).then(loggedIn);
-        }
+    } 
+    scope.authenticate = function () {
+        var formData = $("form[name=auth-form]").serializeObject();
+        api.authService().authenticate(formData).then(loggedIn);
     }
 });
 

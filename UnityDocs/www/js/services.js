@@ -19,7 +19,8 @@
                         user.autoLogIn = true;
                         currentUser.set(user);
                         return results;
-                    }
+                    },
+                    error: function (){}
                 });
             },
             isAutoLogin: function () {
