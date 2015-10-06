@@ -4,7 +4,7 @@
         skin: 'nova',
         initial: "views/authenticate.html",
     });
-
+console.log("Set app");
 (function () {
     "use strict";
     kendo.culture("en-GB");
