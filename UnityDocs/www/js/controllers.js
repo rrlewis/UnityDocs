@@ -1,4 +1,6 @@
-﻿var scope = {};
+﻿debugger;
+
+var scope = {};
 
 var router = new kendo.Router({
     routeMissing: function (e) {
@@ -22,6 +24,7 @@ var router = new kendo.Router({
 });
 
 router.route('(/)(views/authenticate.html)', function (params) { // AuthenticateController
+    debugger;
     var loggedIn = function (result) {
         if (result.LoggedIn) {
             router.navigate("views/libraries.html");

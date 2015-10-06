@@ -1,11 +1,15 @@
-﻿var app = new kendo.mobile.Application(document.body,
+﻿debugger;
+var app = new kendo.mobile.Application(
+    document.body,
     {
         platform: "android",
         skin: 'nova',
         initial: "views/authenticate.html",
-    });
+    }
+);
 console.log("Set app");
 (function () {
+    debugger;
     "use strict";
     kendo.culture("en-GB");
 
