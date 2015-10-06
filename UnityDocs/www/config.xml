@@ -12,13 +12,14 @@
 
   <!-- Plugins -->
   <gap:plugin name="cordova-plugin-file-transfer" source="npm"/>
-  <gap:plugin name="io.github.pwlin.cordova.plugins.fileopener2"/>
-  <gap:plugin name="org.apache.cordova.file"/>
-  <gap:plugin name="cordova-plugin-inappbrowser" source="npm"/>
-  <gap:plugin name="nl.x-services.plugins.actionsheet"/>
-  <gap:plugin name="de.appplant.cordova.plugin.email-composer"/>
   <gap:plugin name="cordova-plugin-listpicker" source="npm" />
-  
-  <gap:plugin name="it.mobimentum.phonegapspinnerplugin"/>
+  <gap:plugin name="cordova-plugin-inappbrowser" source="npm"/>
+  <gap:plugin name="cordova-plugin-file-opener2" source="npm"/>
+  <gap:plugin name="cordova-plugin-file" source="npm"/>
+  <gap:plugin name="cordova-plugin-actionsheet" source="npm"/>
+  <gap:plugin name="cordova-plugin-email" source="npm"/>
+  <gap:plugin name="cordova-plugin-spinnerdialog" source="npm" />
+  <!--<gap:plugin name="de.appplant.cordova.plugin.email-composer"/>-->
+  <!--<gap:plugin name="it.mobimentum.phonegapspinnerplugin"/>-->
 
 </widget>
