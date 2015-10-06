@@ -5,6 +5,7 @@
         var $this = this;
         return {
             authenticate: function (user) {
+                debugger;
                 if (user.username == "" && user.password == "" && user.connectionname == "") // testing purposes only, remove for production
                 { user = { username: "SCL", password: "PASS", connectionname: "ute1" }; }
 
@@ -19,6 +20,7 @@
                 });
             },
             isAutoLogin: function () {
+                debugger;
                 return localStorage.getItem("uda") == "true" ? true : false;
             }
         };

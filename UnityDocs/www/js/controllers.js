@@ -12,10 +12,8 @@ var router = new kendo.Router({
             filter.cancelFilter();
         }
         console.log(scope.url);
-        if (deviceready) {
-            if (currentUser.get() == null && e.url != "views/authenticate.html") {
-                router.navigate("views/authenticate.html");
-            }
+        if (currentUser.get() == null && e.url != "views/authenticate.html") {
+            router.navigate("views/authenticate.html");
         }
     }
 });
@@ -29,6 +27,7 @@ router.route('(/)(views/authenticate.html)', function (params) { // Authenticate
         }
     }
     console.log("Hit auth controller");
+    debugger;
     if (api.authService().isAutoLogin()) {
         debugger;
         api.authService().authenticate(currentUser.get()).then(loggedIn);
