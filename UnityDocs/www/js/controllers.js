@@ -28,6 +28,7 @@ router.route('(/)(views/authenticate.html)', function (params) { // Authenticate
             $("#attempt-failed").text(result.ErrorMessage).slideDown(100);
         }
     }
+    console.log("Hit auth controller");
     if (api.authService().isAutoLogin()) {
         api.authService().authenticate(currentUser.get()).then(loggedIn);
     } else {
