@@ -8,13 +8,13 @@ var router = new kendo.Router({
     },
     change: function (e) {
         //fires any time the route changes
+        scope = {};
+        scope.url = e.url;
+        if (typeof filter != "undefined") {
+            filter.cancelFilter();
+        }
+        console.log(scope.url);
         if (deviceready) {
-            scope = {};
-            scope.url = e.url;
-            if (typeof filter != "undefined") {
-                filter.cancelFilter();
-            }
-            console.log(scope.url);
             if (currentUser.get() == null && e.url != "views/authenticate.html") {
                 router.navigate("views/authenticate.html");
             }
