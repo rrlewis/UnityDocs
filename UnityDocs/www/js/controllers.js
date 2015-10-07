@@ -36,7 +36,6 @@ router.route('(/)(views/authenticate.html)', function (params) { // Authenticate
 });
 
 router.route('(/)views/libraries.html', function (params) { // LibraryController
-    app.pane.loader.show();
     scope.data = new kendo.data.DataSource({
         transport: {
             read: {
@@ -45,7 +44,6 @@ router.route('(/)views/libraries.html', function (params) { // LibraryController
         },
         schema: {
             data: function (response) {
-                app.pane.loader.hide();
                 if (response.results.length == 0) {
                     $("#libraries [data-role=listview]").append(elements.emptyFolder);
                 } else {
@@ -71,7 +69,6 @@ router.route('(/)views/library.html', function (params) { // LibraryController
             }
         }
     } // Empties the parameter if it is 'undefined'.
-    app.pane.loader.show();
     if (typeof params.subfolder == 'undefined') {
         params.subfolder = '';
     }
@@ -90,7 +87,6 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         },
         schema: {
             data: function (response) {
-                app.pane.loader.hide();
                 if (response.results.length == 0) {
                     $("#library [data-role=listview]").append(elements.emptyLibrary);
                 } else {

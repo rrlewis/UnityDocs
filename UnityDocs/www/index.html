@@ -86,54 +86,6 @@
     <script src="js/index.js"></script>
     <script type="text/javascript" src="http://debug3.build.phonegap.com/target/target-script-min.js#70308104-2ee2-11e5-aa8b-22000b620b71"></script>
 
-    <script>
-        function onBeforeShow(e) {
-            //check for view id to prevent
-            //display of Drawer
-            var disableDrawer = ["views/authenticate.html"];
-            if (disableDrawer.indexOf(app.view().id) > -1) {
-                console.log("Drawer disabled on " + app.view().id);
-                e.preventDefault();
-            }
-        }
-
-        var filter = {
-            filter: function () {
-                var searchFor = $("#" + app.view().element.attr("id") + " header.search input[type=search]").val();
-                scope.data.filter({ field: "Description", operator: "contains", value: searchFor });
-            },
-            clearFilter: function () {
-                if (app.searchEnabled) {
-                    $("header.search form").trigger('reset');
-                    if (typeof scope.data != "undefined") {
-                        scope.data.filter({});
-                    }
-                }
-            },
-            cancelFilter: function () {
-                if (app.searchEnabled) {
-                    $("header.search [data-role=view-title]").show();
-                    $("header.search form").hide();
-                    $("header.search [data-role=button]:not(:has(i), [data-rel=drawer])").show();
-                    $("header.search [data-role=button]:has(i), header.search [data-role=button][data-icon=close]").hide();
-                    if (this.hasOwnProperty("clearFilter")) { 
-                        this.clearFilter();
-                    }
-                }
-            },
-            startFilter: function () {
-                if (app.searchEnabled) {
-                    $("header.search [data-role=view-title]").hide();
-                    $("header.search form").css("display", "inline-block");
-                    $("header.search [data-role=button]:not(:has(i), [data-rel=drawer])").hide();
-                    $("header.search [data-role=button]:has(i), header.search [data-role=button][data-icon=close]").show();
-                }
-            }
-        }
-        
-        
-    </script>
-
     <style>
         header.search form {
             display: none;

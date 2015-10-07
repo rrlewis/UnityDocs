@@ -604,66 +604,6 @@ var currentUser = {
     }
 };
 
-var dataOptionsActionSheet = {
-    functions: {
-        sort: {
-            config: {
-                title: "Sort",
-                items: [
-                    { text: "Name (Ascending)", value: 1 },
-                    { text: "Name (Descending)", value: 2 },
-                    { text: "Newest", value: 3 },
-                    { text: "Oldest", value: 4 },
-                    { text: "Largest", value: 5 },
-                    { text: "Smallest", value: 6 }
-                ],
-                selectedValue: 1,
-                doneButtonLabel: "Done",
-                cancelButtonLabel: "Cancel"
-            },
-            openSort: function () {
-                //open sort modal
-                var $this = this;
-                // Show the picker
-                window.plugins.listpicker.showPicker($this.config,
-                    $this.sortBy,
-                    function () {
-
-                    }
-                );
-            },
-            sortBy: function (btnIndex) {
-                var $this = this;
-                switch (btnIndex) {
-                    case 1:
-                        // Name (Ascending)
-                        break;
-                    case 2:
-                        // Name (Descending)
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    case 5:
-                        break;
-                    case 6:
-                        break;
-                }
-                $this.config.selectedValue = btnIndex;
-            }
-        },
-        search: function (e) {
-            var searchString = prompt("What would you like to search for?");
-            var currentLib = window.location.href.split("?")[1].split("&")[0].split("=")[1];
-            console.log("Search string: " + searchString);
-            console.log("Current Library: " + currentLib);
-
-            router.navigate("views/searchresult.html?searchstring=" + searchString + "&library=" + currentLib);
-        }
-    }
-}
-
 function checkSearch(e) {
     var viewID = app.view().element.attr("id");
     app.searchEnabled = typeof scope.data != "undefined" && viewID == 'library';
