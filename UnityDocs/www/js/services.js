@@ -222,7 +222,7 @@
 
 var fileHandler = function () {
     var $this = this;
-    this._downloadDir = "file:///data/data/com.sanderson.unitydocs/files/files/";
+    this._downloadDir = "file:///data/data/com.sanderson.unitydocs/files/files/UnityDocs/";
     return {
         downloadFile: function (documentID, filename, success, fail) {
             var fileTransfer = new FileTransfer();
