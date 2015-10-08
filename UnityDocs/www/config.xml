@@ -24,4 +24,10 @@
   <!--<gap:plugin name="de.appplant.cordova.plugin.email-composer"/>-->
   <!--<gap:plugin name="it.mobimentum.phonegapspinnerplugin"/>-->
 
+  <!-- Whitelist -->
+  <allow-navigation href="http://*/*" />
+  <allow-navigation href="https://*/*" />
+  <allow-navigation href="data:*" />
+  <access origin="*" />
+  
 </widget>
