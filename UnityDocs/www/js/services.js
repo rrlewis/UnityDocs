@@ -222,7 +222,7 @@
 
 var fileHandler = function () {
     var $this = this;
-    this._downloadDir = "file:///storage/emulated/0/UnityDocs/";
+    this._downloadDir = "file:///data/data/com.sanderson.unitydocs/files/files/";
     return {
         downloadFile: function (documentID, filename, success, fail) {
             var fileTransfer = new FileTransfer();
@@ -233,7 +233,7 @@ var fileHandler = function () {
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
                 function (fileSystem) {
                     debugger;
-                    fileSystem.toURL
+                    
                     // got file system
                     fileSystem.root.getDirectory("UnityDocs", { create: true },
                         function (directoryEntry) {
