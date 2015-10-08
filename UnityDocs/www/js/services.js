@@ -16,7 +16,7 @@
                         currentUser.set(user);
                         return results;
                     },
-                    error: function (a,b,c) {
+                    error: function (a, b, c) {
                         debugger;
                     }
                 });
@@ -228,38 +228,26 @@ var fileHandler = function () {
             var fileTransfer = new FileTransfer();
             var fromURL = api.rootUrl + "DocumentManagement/GetDocument?documentid=" + documentID;
             var toPath = $this._downloadDir + filename;
-            //
             debugger;
+            window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
                 function (fileSystem) {
                     // got file system
                     debugger;
-                    fileSystem.root.getDirectory("UnityDocs", { create: true, exclusive: false },
+                    fileSystem.root.getDirectory("UnityDocs", { create: true },
                         function (directoryEntry) {
                             // got directory
                             debugger;
-                            directoryEntry.getFile(filename, { create: true, exclusive: false },
-                                function (fileEntry) {
-                                    //got file
-                                    var p = fileEntry.toURL();
-                                    debugger;
-                                    window.resolveLocalFileSystemURL(toPath, fileExists, fileDoesntExist);
-                                    function fileDoesntExist(fileError) {
-                                        debugger;
-                                        fileTransfer.download(fromURL, fileEntry, success, fail);
-                                    }
-                                    function fileExists(fileEntry) {
-                                        debugger;
-                                        console.log("File already exists. Running success callback.");
-                                        success(fileEntry);
-                                    }
-                                },
-                                function (error) {
-                                    // failed to get file
-                                    debugger;
-                                    console.log(error);
-                                }
-                            )
+                            window.resolveLocalFileSystemURL(toPath, fileExists, fileDoesntExist);
+                            function fileDoesntExist(fileError) {
+                                debugger;
+                                fileTransfer.download(fromURL, toPath, success, fail);
+                            }
+                            function fileExists(fileEntry) {
+                                debugger;
+                                console.log("File already exists. Running success callback.");
+                                success(fileEntry);
+                            }
 
                         },
                         function (error) {
@@ -274,7 +262,6 @@ var fileHandler = function () {
                     console.log(error);
                 }
             );
-            //
         },
         emailFile: function (options, callback) {
             if (typeof options == "undefined") {
