@@ -22,7 +22,6 @@ router.route('(/)(views/authenticate.html)', function (params) { // Authenticate
     console.log("a")
     debugger;
     var loggedIn = function (result) {
-        app.pane.loader.hide();
         if (result.LoggedIn) {
             router.navigate("views/libraries.html");
         } else {
@@ -30,7 +29,6 @@ router.route('(/)(views/authenticate.html)', function (params) { // Authenticate
         }
     }
     if (api.authService().isAutoLogin()) {
-        app.pane.loader.show();
         api.authService().authenticate(currentUser.get()).then(loggedIn);
     } 
     scope.authenticate = function () {
