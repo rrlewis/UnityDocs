@@ -418,51 +418,71 @@ var fileHandler = function () {
             }
             function fsSuccess(fileSystem) {
                 debugger;
-                var mime = getFileType(filename);
-                cordova.plugins.fileOpener2.open(
-                filename,
-                mime,
-                {
-                    error: function (e) {
-                        console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
-                    },
-                    success: function (ok) {
+                fileSystem.root.getDirectory("UnityDocs", { create: false },
+                    function (directoryEntry) {
                         debugger;
-                        //var relPath = filename.split("0/")[1];
-                        fileSystem.root.getDirectory("UnityDocs", { create: true, exclusive: false },
-                            function (directoryEntry) {
-                                directoryEntry.getFile(filename, { create: false },
-                                    function (fileEntry) {
-                                        // success;
-                                        debugger;
-                                        fileEntry.file(function (file) {
-                                            var reader = new FileReader();
-                                            reader.onloadend = function (evt) {
-                                                debugger;
-                                                checkInChecker.fileInEdit = true;
-                                                checkInChecker.fileInEditData.base64Data = evt.target.result;
-                                                checkInChecker.fileInEditData.file = file;
-                                                checkInChecker.fileInEditData.filePath = fileEntry.toURL();
-                                            }
-                                            reader.readAsDataURL(file);
-                                        }, function (err) {
-                                            // failed to create file object.
-                                        });
+                        directoryEntry.getFile(filename, { create: false },
+                            function (fileEntry) {
+                                debugger;
+                                var mime = getFileType(filename);
+                                cordova.plugins.fileOpener2.open(
+                                fileEntry.toURL(),
+                                mime,
+                                {
+                                    error: function (e) {
+                                        console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
                                     },
-                                    function (err) {
-                                        // fail;
+                                    success: function (ok) {
                                         debugger;
-                                        console.log(err);
+                                        //var relPath = filename.split("0/")[1];
+                                        fileSystem.root.getDirectory("UnityDocs", {
+                                            create: true, exclusive: false
+                                        },
+                                            function (directoryEntry) {
+                                                directoryEntry.getFile(filename, { create: false },
+                                                    function (fileEntry) {
+                                                        // success;
+                                                        debugger;
+                                                        fileEntry.file(function (file) {
+                                                            var reader = new FileReader();
+                                                            reader.onloadend = function (evt) {
+                                                                debugger;
+                                                                checkInChecker.fileInEdit = true;
+                                                                checkInChecker.fileInEditData.base64Data = evt.target.result;
+                                                                checkInChecker.fileInEditData.file = file;
+                                                                checkInChecker.fileInEditData.filePath = fileEntry.toURL();
+                                                            }
+                                                            reader.readAsDataURL(file);
+                                                        }, function (err) {
+                                                            // failed to create file object.
+                                                        });
+                                                    },
+                                                    function (err) {
+                                                        // fail;
+                                                        debugger;
+                                                        console.log(err);
+                                                    }
+                                                );
+                                            }
+                                        );
+                                        debugger;
+                                        console.log('file opened successfully');
+                                        checkInChecker.fileInEdit = true;
                                     }
+                                }
                                 );
+                            },
+                            function (error) {
+                                console.log(error);
                             }
-                        );
-                        debugger;
-                        console.log('file opened successfully');
-                        checkInChecker.fileInEdit = true;
+                            );
+                    },
+                    function (error) {
+                        //error
+                        console.log(error);
                     }
-                }
-                );
+                    );
+
             }
             function fsFail(event) {
                 debugger;
@@ -485,14 +505,19 @@ var fileHandler = function () {
 
 var checkInChecker = {
     fileInEdit: false,
-    fileInEditData: { file: {}, base64Data: "", filePath: "" },
+    fileInEditData: {
+        file: {
+        }, base64Data: "", filePath: ""
+    },
     compareFiles: function (checkInCallback, cancelCallback) {
         var $this = this;
         function fsSuccess(fileSystem) {
             debugger;
             var relPath = $this.fileInEditData.filePath.split("0/")[1];
             debugger;
-            fileSystem.root.getDirectory("UnityDocs", { create: true, exclusive: false },
+            fileSystem.root.getDirectory("UnityDocs", {
+                create: true, exclusive: false
+            },
                 function (directoryEntry) {
                     directoryEntry.getFile(relPath, { create: false },
                         function (fileEntry) {
@@ -551,7 +576,9 @@ var checkInChecker = {
 
 var currentUser = {
     set: function (data) {
-        var user = { autoLogIn: null, username: null, password: null, connectionname: null };
+        var user = {
+            autoLogIn: null, username: null, password: null, connectionname: null
+        };
         for (var prop in data) {
             if (data.hasOwnProperty(prop) && user.hasOwnProperty(prop)) {
                 user[prop] = data[prop];
