@@ -230,7 +230,7 @@ var fileHandler = function () {
             var toPath = $this._downloadDir + filename;
             debugger;
             window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
+            window.requestFileSystem(LocalFileSystem.TEMPORARY, 0,
                 function (fileSystem) {
                     // got file system
                     debugger;
