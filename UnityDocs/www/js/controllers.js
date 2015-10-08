@@ -196,7 +196,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                             function (fileEntry) {
                                 //success
                                 debugger;
-                                fileHandler().openFile(fileEntry.name);
+                                fileHandler().openFile(fileEntry);
                             },
                             function (error) {
                                 //fail
