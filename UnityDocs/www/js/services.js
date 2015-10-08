@@ -233,7 +233,7 @@ var fileHandler = function () {
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
                 function (fileSystem) {
                     debugger;
-                    
+
                     // got file system
                     fileSystem.root.getDirectory("UnityDocs", { create: true },
                         function (directoryEntry) {
@@ -417,17 +417,8 @@ var fileHandler = function () {
                 return mimes[fileType];
             }
             function fsSuccess(fileSystem) {
+                debugger;
                 var mime = getFileType(filename);
-                fileSystem.root.getDirectory("UnityDocs", { create: true, exclusive: false },
-                    function (directoryEntry) {
-                        //success
-                        console.log("Created new directory: " + directoryEntry.name);
-                    },
-                    function (error) {
-                        //fail
-                        console.log("Unable to create new directory: " + error.code);
-                    }
-                );
                 cordova.plugins.fileOpener2.open(
                 filename,
                 mime,
@@ -471,11 +462,13 @@ var fileHandler = function () {
                         checkInChecker.fileInEdit = true;
                     }
                 }
-            );
+                );
             }
             function fsFail(event) {
+                debugger;
                 console.log(event.target.error.code);
             }
+            debugger;
             window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
             if (typeof LocalFileSystem != "undefined") {
                 window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
