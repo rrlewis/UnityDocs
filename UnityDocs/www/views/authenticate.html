@@ -1,4 +1,5 @@
-﻿<div id="authenticate" data-role="view" data-layout="auth-layout" data-swipe-to-open="false">
+﻿
+<div id="authenticate" data-role="view" data-layout="auth-layout" data-swipe-to-open="false">
     <div>
         <div class="center-text">
             <h1>Unity Docs</h1>
@@ -39,16 +40,15 @@
             <button data-role="button" class="km-primary" data-click="scope.authenticate">Sign In</button>
         </div>
     </div>
+
 </div>
-
 <script>
-
-    function openDoc() {
-        var file = "Download/testdoc.docx";
-        api.documentService().openDocument(file);
-    }
-    function openPDF() {
-        var file = "Download/Adobe Acrobat/Getting Started.pdf";
-        api.documentService().openDocument(file);
-    }
+        function openDoc() {
+            var file = "Download/testdoc.docx";
+            api.documentService().openDocument(file);
+        }
+        function openPDF() {
+            var file = "Download/Adobe Acrobat/Getting Started.pdf";
+            api.documentService().openDocument(file);
+        }
 </script>

@@ -5,16 +5,12 @@
         var $this = this;
         return {
             authenticate: function (user) {
-                debugger;
                 if (user.username == "" && user.password == "" && user.connectionname == "") // testing purposes only, remove for production
                 { user = { username: "SCL", password: "PASS", connectionname: "ute1" }; }
-                var data = {};
-                data.username = user.username;
-                data.password = user.password;
-                data.connectionname = user.connectionname;
+
                 return $.ajax({
                     url: $this.rootUrl + "login/apilogin",
-                    data: data,
+                    data: user,
                     success: function (results) {
                         user.autoLogIn = true;
                         currentUser.set(user);
@@ -592,7 +588,12 @@ var currentUser = {
     get: function () {
         var user = localStorage.getItem("ud");
         if (user != null) {
-            return JSON.parse(atob(user));
+            var data = JSON.parse(atob(user));
+            user = {};
+            user.username = data.username;
+            user.password = data.password;
+            user.connectionname = data.connectionname;
+            return user;
         }
         return null;
     },
