@@ -282,10 +282,10 @@ var fileHandler = function () {
             );
             //window.plugins.emailComposer.showEmailComposerWithCallback(options.callback, options.subject, options.body, options.to, options.cc, options.bcc, options.isHTML, options.attachmentPaths, options.attachmentData);
         },
-        openFile: function (filename) {
-            function getFileType(file) {
-                file = file.split(".");
-                var fileType = file[file.length - 1];
+        openFile: function (file) {
+            function getFileType(fileName) {
+                fileName = fileName.split(".");
+                var fileType = fileName[fileName.length - 1];
                 var mimes = {
                     'jpg': 'image/jpeg',
                     'jpeg': 'image/jpeg',
@@ -416,85 +416,135 @@ var fileHandler = function () {
                 };
                 return mimes[fileType];
             }
-            function fsSuccess(fileSystem) {
-                debugger;
-                fileSystem.root.getDirectory("UnityDocs", { create: false },
-                    function (directoryEntry) {
-                        debugger;
-                        directoryEntry.getFile("/" + filename, { create: false },
-                            function (fileEntry) {
-                                debugger;
-                                var mime = getFileType(filename);
-                                cordova.plugins.fileOpener2.open(
-                                fileEntry.toURL(),
-                                mime,
-                                {
-                                    error: function (e) {
-                                        console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
-                                    },
-                                    success: function (ok) {
-                                        debugger;
-                                        //var relPath = filename.split("0/")[1];
-                                        fileSystem.root.getDirectory("UnityDocs", {
-                                            create: true, exclusive: false
-                                        },
-                                            function (directoryEntry) {
-                                                directoryEntry.getFile(filename, { create: false },
-                                                    function (fileEntry) {
-                                                        // success;
-                                                        debugger;
-                                                        fileEntry.file(function (file) {
-                                                            var reader = new FileReader();
-                                                            reader.onloadend = function (evt) {
-                                                                debugger;
-                                                                checkInChecker.fileInEdit = true;
-                                                                checkInChecker.fileInEditData.base64Data = evt.target.result;
-                                                                checkInChecker.fileInEditData.file = file;
-                                                                checkInChecker.fileInEditData.filePath = fileEntry.toURL();
-                                                            }
-                                                            reader.readAsDataURL(file);
-                                                        }, function (err) {
-                                                            // failed to create file object.
-                                                        });
-                                                    },
-                                                    function (err) {
-                                                        // fail;
-                                                        debugger;
-                                                        console.log(err);
-                                                    }
-                                                );
-                                            }
-                                        );
-                                        debugger;
-                                        console.log('file opened successfully');
-                                        checkInChecker.fileInEdit = true;
-                                    }
-                                }
-                                );
-                            },
-                            function (error) {
-                                console.log(error);
-                            }
-                            );
-                    },
-                    function (error) {
-                        //error
-                        console.log(error);
-                    }
-                    );
+            //function fsSuccess(fileSystem) {
+            //    debugger;
+            //    fileSystem.root.getDirectory("UnityDocs", { create: false },
+            //        function (directoryEntry) {
+            //            debugger;
+            //            directoryEntry.getFile("/" + filename, { create: false },
+            //                function (fileEntry) {
+            //                    debugger;
+            //                    var mime = getFileType(filename);
+            //                    cordova.plugins.fileOpener2.open(
+            //                    fileEntry.toURL(),
+            //                    mime,
+            //                    {
+            //                        error: function (e) {
+            //                            console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
+            //                        },
+            //                        success: function (ok) {
+            //                            debugger;
+            //                            //var relPath = filename.split("0/")[1];
+            //                            fileSystem.root.getDirectory("UnityDocs", {
+            //                                create: true, exclusive: false
+            //                            },
+            //                                function (directoryEntry) {
+            //                                    directoryEntry.getFile(filename, { create: false },
+            //                                        function (fileEntry) {
+            //                                            // success;
+            //                                            debugger;
+            //                                            fileEntry.file(function (file) {
+            //                                                var reader = new FileReader();
+            //                                                reader.onloadend = function (evt) {
+            //                                                    debugger;
+            //                                                    checkInChecker.fileInEdit = true;
+            //                                                    checkInChecker.fileInEditData.base64Data = evt.target.result;
+            //                                                    checkInChecker.fileInEditData.file = file;
+            //                                                    checkInChecker.fileInEditData.filePath = fileEntry.toURL();
+            //                                                }
+            //                                                reader.readAsDataURL(file);
+            //                                            }, function (err) {
+            //                                                // failed to create file object.
+            //                                            });
+            //                                        },
+            //                                        function (err) {
+            //                                            // fail;
+            //                                            debugger;
+            //                                            console.log(err);
+            //                                        }
+            //                                    );
+            //                                }
+            //                            );
+            //                            debugger;
+            //                            console.log('file opened successfully');
+            //                            checkInChecker.fileInEdit = true;
+            //                        }
+            //                    }
+            //                    );
+            //                },
+            //                function (error) {
+            //                    console.log(error);
+            //                }
+            //                );
+            //        },
+            //        function (error) {
+            //            //error
+            //            console.log(error);
+            //        }
+            //        );
 
-            }
-            function fsFail(event) {
-                debugger;
-                console.log(event.target.error.code);
-            }
+            //}
+            //function fsFail(event) {
+            //    debugger;
+            //    console.log(event.target.error.code);
+            //}
+            //debugger;
+            //window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+            //if (typeof LocalFileSystem != "undefined") {
+            //    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
+            //} else {
+            //    console.log("Local File System is not defined.");
+            //}
             debugger;
-            window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-            if (typeof LocalFileSystem != "undefined") {
-                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
-            } else {
-                console.log("Local File System is not defined.");
-            }
+            var filePath = file.toURL();
+            var mime = getFileType(file.name);
+            debugger;
+            cordova.plugins.fileOpener2.open(
+                file.toURL(),
+                getFileType(file.name),
+                {
+                    error: function (e) {
+                        console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
+                    },
+                    success: function (ok) {
+                        debugger;
+                        //var relPath = filename.split("0/")[1];
+                        fileSystem.root.getDirectory("UnityDocs", {
+                            create: true, exclusive: false
+                        },
+                            function (directoryEntry) {
+                                directoryEntry.getFile(filename, { create: false },
+                                    function (fileEntry) {
+                                        // success;
+                                        debugger;
+                                        fileEntry.file(function (file) {
+                                            var reader = new FileReader();
+                                            reader.onloadend = function (evt) {
+                                                debugger;
+                                                checkInChecker.fileInEdit = true;
+                                                checkInChecker.fileInEditData.base64Data = evt.target.result;
+                                                checkInChecker.fileInEditData.file = file;
+                                                checkInChecker.fileInEditData.filePath = fileEntry.toURL();
+                                            }
+                                            reader.readAsDataURL(file);
+                                        }, function (err) {
+                                            // failed to create file object.
+                                        });
+                                    },
+                                    function (err) {
+                                        // fail;
+                                        debugger;
+                                        console.log(err);
+                                    }
+                                );
+                            }
+                        );
+                        debugger;
+                        console.log('file opened successfully');
+                        checkInChecker.fileInEdit = true;
+                    }
+                }
+                );
         },
         checkFileIn: function () {
         },
