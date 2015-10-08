@@ -421,7 +421,7 @@ var fileHandler = function () {
                 fileSystem.root.getDirectory("UnityDocs", { create: false },
                     function (directoryEntry) {
                         debugger;
-                        directoryEntry.getFile(filename, { create: false },
+                        directoryEntry.getFile("/" + filename, { create: false },
                             function (fileEntry) {
                                 debugger;
                                 var mime = getFileType(filename);
