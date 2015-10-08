@@ -222,14 +222,14 @@
 
 var fileHandler = function () {
     var $this = this;
-    this._downloadDir = "file:///data/data/com.sanderson.unitydocs/files/files/UnityDocs/";
+    this._downloadDir = "file:///storage/emulated/0/UnityDocs/";
     return {
         downloadFile: function (documentID, filename, success, fail) {
             var fileTransfer = new FileTransfer();
             var fromURL = api.rootUrl + "DocumentManagement/GetDocument?documentid=" + documentID;
             var toPath = $this._downloadDir + filename;
             debugger;
-            window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+            //window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
                 function (fileSystem) {
                     // got file system
