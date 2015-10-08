@@ -233,7 +233,7 @@ var fileHandler = function () {
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
                 function (fileSystem) {
                     debugger;
-                    console.log("Got filesystem - " +fileSystem.toURL());
+                    fileSystem.toURL
                     // got file system
                     fileSystem.root.getDirectory("UnityDocs", { create: true },
                         function (directoryEntry) {
