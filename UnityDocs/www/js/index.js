@@ -84,7 +84,7 @@
                     debugger;
                     var shouldBeGridView = this.isGridView();
                     var fromViewID = app.view().element.attr("id");
-                    var toViewID = changeEvent.url.substring();
+                    var toViewID = changeEvent.url.substring(changeEvent.url.indexOf("/") + 1, changeEvent.url.indexOf("."));
                     var listView = $("#" + toViewID + " ul[data-role=listview].data-source.sortable");
                     if (shouldBeGridView) {
                         if (!listView.hasClass("grid-view")) {
