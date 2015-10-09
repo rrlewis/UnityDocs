@@ -15,6 +15,7 @@ var router = new kendo.Router({
         if (currentUser.get() == null && e.url != "views/authenticate.html") {
             router.navigate("views/authenticate.html");
         }
+        dataOptionsActionSheet.functions().gridView.checkGridView(e);
     }
 });
 

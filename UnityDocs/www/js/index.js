@@ -77,6 +77,9 @@
                 },
                 isGridView: function () {
                     return $this.data.gridView = !$this.data.gridView;
+                },
+                checkGridView: function (changeEvent) {
+                    debugger;
                 }
             }
         }
