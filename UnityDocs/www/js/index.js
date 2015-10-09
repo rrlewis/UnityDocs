@@ -81,8 +81,9 @@
                     return $this.data.gridView = !$this.data.gridView;
                 },
                 checkGridView: function (changeEvent) {
+                    debugger;
                     var shouldBeGridView = this.isGridView();
-                    if (app.hasOwnProperty("view")) {
+                    if (typeof app.view != "undefined") {
                         var toViewID = app.view().element.attr("id");
                         var listView = $("#" + toViewID + " ul[data-role=listview].data-source.sortable");
                         if (shouldBeGridView) {
