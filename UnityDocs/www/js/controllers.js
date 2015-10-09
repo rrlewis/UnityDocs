@@ -338,6 +338,10 @@ router.route('(/)views/searchresult.html', function (params) {
     });
 });
 
+router.route('*', function (params) {
+    debugger;
+})
+
 router.start();
 
 
