@@ -80,6 +80,8 @@
                 },
                 checkGridView: function (changeEvent) {
                     debugger;
+                    var shouldBeGridView = this.isGridView();
+                    var viewID = "#" + changeEvent.url.substring(changeEvent.url.indexOf("/") + 1, changeEvent.url.indexOf("."));
                 }
             }
         }
