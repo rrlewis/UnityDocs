@@ -15,7 +15,9 @@ var router = new kendo.Router({
         if (currentUser.get() == null && e.url != "views/authenticate.html") {
             router.navigate("views/authenticate.html");
         }
-        dataOptionsActionSheet.functions().gridView.checkGridView(e);
+        if (typeof dataOptionsActionSheet != "undefined") {
+            dataOptionsActionSheet.functions().gridView.checkGridView(e);
+        }
     }
 });
 
@@ -30,7 +32,7 @@ router.route('(/)(views/authenticate.html)', function (params) { // Authenticate
     }
     if (api.authService().isAutoLogin()) {
         api.authService().authenticate(currentUser.get()).then(loggedIn);
-    } 
+    }
     scope.authenticate = function () {
         var formData = $("form[name=auth-form]").serializeObject();
         api.authService().authenticate(formData).then(loggedIn);
