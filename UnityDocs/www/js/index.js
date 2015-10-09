@@ -83,8 +83,9 @@
                 checkGridView: function (changeEvent) {
                     debugger;
                     var shouldBeGridView = this.isGridView();
-                    var viewID = app.view().element.attr("id");
-                    var listView = $("#" + viewID + " ul[data-role=listview].data-source.sortable");
+                    var fromViewID = app.view().element.attr("id");
+                    var toViewID = changeEvent.url.substring();
+                    var listView = $("#" + toViewID + " ul[data-role=listview].data-source.sortable");
                     if (shouldBeGridView) {
                         if (!listView.hasClass("grid-view")) {
                             listView.toggleClass("grid-view");
