@@ -71,10 +71,57 @@ ul.km-listview.data-source li span.item-state-icon {
 .km-popup-overlay.km-actionsheet-root {
     background-color: transparent !important;
 }
-.km-popup-overlay.km-actionsheet-root .km-actionsheet-wrapper.km-actionsheet-auto.km-widget.km-popup {
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+    .km-popup-overlay.km-actionsheet-root .km-actionsheet-wrapper.km-actionsheet-auto.km-widget.km-popup {
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    }
+
+        .km-popup-overlay.km-actionsheet-root .km-actionsheet-wrapper.km-actionsheet-auto.km-widget.km-popup ul[data-role=actionsheet] li a:active {
+            background-color: rgba(15, 111, 198, 0.15);
+        }
+
+/* Grid View */
+
+ul.data-source.sortable.grid-view {
+    text-align: center;
 }
 
-    .km-popup-overlay.km-actionsheet-root .km-actionsheet-wrapper.km-actionsheet-auto.km-widget.km-popup ul[data-role=actionsheet] li a:active {
-        background-color:rgba(15, 111, 198, 0.15);
+    ul.data-source.sortable.grid-view li {
+        display: inline-block;
+        width: 190px;
+        height: 190px;
+        margin: 15px;
+        border: 1px solid #C7C7C7;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     }
+
+        ul.data-source.sortable.grid-view li a.library-link {
+            height: 100%;
+            width: 100%;
+        }
+
+            ul.data-source.sortable.grid-view li a.library-link h4 {
+                position: absolute;
+                top: 5px;
+                left: 50%;
+                -moz-transform: translateX(-50%);
+                -ms-transform: translateX(-50%);
+                -o-transform: translateX(-50%);
+                -webkit-transform: translateX(-50%);
+                transform: translateX(-50%);
+            }
+
+            ul.data-source.sortable.grid-view li a.library-link i {
+                left: 50%;
+                -moz-transform: translateX(-50%);
+                -ms-transform: translateX(-50%);
+                -o-transform: translateX(-50%);
+                -webkit-transform: translateX(-50%);
+                transform: translateX(-50%);
+                position: absolute;
+            }
+
+            ul.data-source.sortable.grid-view li a.library-link p.extra-info {
+                display: inline-block;
+            }

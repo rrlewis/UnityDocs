@@ -19,7 +19,6 @@ var router = new kendo.Router({
 });
 
 router.route('(/)(views/authenticate.html)', function (params) { // AuthenticateController
-    console.log("a")
     debugger;
     var loggedIn = function (result) {
         if (result.LoggedIn) {

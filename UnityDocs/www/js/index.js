@@ -1,62 +1,87 @@
 ﻿var dataOptionsActionSheet = {
-    functions: {
-        sort: {
-            config: {
-                title: "Sort",
-                items: [
-                    { text: "Name (Ascending)", value: 1 },
-                    { text: "Name (Descending)", value: 2 },
-                    { text: "Newest", value: 3 },
-                    { text: "Oldest", value: 4 },
-                    { text: "Largest", value: 5 },
-                    { text: "Smallest", value: 6 }
-                ],
-                selectedValue: 1,
-                doneButtonLabel: "Done",
-                cancelButtonLabel: "Cancel"
-            },
-            openSort: function () {
-                //open sort modal
-                var $this = this;
-                // Show the picker
-                window.plugins.listpicker.showPicker($this.config,
-                    $this.sortBy,
-                    function () {
+    data: {
+        gridView: false,
+    },
+    functions: function () {
+        var $this = this;
+        return {
+            sort: {
+                config: {
+                    title: "Sort",
+                    items: [
+                        { text: "Name (Ascending)", value: 1 },
+                        { text: "Name (Descending)", value: 2 },
+                        { text: "Newest", value: 3 },
+                        { text: "Oldest", value: 4 },
+                        { text: "Largest", value: 5 },
+                        { text: "Smallest", value: 6 }
+                    ],
+                    selectedValue: 1,
+                    doneButtonLabel: "Done",
+                    cancelButtonLabel: "Cancel"
+                },
+                openSort: function () {
+                    //open sort modal
+                    var $this = this;
+                    // Show the picker
+                    window.plugins.listpicker.showPicker($this.config,
+                        $this.sortBy,
+                        function () {
 
+                        }
+                    );
+                },
+                sortBy: function (btnIndex) {
+                    var $this = this;
+                    switch (btnIndex) {
+                        case 1:
+                            // Name (Ascending)
+                            break;
+                        case 2:
+                            // Name (Descending)
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        case 5:
+                            break;
+                        case 6:
+                            break;
                     }
-                );
-            },
-            sortBy: function (btnIndex) {
-                var $this = this;
-                switch (btnIndex) {
-                    case 1:
-                        // Name (Ascending)
-                        break;
-                    case 2:
-                        // Name (Descending)
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    case 5:
-                        break;
-                    case 6:
-                        break;
+                    $this.config.selectedValue = btnIndex;
                 }
-                $this.config.selectedValue = btnIndex;
-            }
-        },
-        search: function (e) {
-            var searchString = prompt("What would you like to search for?");
-            var currentLib = window.location.href.split("?")[1].split("&")[0].split("=")[1];
-            console.log("Search string: " + searchString);
-            console.log("Current Library: " + currentLib);
+            },
+            search: function (e) {
+                var searchString = prompt("What would you like to search for?");
+                var currentLib = window.location.href.split("?")[1].split("&")[0].split("=")[1];
+                console.log("Search string: " + searchString);
+                console.log("Current Library: " + currentLib);
 
-            router.navigate("views/searchresult.html?searchstring=" + searchString + "&library=" + currentLib);
+                router.navigate("views/searchresult.html?searchstring=" + searchString + "&library=" + currentLib);
+            },
+            gridView: {
+                toggleGridView: function (e) {
+                    var textLabels = {
+                        toThumbnails: "View as thumbnails",
+                        toList: "View as list"
+                    };
+                    $("ul[data-role=listview].data-source.sortable").toggleClass("grid-view");
+                    if ($("ul[data-role=listview].data-source.sortable").hasClass("grid-view")) {
+                        e.sender.element.text(textLabels.toList);
+                    } else {
+                        e.sender.element.text(textLabels.toThumbnails);
+                    }
+                    e.sender
+                    $this.data.gridView = !$this.data.gridView;
+                },
+                isGridView: function () {
+                    return $this.data.gridView = !$this.data.gridView;
+                }
+            }
         }
-    }
-}
+    },
+};
 
 var filter = {
     filter: function () {

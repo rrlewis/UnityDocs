@@ -44,10 +44,10 @@
         </header>
         <!-- options menu -->
         <ul data-role="actionsheet" id="options-actionsheet">
-            <li><a>View as thumbnails</a></li>
+            <li><a data-role="touch" data-tap="dataOptionsActionSheet.functions().gridView.toggleGridView">View as thumbnails</a></li>
             <li><a>Refresh</a></li>
-            <li><a data-role="touch" data-tap="dataOptionsActionSheet.functions.sort.openSort">Sort</a></li>
-            <li id="search-btn"><a data-role="touch" data-tap="dataOptionsActionSheet.functions.search">Search Library</a></li>
+            <li><a data-role="touch" data-tap="dataOptionsActionSheet.functions().sort.openSort">Sort</a></li>
+            <li id="search-btn"><a data-role="touch" data-tap="dataOptionsActionSheet.functions().search">Search Library</a></li>
         </ul>
 
         <!--View content will render here-->
