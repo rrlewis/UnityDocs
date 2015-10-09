@@ -16,9 +16,9 @@ var router = new kendo.Router({
         if (currentUser.get() == null && e.url != "views/authenticate.html") {
             router.navigate("views/authenticate.html");
         }
-        if (typeof dataOptionsActionSheet != "undefined") {
-            dataOptionsActionSheet.functions().gridView.checkGridView(e);
-        }
+        //if (typeof dataOptionsActionSheet != "undefined") {
+        //    dataOptionsActionSheet.functions().gridView.checkGridView(e);
+        //}
     }
 });
 
