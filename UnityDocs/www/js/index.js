@@ -88,7 +88,9 @@
                             var toViewID = app.view().element.attr("id");
                             var listView = $("#" + toViewID + " ul[data-role=listview].data-source.sortable");
                             if (shouldBeGridView) {
-                                listView.addClass("grid-view");
+                                if (changeEvent.hasOwnProperty("url")) {
+                                    listView.addClass("grid-view");
+                                }
                             }
                         }
                     }
