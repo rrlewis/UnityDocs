@@ -5,6 +5,7 @@ var router = new kendo.Router({
         //think of this like a local 404
     },
     change: function (e) {
+        debugger;
         //fires any time the route changes
         scope = {};
         scope.url = e.url;
@@ -338,7 +339,7 @@ router.route('(/)views/searchresult.html', function (params) {
     });
 });
 
-router.route('/*', function (params) {
+router.route('(/)(*)', function (params) {
     debugger;
 })
 
