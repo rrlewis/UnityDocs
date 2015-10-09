@@ -680,3 +680,8 @@ function checkSearch(e) {
         $("#search-btn").hide();
     }
 }
+
+function defaultLayoutLoaded(e) {
+    checkSearch(e);
+    dataOptionsActionSheet.functions().gridView.checkGridView(e);
+}
