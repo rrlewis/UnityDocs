@@ -66,8 +66,10 @@
                         toThumbnails: "View as thumbnails",
                         toList: "View as list"
                     };
-                    $("ul[data-role=listview].data-source.sortable").toggleClass("grid-view");
-                    if ($("ul[data-role=listview].data-source.sortable").hasClass("grid-view")) {
+                    var viewID = app.view().element.attr("id");
+                    var listView = $("#" + viewID + " ul[data-role=listview].data-source.sortable");
+                    listView.toggleClass("grid-view");
+                    if (listView.hasClass("grid-view")) {
                         e.sender.element.text(textLabels.toList);
                     } else {
                         e.sender.element.text(textLabels.toThumbnails);
@@ -81,7 +83,13 @@
                 checkGridView: function (changeEvent) {
                     debugger;
                     var shouldBeGridView = this.isGridView();
-                    var viewID = "#" + changeEvent.url.substring(changeEvent.url.indexOf("/") + 1, changeEvent.url.indexOf("."));
+                    var viewID = app.view().element.attr("id");
+                    var listView = $("#" + viewID + " ul[data-role=listview].data-source.sortable");
+                    if (shouldBeGridView) {
+                        if (!listView.hasClass("grid-view")) {
+                            listView.toggleClass("grid-view");
+                        }
+                    }
                 }
             }
         }
