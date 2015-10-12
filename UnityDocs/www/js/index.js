@@ -85,7 +85,8 @@
                     var shouldBeGridView = this.isGridView();
                     if (typeof app != "undefined") {
                         if (typeof app.view === "function") {
-                            var toViewID = app.view().element.attr("id");
+                            var x = app.view();
+                            var toViewID = x.element.attr("id");
                             var listView = $("#" + toViewID + " ul[data-role=listview].data-source.sortable");
                             if (shouldBeGridView) {
                                 if (changeEvent.hasOwnProperty("url")) {
