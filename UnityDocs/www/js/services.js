@@ -229,16 +229,29 @@ var fileHandler = function () {
             var fromURL = api.rootUrl + "DocumentManagement/GetDocument?documentid=" + documentID;
             var toPath = $this._downloadDir + filename;
             debugger;
-            fileTransfer.download(fromURL, toPath,
+            window.resolveLocalFileSystemURI(toPath,
                 function (fileEntry) {
-                    //success
+                    //exists
                     debugger;
+                    success(fileEntry);
                 },
-                function (fileTransferError) {
-                    //error
-                    debugger;
+                function (fileError) {
+                    //doesn't exist
+                    fileTransfer.download(fromURL, toPath,
+                        function (fileEntry) {
+                            //success
+                            debugger;
+                            success(fileEntry);
+                        },
+                        function (fileTransferError) {
+                            //error
+                            debugger;
+                            console.log(fileTransferError);
+                        }
+                    );
                 }
-                );
+            );
+
         },
         emailFile: function (options, callback) {
             if (typeof options == "undefined") {
