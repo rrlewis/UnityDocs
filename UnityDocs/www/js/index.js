@@ -1,4 +1,5 @@
-﻿var dataOptionsActionSheet = {
+﻿var isGridView = false;
+var dataOptionsActionSheet = {
     data: {
         gridView: false,
     },
@@ -77,7 +78,7 @@
                     $this.data.gridView = !$this.data.gridView;
                 },
                 isGridView: function () {
-                    return $this.data.gridView = !$this.data.gridView;
+                    return $this.data.gridView;
                 },
                 checkGridView: function (changeEvent) {
                     debugger;
