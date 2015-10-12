@@ -5,7 +5,6 @@ var router = new kendo.Router({
         //think of this like a local 404
     },
     change: function (e) {
-        debugger;
         //fires any time the route changes
         scope = {};
         scope.url = e.url;
@@ -23,7 +22,6 @@ var router = new kendo.Router({
 });
 
 router.route('(/)(views/authenticate.html)', function (params) { // AuthenticateController
-    debugger;
     var loggedIn = function (result) {
         if (result.LoggedIn) {
             router.navigate("views/libraries.html");

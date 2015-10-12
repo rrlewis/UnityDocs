@@ -81,7 +81,6 @@ var dataOptionsActionSheet = {
                     return $this.data.gridView;
                 },
                 checkGridView: function (changeEvent) {
-                    debugger;
                     var shouldBeGridView = this.isGridView();
                     if (typeof app != "undefined") {
                         if (typeof app.view === "function") {
