@@ -156,7 +156,7 @@
         <a data-type="#:Type#" data-description="#:Description#" data-imageid="#:ImageID#" data-checkedoutby="#:CheckedOutBy#" class="library-link">
             # if (Type == 'DOCX' || Type == 'DOC') { #
             <i class="km-thumbnail fa fa-file-word-o font-size-36"></i>
-            # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF') { #
+            # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF' || Type == 'ICO') { #
             <i class="km-thumbnail fa fa-file-image-o font-size-36"></i>
             # } else if (Type == 'XLSM' || Type == 'XLS' || Type == 'XLSX') { #
             <i class="km-thumbnail fa fa-file-excel-o font-size-36"></i>
@@ -164,6 +164,8 @@
             <i class="km-thumbnail fa fa-file-pdf-o font-size-36"></i>
             # } else if (Type == 'TXT') { #
             <i class="km-thumbnail fa fa-file-text-o font-size-36"></i>
+            # } else if (Type == 'ZIP' || Type == 'RAR') { #
+            <i class="km-thumbnail fa fa-file-archive-o font-size-36"></i>
             # } else { #
             <i class="km-thumbnail fa fa-file-o font-size-36"></i>
             # } #
