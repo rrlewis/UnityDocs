@@ -84,7 +84,7 @@
                     debugger;
                     var shouldBeGridView = this.isGridView();
                     if (typeof app != "undefined") {
-                        if (app.hasOwnProperty("view")) {
+                        if (typeof app.view === "function") {
                             var toViewID = app.view().element.attr("id");
                             var listView = $("#" + toViewID + " ul[data-role=listview].data-source.sortable");
                             if (shouldBeGridView) {
