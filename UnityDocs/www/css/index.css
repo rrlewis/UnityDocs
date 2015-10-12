@@ -125,3 +125,19 @@ ul.data-source.sortable.grid-view {
             ul.data-source.sortable.grid-view li a.library-link p.extra-info {
                 display: inline-block;
             }
+
+        ul.data-source.sortable.grid-view li a.info-button {
+            margin: 76px 50% 0;
+            -moz-transform: translateX(50%);
+            -ms-transform: translateX(50%);
+            -o-transform: translateX(50%);
+            -webkit-transform: translateX(50%);
+            transform: translateX(50%);
+        }
+
+        ul.data-source.sortable.grid-view li span.item-state-icon {
+            margin: 0;
+            position: absolute;
+            font-size: 24px;
+            margin-left: 20px;
+        }
