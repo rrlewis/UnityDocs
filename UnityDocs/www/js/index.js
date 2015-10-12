@@ -92,9 +92,7 @@ var dataOptionsActionSheet = {
                             }
                             var listView = $("#" + toViewID + " ul[data-role=listview].data-source.sortable");
                             if (shouldBeGridView) {
-                                if (changeEvent.hasOwnProperty("url")) {
                                     listView.addClass("grid-view");
-                                }
                             }
                         }
                     }
