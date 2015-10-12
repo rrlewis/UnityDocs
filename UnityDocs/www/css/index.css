@@ -145,7 +145,7 @@ ul.data-source.sortable.grid-view {
             top: 28%;
         }
 
-        ul.data-source.sortable.grid-view li a.library-link i.km-thumbnail {
+        #library ul.data-source.sortable.grid-view li a.library-link i.km-thumbnail {
             text-align: center;
             line-height: 53px;
             margin-top: 38px;
