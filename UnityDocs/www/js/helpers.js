@@ -20,7 +20,6 @@
 });
 
 var elements = {
-    emptyFolder: "<li>This folder is empty.</li>",
-    emptyLibrary: "<li>This library is empty.</li>",
-
+    emptyFolder: "<li class='empty-library'>This folder is empty.</li>",
+    emptyLibrary: "<li class='empty-library'>This library is empty.</li>",
 };
