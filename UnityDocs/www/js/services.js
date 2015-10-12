@@ -229,40 +229,16 @@ var fileHandler = function () {
             var fromURL = api.rootUrl + "DocumentManagement/GetDocument?documentid=" + documentID;
             var toPath = $this._downloadDir + filename;
             debugger;
-            //window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
-                function (fileSystem) {
+            fileTransfer.download(fromURL, toPath,
+                function (fileEntry) {
+                    //success
                     debugger;
-
-                    // got file system
-                    fileSystem.root.getDirectory("UnityDocs", { create: true },
-                        function (directoryEntry) {
-                            // got directory
-                            debugger;
-                            window.resolveLocalFileSystemURL(toPath, fileExists, fileDoesntExist);
-                            function fileDoesntExist(fileError) {
-                                debugger;
-                                fileTransfer.download(fromURL, toPath, success, fail);
-                            }
-                            function fileExists(fileEntry) {
-                                debugger;
-                                console.log("File already exists. Running success callback.");
-                                success(fileEntry);
-                            }
-
-                        },
-                        function (error) {
-                            // fail
-                            debugger;
-                            console.log(error);
-                        }
-                    );
                 },
-                function (error) {
-                    //fail 
-                    console.log(error);
+                function (fileTransferError) {
+                    //error
+                    debugger;
                 }
-            );
+                );
         },
         emailFile: function (options, callback) {
             if (typeof options == "undefined") {
