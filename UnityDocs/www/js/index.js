@@ -74,7 +74,6 @@
                     } else {
                         e.sender.element.text(textLabels.toThumbnails);
                     }
-                    e.sender
                     $this.data.gridView = !$this.data.gridView;
                 },
                 isGridView: function () {
@@ -88,7 +87,7 @@
                             try {
                                 var toViewID = app.view().element.attr("id");
                             } catch (e) {
-                                debugger;
+                                console.log(e);
                             }
                             var listView = $("#" + toViewID + " ul[data-role=listview].data-source.sortable");
                             if (shouldBeGridView) {
