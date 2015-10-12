@@ -32,6 +32,7 @@ console.log("Set app");
         // TODO: This application has been reactivated. Restore application state here.
         console.log("Resuming application.");
         if (checkInChecker.fileInEdit) {
+            debugger;
             console.log("File has been in an editor during the application pause.");
             checkInChecker.fileInEdit = false;
             console.log("Comparing current file data with the data saved before the pause.");
