@@ -110,7 +110,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
     scope.libraryName = params.indextypeorlibrary;
 
     scope.getFileOptions = function (e) {
-        if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text")) {
+        if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text") || e.target.hasClass("empty-library")) {
             return;
         }
         if (e.item.children(".library-link").data("type") == "FOLDER") {
