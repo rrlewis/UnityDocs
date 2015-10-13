@@ -421,15 +421,10 @@ var fileHandler = function () {
                         file.file(
                             function (fileObj) {
                                 debugger;
-                                var reader = new FileReader();
-                                reader.onloadend = function (evt) {
-                                    debugger;
-                                    checkInChecker.fileInEdit = true;
-                                    checkInChecker.fileInEditData.filePath = filePath;
-                                    checkInChecker.fileInEditData.file = fileObj;
-                                    checkInChecker.fileInEditData.base64Data = evt.target.result;
-                                };
-                                reader.readAsDataURL(file);
+                                checkInChecker.fileInEdit = true;
+                                checkInChecker.fileInEditData.filePath = filePath;
+                                checkInChecker.fileInEditData.file = fileObj;
+                                checkInChecker.fileInEditData.lasModifiedDate = fileObj.lastModifiedDate;
                             },
                             function (error) {
                                 debugger;
