@@ -199,7 +199,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                             downloadFile();
                         } else
                             if (actionSheetOptions.buttonLabels[3] == 'Check Out & Edit') {
-                                api.documentService.checkOutDocument(docData.imageID).then(downloadFile)
+                                api.documentService().checkOutDocument(docData.imageID).then(downloadFile)
                                 // Check out
                             }
                         function downloadFile(checkOutResults) {
