@@ -38,6 +38,7 @@ console.log("Set app");
             console.log("Comparing current file data with the data saved before the pause.");
             checkInChecker.compareFiles(function (filename) {
                 // OK / Check In
+                debugger;
                 if ($("#check-in-modal").exists()) {
                     var checkInModal = $("#check-in-modal").data("kendoMobileModalView");
                     $("#check-in-modal div[data-role=header] span[data-role=view-title]").text("Check In: " + filename);
