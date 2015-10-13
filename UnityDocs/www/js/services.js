@@ -446,7 +446,7 @@ var checkInChecker = {
     fileInEdit: false,
     fileInEditData: {
         file: {
-        }, lasModifiedDate: "", filePath: ""
+        }, lastModifiedDate: "", filePath: ""
     },
     compareFiles: function (checkInCallback, cancelCallback) {
         var $this = this;
@@ -514,6 +514,18 @@ var checkInChecker = {
         window.resolveLocalFileSystemURI(checkInChecker.fileInEditData.filePath,
             function (fileEntry) {
                 debugger;
+                fileEntry.file(
+                    function (file) {
+                        if (file.lastModifiedDate == $this.fileInEditData.lastModifiedDate) {
+                            checkInCallback(fileEntry.name);
+                        } else {
+                            cancelCallback();
+                        }
+                    },
+                    function (error) {
+                        //failed to create File object.
+                    }
+                )
             },
             function (error) {
                 //error
