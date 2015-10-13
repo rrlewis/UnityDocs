@@ -187,6 +187,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                         break;
                     case 4:
                         // Edit / Check Out & Edit
+                        debugger;
                         if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text")) {
                             return;
                         }
