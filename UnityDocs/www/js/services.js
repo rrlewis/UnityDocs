@@ -229,7 +229,7 @@ var fileHandler = function () {
             var fromURL = api.rootUrl + "DocumentManagement/GetDocument?documentid=" + documentID;
             var toPath = $this._downloadDir + filename;
             debugger;
-            window.resolveLocalFileSystemURI(toPath,
+            window.resolveLocalFileSystemURL(toPath,
                 function (fileEntry) {
                     //exists
                     debugger;
@@ -420,11 +420,18 @@ var fileHandler = function () {
                         console.log('file opened successfully');
                         file.file(
                             function (fileObj) {
-                                debugger;
-                                checkInChecker.fileInEdit = true;
-                                checkInChecker.fileInEditData.filePath = filePath;
-                                checkInChecker.fileInEditData.file = fileObj;
-                                checkInChecker.fileInEditData.lasModifiedDate = fileObj.lastModifiedDate;
+                                var reader = new FileReader();
+                                reader.onloadend = function (evt) {
+                                    console.log("read success");
+                                    console.log();
+                                    debugger;
+                                    checkInChecker.fileInEdit = true;
+                                    checkInChecker.fileInEditData.filePath = filePath;
+                                    checkInChecker.fileInEditData.file = fileObj;
+                                    checkInChecker.fileInEditData.base64data = evt.target.result;
+
+                                };
+                                reader.readAsDataURL(fileObj);
                             },
                             function (error) {
                                 debugger;
@@ -450,17 +457,21 @@ var checkInChecker = {
     },
     compareFiles: function (checkInCallback, cancelCallback) {
         var $this = this;
-        window.resolveLocalFileSystemURI(checkInChecker.fileInEditData.filePath,
+        window.resolveLocalFileSystemURL(checkInChecker.fileInEditData.filePath,
             function (fileEntry) {
                 debugger;
                 fileEntry.file(
                     function (file) {
                         debugger;
-                        if (file.lastModifiedDate != $this.fileInEditData.lastModifiedDate) {
-                            checkInCallback(fileEntry.name);
-                        } else {
-                            cancelCallback();
-                        }
+                        var reader = new FileReader();
+                        reader.onloadend = function (evt) {
+                            if (evt.target.result != $this.fileInEditData.base64data) {
+                                checkInCallback(fileEntry.name);
+                            } else {
+                                cancelCallback();
+                            }
+                        };
+                        reader.readAsDataURL(file);
                     },
                     function (error) {
                         debugger;
