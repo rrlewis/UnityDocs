@@ -76,7 +76,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         params.subfolder = '';
     }
 
-
+    scope.user = currentUser.get();
     scope.data = new kendo.data.DataSource({
         transport: {
             read: {
@@ -124,7 +124,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         docData.type = link.data("type");
         docData.checkedoutby = link.data("checkedoutby");
 
-        var buttonLabels = ['Read', 'Email'];
+        var buttonLabels = ['View', 'Email'];
         if (docData.checkedoutby == null) {
             buttonLabels.push("Check Out");
             buttonLabels.push("Check Out & Edit");

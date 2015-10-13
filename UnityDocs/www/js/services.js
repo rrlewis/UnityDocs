@@ -450,72 +450,12 @@ var checkInChecker = {
     },
     compareFiles: function (checkInCallback, cancelCallback) {
         var $this = this;
-        //function fsSuccess(fileSystem) {
-        //    debugger;
-        //    var relPath = $this.fileInEditData.filePath.split("0/")[1];
-        //    debugger;
-        //    fileSystem.root.getDirectory("UnityDocs", {
-        //        create: true, exclusive: false
-        //    },
-        //        function (directoryEntry) {
-        //            directoryEntry.getFile(relPath, { create: false },
-        //                function (fileEntry) {
-        //                    debugger;
-        //                    // success
-        //                    fileEntry.file(function (file) {
-        //                        debugger;
-        //                        var reader = new FileReader();
-        //                        reader.onloadend = function (evt) {
-        //                            if (evt.target.result == $this.fileInEditData.base64Data) {
-        //                                // files are same (not been edited).
-        //                                console.log("The file in the editor was not changed.");
-        //                                debugger;
-        //                            } else {
-        //                                // files are different (have been edited).
-        //                                console.log("The file in the editor was changed, asking if it needs to be checked in.");
-        //                                if (confirm("This file has been edited, do you want to check it in?")) {
-        //                                    // check file in
-        //                                    debugger;
-        //                                    if (typeof checkInCallback != "undefined") {
-        //                                        checkInCallback(fileEntry.name);
-        //                                    }
-        //                                } else {
-        //                                    // dont check in
-        //                                    if (typeof cancelCallback != "undefined") {
-        //                                        cancelCallback();
-        //                                    }
-        //                                }
-        //                                debugger;
-        //                            }
-        //                        }
-        //                        reader.readAsDataURL(file);
-        //                    }, function (err) {
-        //                        // failed to create file object.
-        //                    });
-        //                },
-        //                function (err) {
-        //                    debugger;
-        //                    // fail
-        //                });
-        //        },
-        //        function (fileError) {
-        //            debugger;
-        //        }
-        //    );
-
-
-        //}
-        //function fsFail(event) {
-        //    console.log(event);
-        //}
-        //debugger;
-        //window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fsSuccess, fsFail);
-        debugger;
         window.resolveLocalFileSystemURI(checkInChecker.fileInEditData.filePath,
             function (fileEntry) {
                 debugger;
                 fileEntry.file(
                     function (file) {
+                        debugger;
                         if (file.lastModifiedDate == $this.fileInEditData.lastModifiedDate) {
                             checkInCallback(fileEntry.name);
                         } else {
@@ -523,6 +463,7 @@ var checkInChecker = {
                         }
                     },
                     function (error) {
+                        debugger;
                         //failed to create File object.
                     }
                 )

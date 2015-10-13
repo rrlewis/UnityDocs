@@ -58,13 +58,15 @@ ul.km-listview.data-source li span.item-state-icon {
     margin-right: 25px;
 }
 
-    ul.km-listview.data-source li span.item-state-icon.negative {
-        color: red;
-    }
+ul.km-listview.data-source li a.info-button.other-user {
+    background-color: rgb(255, 156, 47);
+    border-color: rgb(220, 144, 59);
+}
 
-    ul.km-listview.data-source li span.item-state-icon.positive {
-        color: green;
-    }
+ul.km-listview.data-source li a.info-button.current-user {
+    background-color: #00B100;
+    border-color: #00B100;
+}
 
 /* ActionSheet Popup */
 
