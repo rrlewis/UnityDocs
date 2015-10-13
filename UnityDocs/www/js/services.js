@@ -456,7 +456,7 @@ var checkInChecker = {
                 fileEntry.file(
                     function (file) {
                         debugger;
-                        if (file.lastModifiedDate == $this.fileInEditData.lastModifiedDate) {
+                        if (file.lastModifiedDate != $this.fileInEditData.lastModifiedDate) {
                             checkInCallback(fileEntry.name);
                         } else {
                             cancelCallback();
