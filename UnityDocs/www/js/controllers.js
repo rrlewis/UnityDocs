@@ -203,6 +203,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                                 // Check out
                             }
                         function downloadFile(checkOutResults) {
+                            scope.data.read();
                             fileHandler().downloadFile(docData.imageID, docData.description,
                                 function (fileEntry) {
                                     //success
