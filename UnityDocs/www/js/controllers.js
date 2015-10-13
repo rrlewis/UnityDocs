@@ -187,8 +187,6 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                         break;
                     case 4:
                         // Edit / Check Out & Edit
-                        actionSheetOptions;
-                        actionSheetOptions.buttonLabels;
                         debugger;
                         if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text")) {
                             return;
@@ -196,18 +194,28 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                         if (e.item.children(".library-link").data("type") == "FOLDER") {
                             return;
                         }
-                        fileHandler().downloadFile(docData.imageID, docData.description,
-                            function (fileEntry) {
-                                //success
-                                debugger;
-                                fileHandler().openFile(fileEntry);
-                            },
-                            function (error) {
-                                //fail
-                                debugger;
-                                console.log(error);
+                        if (actionSheetOptions.buttonLabels[3] == 'Edit') {
+                            // Don't check out
+                            downloadFile();
+                        } else
+                            if (actionSheetOptions.buttonLabels[3] == 'Check Out & Edit') {
+                                api.documentService.checkOutDocument(docID).then(downloadFile)
+                                // Check out
                             }
-                        );
+                        function downloadFile(checkOutResults) {
+                            fileHandler().downloadFile(docData.imageID, docData.description,
+                                function (fileEntry) {
+                                    //success
+                                    debugger;
+                                    fileHandler().openFile(fileEntry);
+                                },
+                                function (error) {
+                                    //fail
+                                    debugger;
+                                    console.log(error);
+                                }
+                            );
+                        }
                         break;
                 }
             });
