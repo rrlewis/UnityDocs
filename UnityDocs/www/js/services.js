@@ -564,6 +564,7 @@ function checkSearch(e) {
 }
 
 function viewLoaded(e) {
+    debugger;
     loader.check();
     var layoutID = e.layout.element.data("id");
     switch (layoutID) {

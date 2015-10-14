@@ -5,7 +5,6 @@ var router = new kendo.Router({
     },
     change: function (e) {
         //fires any time the route changes
-        console.log("2");
         pageInTransition = true;
         scope = {};
         scope.url = e.url;
@@ -92,6 +91,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         schema: {
             data: function (response) {
                 if (response.results.length == 0) {
+                    loader.hide();
                     $("#library [data-role=listview]").append(elements.emptyLibrary);
                 } else {
                     for (var x = 0; x < response.results.length; x++) {

@@ -20,6 +20,7 @@ console.log("Set app");
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
         $(document).ajaxStart(function (event) {
+            debugger;
             loader.show();
         });
         $(document).ajaxStop(function (event) {
