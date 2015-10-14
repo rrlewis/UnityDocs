@@ -19,10 +19,10 @@ console.log("Set app");
         // Handle the Cordova pause and resume events
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
-        $(document).ajaxStart(function (a, b, c) {
+        $(document).ajaxStart(function (event) {
             debugger;
         });
-        $(document).ajaxComplete(function (a, b, c) {
+        $(document).ajaxStop(function (event, jqXHR, ajaxOptions) {
             debugger;
         });
         // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
