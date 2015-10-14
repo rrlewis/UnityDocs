@@ -1,11 +1,12 @@
 ﻿var scope = {};
-
 var router = new kendo.Router({
     routeMissing: function (e) {
         //think of this like a local 404
     },
     change: function (e) {
         //fires any time the route changes
+        console.log("2");
+        pageInTransition = true;
         scope = {};
         scope.url = e.url;
         if (typeof filter != "undefined") {

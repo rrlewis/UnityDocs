@@ -487,6 +487,25 @@ var checkInChecker = {
     }
 };
 
+var loader = {
+    isVisible: false,
+    show: function () {
+        app.pane.loader.show();
+        this.isVisible = true;
+    },
+    hide: function () {
+        app.pane.loader.hide();
+        this.isVisible = false;
+    },
+    check: function () {
+        if (this.isVisible) {
+            app.pane.loader.show();
+        } else {
+            app.pane.loader.hide();
+        }
+    }
+};
+
 var currentUser = {
     set: function (data) {
         var user = {
@@ -541,6 +560,18 @@ function checkSearch(e) {
         $("#search-btn").show();
     } else {
         $("#search-btn").hide();
+    }
+}
+
+function viewLoaded(e) {
+    loader.check();
+    var layoutID = e.layout.element.data("id");
+    switch (layoutID) {
+        case "default-layout":
+            defaultLayoutLoaded(e);
+            break;
+        case "auth-layout":
+            break;
     }
 }
 

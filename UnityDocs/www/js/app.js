@@ -20,10 +20,10 @@ console.log("Set app");
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
         $(document).ajaxStart(function (event) {
-            app.pane.loader.show();
+            loader.show();
         });
         $(document).ajaxStop(function (event) {
-            app.pane.loader.hide();
+            loader.hide();
         });
         // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
         console.log("Device ready.");

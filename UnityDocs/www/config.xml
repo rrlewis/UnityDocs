@@ -18,12 +18,8 @@
   <gap:plugin name="cordova-plugin-file" source="npm"/>
   <gap:plugin name="cordova-plugin-actionsheet" source="npm"/>
   <gap:plugin name="cordova-plugin-email" source="npm"/>
-  <!--<gap:plugin name="cordova-plugin-progressindicator" source="npm" />-->
   <gap:plugin name="cordova-plugin-whitelist" source="npm" />
   
-  <!--<gap:plugin name="de.appplant.cordova.plugin.email-composer"/>-->
-  <gap:plugin name="it.mobimentum.phonegapspinnerplugin"/>
-
   <!-- Whitelist -->
   <allow-navigation href="http://*/*" />
   <allow-navigation href="https://*/*" />
