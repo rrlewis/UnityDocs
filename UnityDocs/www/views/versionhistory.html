@@ -1,0 +1,30 @@
+﻿<div id="versionhistory" data-role="view" data-layout="default-layout" data-title="Version History">
+    <ul data-role="listview" class="data-source sortable" data-template="version-history-template" data-source="scope.data">
+
+    </ul>
+</div>
+
+<script type="text/kendo-x-tmpl" id="version-history-template">
+    <div>
+        <ul>
+            <li>
+                <span class="bold-text">Version:</span> #:VersionNumber#
+            </li>
+            <li>
+                <span class="bold-text">Last Modified At:</span> #:Modified#
+            </li>
+            <li>
+                <span class="bold-text">Last Modified By:</span> #:ModifiedBy#
+            </li>
+            <li>
+                <br />
+                <span class="bold-text">Comments</span>
+                <br />
+                <br />
+                # if (Comments != null) { #
+                #:Comments#
+                # } #
+            </li>
+        </ul>
+    </div>
+</script>

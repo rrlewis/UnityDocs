@@ -38,7 +38,7 @@ router.route('(/)(views/authenticate.html)', function (params) { // Authenticate
     }
 });
 
-router.route('(/)views/libraries.html', function (params) { // LibraryController
+router.route('(/)views/libraries.html', function (params, a) { // LibraryController
     scope.data = new kendo.data.DataSource({
         transport: {
             read: {
@@ -229,12 +229,37 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         scope.data.read()
     }
 
-    scope.init = function () {
+    scope.viewShow = function () {
         if (params.subfolder == '') {
             $("#library [data-role=view-title]").text(params.indextypeorlibrary);
         } else {
             $("#library [data-role=view-title]").text(params.subfolder);
         }
+    }
+
+    scope.getInfo = function (e) {
+        var listItemData = e.button.data();
+        var libraryItems = scope.data.data();
+        var selectedItem;
+        for (var x = 0; x < libraryItems.length; x++) {
+            selectedItem = libraryItems[x];
+            if (selectedItem.Description == listItemData.description) {
+                break;
+            }
+        }
+        // got selectedItem.
+        console.log("*");
+        console.log(scope.libraryName);
+        console.log(selectedItem.ImageID);
+        console.log("*");
+        api.documentService().getVersionHistory(scope.libraryName, selectedItem.ImageID).then(function (results) {
+            var paramData = {};
+            var versionHistory = results.results;
+            paramData.versionHistory = versionHistory;
+            paramData.selectedItem = selectedItem;
+            paramData = JSON.stringify(paramData);
+            router.navigate("views/libraryinfo.html?data=" + paramData);
+        });
     }
 
     function downloadFile(e, action) {
@@ -348,6 +373,52 @@ router.route('(/)views/searchresult.html', function (params) {
         change: function (e) {
         }
     });
+});
+
+router.route('(/)views/libraryinfo.html', function (params) {
+    params.data = JSON.parse(params.data);
+    debugger;
+    scope.viewShow = function (e) {
+        fillForm($("form[name=extra-info]"), params.data.selectedItem);
+    }
+
+    scope.deleteItem = function () {
+
+    }
+
+    scope.showVersionHistory = function () {
+        router.navigate("/views/versionhistory.html?docID=" + params.data.selectedItem.ImageID + "&libraryName=" + params.data.selectedItem.ParentFolder);
+    }
+});
+
+router.route('(/)views/versionhistory.html', function (params) {
+    scope.data = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: api.rootUrl + "DocumentManagement/GetVersionHistory",
+                data: {
+                    Library: params.libraryName,
+                    documentid: params.docID
+                },
+            }
+        },
+        schema: {
+            data: function (response) {
+                if (response.results.length == 0) {
+                    $("#versionhistory [data-role=listview]").append(elements.emptyLibrary);
+                } else {
+                    return response.results;
+                }
+            }
+        },
+        error: function (e) {
+            console.log(e);
+        },
+        change: function (e) {
+            console.log(e);
+        }
+    });
+    debugger;
 });
 
 router.start();

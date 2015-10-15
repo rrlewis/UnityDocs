@@ -1,83 +1,9 @@
-﻿<div id="library" data-reload="true" data-role="view" data-layout="default-layout" data-title="Library" data-show="scope.init">
+﻿<div id="library" data-reload="true" data-role="view" data-layout="default-layout" data-title="Library">
     <ul data-role="listview" data-click="scope.getFileOptions" class="data-source sortable" data-template="library-item-template" data-source="scope.data" data-pull-to-refresh="true"></ul>
 </div>
 
 
 <!-- Modals -->
-
-    <!-- Info -->
-    <div data-role="modalview" id="info-modal" style="width: 100%; height: 100%;" data-modal="false">
-        <div data-role="header">
-            <div data-role="navbar">
-                <a data-align="right" data-click="closeModalView" data-role="button" data-icon="delete">Delete</a>
-                <span data-role="view-title"></span>
-                <a data-align="left" data-click="openVersionHistory" data-role="button" data-icon="history">History</a>
-            </div>
-        </div>
-        <form name="extra-info">
-            <ul data-role="listview">
-                <li>
-                    <label class="km-inline-field km-label-above">
-                        Type
-                        <input data-field="Type" name="Type" type="text" readonly />
-                    </label>
-                </li>
-                <li>
-                    <label class="km-inline-field km-label-above">
-                        Name
-                        <input data-field="Description" name="Description" type="text" readonly />
-                    </label>
-                </li>
-                <li>
-                    <label class="km-inline-field km-label-above">
-                        Modified
-                        <input data-field="Modified" name="Modified" type="text" readonly />
-                    </label>
-                </li>
-                <li>
-                    <label class="km-inline-field km-label-above">
-                        Modified By
-                        <input data-field="ModifiedBy" name="ModifiedBy" type="text" readonly />
-                    </label>
-                </li>
-                <li>
-                    <label class="km-inline-field km-label-above">
-                        Checked Out By
-                        <input data-field="CheckedOutByFullName" name="CheckedOutByFullName" type="text" readonly />
-                    </label>
-                </li>
-                <li>
-                    <label class="km-inline-field km-label-above">
-                        Tags
-                        <input data-field="Tags" name="Tags" type="text" placeholder="A string with each tag delimited by a ;" />
-                    </label>
-                </li>
-                <li>
-                    <label class="km-inline-field km-label-above">
-                        Comments
-                        <textarea data-field="Comments" name="Comments" readonly style="resize:vertical;"></textarea>
-                    </label>
-                </li>
-            </ul>
-        </form>
-        <div data-role="footer">
-            <div data-role="navbar">
-                <a data-click="closeInfoModal" data-role="button">Done</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Version History -->
-    <div data-role="modalview" id="version-history" style="width:100%; height:100%;" data-modal="false">
-        <div data-role="header">
-            <div data-role="navbar">
-                <span data-role="view-title"></span>
-                <a data-align="left" data-click="closeVersionHistory" data-role="button"><i class="fa fa-close"></i></a>
-            </div>
-        </div>
-        <ul data-role="listview" class="data-source sortable" data-template="version-history-template"></ul>
-    </div>
-
     <!-- Check In -->
     <div id="check-in-modal" data-role="modalview" style="width:100%; height:100%;" data-modal="false">
         <div data-role="header">
@@ -130,17 +56,16 @@
         </div>
     </div>
 
-
 <!-- Templates -->
 
     <!-- List Item -->
     <script type="text/kendo-x-tmpl" id="library-item-template">
         # if (CheckedOutBy == scope.user.username){ #
-        <a data-role="button" class="info-button km-primary km-button-right km-icon-button current-user" data-click="openInfoModal" data-description="#:Description#"><i class="fa fa-info"></i></a>
+        <a data-role="button" class="info-button km-primary km-button-right km-icon-button current-user" data-click="scope.getInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
         # } else if (CheckedOutBy != scope.user.username && CheckedOutBy != null) { #
-        <a data-role="button" class="info-button km-primary km-button-right km-icon-button other-user" data-click="openInfoModal" data-description="#:Description#"><i class="fa fa-info"></i></a>
+        <a data-role="button" class="info-button km-primary km-button-right km-icon-button other-user" data-click="scope.getInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
         # } else { #
-        <a data-role="button" class="info-button km-primary km-button-right km-icon-button" data-click="openInfoModal" data-description="#:Description#"><i class="fa fa-info"></i></a>
+        <a data-role="button" class="info-button km-primary km-button-right km-icon-button" data-click="scope.getInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
         # } #
         <!-- FIX THIS TEMPLATE -->
         # if (Type == 'FOLDER') { #
@@ -187,33 +112,6 @@
         # } #
     </script>
 
-    <!-- Version History -->
-    <script type="text/kendo-x-tmpl" id="version-history-template">
-        <div>
-            <ul>
-                <li>
-                    <span class="bold-text">Version:</span> #:VersionNumber#
-                </li>
-                <li>
-                    <span class="bold-text">Last Modified At:</span> #:Modified#
-                </li>
-                <li>
-                    <span class="bold-text">Last Modified By:</span> #:ModifiedBy#
-                </li>
-                <li>
-                    <br />
-                    <span class="bold-text">Comments</span>
-                    <br />
-                    <br />
-                    # if (Comments != null) { #
-                    #:Comments#
-                    # } #
-                </li>
-            </ul>
-        </div>
-    </script>
-
-
 <!-- Scripts and Styles -->
 <script>
     var originalData = {};
@@ -224,6 +122,7 @@
     }
 
     function openInfoModal(e) {
+        debugger;
         var modalView = $("#info-modal").data("kendoMobileModalView");
         var data = e.button.data();
         var libraryItems = scope.data.data();
@@ -233,13 +132,7 @@
                 break;
             }
         }
-        for (var prop in scope.selectedItem) {
-            if (scope.selectedItem.hasOwnProperty(prop)) {
-                if ($("[data-field=" + prop + "]").exists()) {
-                    $("[data-field=" + prop + "]").val(scope.selectedItem[prop]);
-                }
-            }
-        }
+
         api.documentService().getVersionHistory(scope.libraryName, scope.selectedItem.ImageID).then(function (results) {
             var listView = $("#version-history ul.data-source").data("kendoMobileListView");
             var dataSource = new kendo.data.DataSource({ data: results.results });

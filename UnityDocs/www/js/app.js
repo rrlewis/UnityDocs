@@ -20,7 +20,6 @@ console.log("Set app");
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
         $(document).ajaxStart(function (event) {
-            debugger;
             loader.show();
         });
         $(document).ajaxStop(function (event) {
@@ -46,10 +45,15 @@ console.log("Set app");
             checkInChecker.compareFiles(function (filename) {
                 // OK / Check In
                 debugger;
-                if ($("#check-in-modal").exists()) {
-                    var checkInModal = $("#check-in-modal").data("kendoMobileModalView");
-                    $("#check-in-modal div[data-role=header] span[data-role=view-title]").text("Check In: " + filename);
-                    checkInModal.open();
+                if (confirm("Do you want to check this file in?")) {
+                    // check file in.
+                    if ($("#check-in-modal").exists()) {
+                        var checkInModal = $("#check-in-modal").data("kendoMobileModalView");
+                        $("#check-in-modal div[data-role=header] span[data-role=view-title]").text("Check In: " + filename);
+                        checkInModal.open();
+                    }
+                } else {
+                    // don't check file in.
                 }
             }, function () {
                 // Cancel / Don't Check In

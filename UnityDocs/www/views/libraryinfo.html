@@ -1,0 +1,54 @@
+﻿<div id="libraryinfo" data-role="view" data-layout="default-layout" data-title="Library Info">
+    <form name="extra-info">
+        <ul data-role="listview">
+            <li>
+                <label class="km-inline-field km-label-above">
+                    Type
+                    <input data-field="Type" name="Type" type="text" readonly />
+                </label>
+            </li>
+            <li>
+                <label class="km-inline-field km-label-above">
+                    Name
+                    <input data-field="Description" name="Description" type="text" readonly />
+                </label>
+            </li>
+            <li>
+                <label class="km-inline-field km-label-above">
+                    Modified
+                    <input data-field="Modified" name="Modified" type="text" readonly />
+                </label>
+            </li>
+            <li>
+                <label class="km-inline-field km-label-above">
+                    Modified By
+                    <input data-field="ModifiedBy" name="ModifiedBy" type="text" readonly />
+                </label>
+            </li>
+            <li>
+                <label class="km-inline-field km-label-above">
+                    Checked Out By
+                    <input data-field="CheckedOutByFullName" name="CheckedOutByFullName" type="text" readonly />
+                </label>
+            </li>
+            <li>
+                <label class="km-inline-field km-label-above">
+                    Tags
+                    <input data-field="Tags" name="Tags" type="text" placeholder="A string with each tag delimited by a ;" />
+                </label>
+            </li>
+            <li>
+                <label class="km-inline-field km-label-above">
+                    Comments
+                    <textarea data-field="Comments" name="Comments" readonly style="resize:vertical;"></textarea>
+                </label>
+            </li>
+        </ul>
+    </form>
+    <div data-role="footer">
+        <div data-role="navbar" class="km-accent">
+            <a data-align="right" data-click="closeModalView" data-role="button" data-icon="delete">Delete</a>
+            <a data-align="left" data-click="scope.showVersionHistory" data-role="button" data-icon="history">History</a>
+        </div>
+    </div>
+</div>

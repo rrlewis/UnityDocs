@@ -564,8 +564,10 @@ function checkSearch(e) {
 }
 
 function viewLoaded(e) {
-    debugger;
     loader.check();
+    if (typeof scope.viewShow === 'function') { 
+        scope.viewShow(e);
+    }
     var layoutID = e.layout.element.data("id");
     switch (layoutID) {
         case "default-layout":
@@ -579,4 +581,17 @@ function viewLoaded(e) {
 function defaultLayoutLoaded(e) {
     checkSearch(e);
     dataOptionsActionSheet.functions().gridView.checkGridView(e);
+}
+
+function fillForm(formEle, dataObj) {
+    var formInputs = formEle.find('input, textarea, select');
+    var currentInput;
+    for (var x = 0; x < formInputs.length; x++) {
+        currentInput = $(formInputs[x]);
+        var inputName = currentInput.attr("name")
+        var value = dataObj[inputName];
+        if (typeof value != 'undefined') {
+            currentInput.val(value);
+        }
+    }
 }
