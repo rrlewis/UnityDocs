@@ -1,0 +1,56 @@
+﻿<div id="favourites" data-role="view" data-layout="default-layout" data-title="Favourites">
+    <ul data-role="listview" class="data-source sortable" data-template="favourite-item-template" data-source="scope.data">
+
+    </ul>
+</div>
+
+<script type="text/kendo-x-tmpl" id="favourite-item-template">
+    # if (CheckedOutBy == scope.user.username){ #
+    <a data-role="button" class="info-button km-primary km-button-right km-icon-button current-user" data-click="scope.getInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
+    # } else if (CheckedOutBy != scope.user.username && CheckedOutBy != null) { #
+    <a data-role="button" class="info-button km-primary km-button-right km-icon-button other-user" data-click="scope.getInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
+    # } else { #
+    <a data-role="button" class="info-button km-primary km-button-right km-icon-button" data-click="scope.getInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
+    # } #
+    # if (Type == 'FOLDER') { #
+    <a href="\\#views/library.html?indextypeorlibrary=#:scope.libraryName#&subfolder=#:Description#&key" data-type="#:Type#" class="library-link">
+        <i class="km-thumbnail fa fa-folder font-size-36"></i>
+        <h4>#:Description#</h4>
+        <p class="extra-info">Last modified on #:Modified# by #:ModifiedBy#.</p>
+        <p class="extra-info">
+            &nbsp;
+        </p>
+    </a>
+    # } else { #
+    <a data-type="#:Type#" data-description="#:Description#" data-imageid="#:ImageID#" data-checkedoutby="#:CheckedOutBy#" class="library-link">
+        # if (Type == 'DOCX' || Type == 'DOC') { #
+        <i class="km-thumbnail fa fa-file-word-o font-size-36"></i>
+        # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF' || Type == 'ICO') { #
+        <i class="km-thumbnail fa fa-file-image-o font-size-36"></i>
+        # } else if (Type == 'XLSM' || Type == 'XLS' || Type == 'XLSX') { #
+        <i class="km-thumbnail fa fa-file-excel-o font-size-36"></i>
+        # } else if (Type == 'PDF') { #
+        <i class="km-thumbnail fa fa-file-pdf-o font-size-36"></i>
+        # } else if (Type == 'TXT') { #
+        <i class="km-thumbnail fa fa-file-text-o font-size-36"></i>
+        # } else if (Type == 'ZIP' || Type == 'RAR') { #
+        <i class="km-thumbnail fa fa-file-archive-o font-size-36"></i>
+        # } else { #
+        <i class="km-thumbnail fa fa-file-o font-size-36"></i>
+        # } #
+
+        <h4>#:Description#</h4>
+
+        <p class="extra-info">Last modified at #:Modified# by #:ModifiedBy#.</p>
+        # if (CheckedOutBy == null){ #
+        <p class="extra-info">
+            Checked Out By: Nobody.
+        </p>
+        # } else { #
+        <p class="extra-info">
+            Checked Out By: #:CheckedOutBy#.
+        </p>
+        # } #
+    </a>
+    # } #
+</script>

@@ -2,6 +2,7 @@
 var router = new kendo.Router({
     routeMissing: function (e) {
         //think of this like a local 404
+        router.navigate("views/libraries.html");
     },
     change: function (e) {
         //fires any time the route changes
@@ -11,7 +12,7 @@ var router = new kendo.Router({
         if (typeof filter != "undefined") {
             filter.cancelFilter();
         }
-        console.log(scope.url);
+        console.log("Changing to: " + scope.url);
         if (currentUser.get() == null && e.url != "views/authenticate.html") {
             router.navigate("views/authenticate.html");
         }
@@ -21,50 +22,13 @@ var router = new kendo.Router({
     }
 });
 
-router.route('(/)(views/authenticate.html)', function (params) { // AuthenticateController
-    var loggedIn = function (result) {
-        if (result.LoggedIn) {
-            router.navigate("views/libraries.html");
-        } else {
-            $("#attempt-failed").text(result.ErrorMessage).slideDown(100);
-        }
-    }
-    if (api.authService().isAutoLogin()) {
-        api.authService().authenticate(currentUser.get()).then(loggedIn);
-    }
-    scope.authenticate = function () {
-        var formData = $("form[name=auth-form]").serializeObject();
-        api.authService().authenticate(formData).then(loggedIn);
-    }
+router.route('(/)(views/authenticate.html)', function (params) {
 });
 
-router.route('(/)views/libraries.html', function (params, a) { // LibraryController
-    scope.data = new kendo.data.DataSource({
-        transport: {
-            read: {
-                url: api.rootUrl + "documentlibrary/getlibraries",
-            }
-        },
-        schema: {
-            data: function (response) {
-                if (response.results.length == 0) {
-                    $("#libraries [data-role=listview]").append(elements.emptyFolder);
-                } else {
-                    for (var x = 0; x < response.results.length; x++) {
-                        response.results[x].LastModifiedAt = response.results[x].LastModifiedAt.split("T").join(" at ");
-                    }
-                    return response.results;
-                }
-            }
-        },
-        error: function (e) {
-        },
-        change: function (e) {
-        }
-    });
+router.route('(/)views/libraries.html', function (params) {
 });
 
-router.route('(/)views/library.html', function (params) { // LibraryController
+router.route('(/)views/library.html', function (params) {
     for (var prop in params) {
         if (params.hasOwnProperty(prop)) {
             if (params[prop] == 'undefined') {
@@ -76,17 +40,18 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         params.subfolder = '';
     }
 
+
+
+    scope.checkInModalViewModel = new kendo.observable({
+        fileName: "Placeholder"
+    });
+
     scope.user = currentUser.get();
-    scope.data = new kendo.data.DataSource({
-        transport: {
-            read: {
-                url: api.rootUrl + "documentmanagement/getdocuments",
-                data: {
-                    indextypeorlibrary: encodeURI(params.indextypeorlibrary),
-                    subfolder: encodeURI(params.subfolder),
-                    key: encodeURI(params.key),
-                },
-            }
+    scope.data = new api.documentService().data.Documents({
+        data: {
+            indextypeorlibrary: encodeURI(params.indextypeorlibrary),
+            subfolder: encodeURI(params.subfolder),
+            key: encodeURI(params.key),
         },
         schema: {
             data: function (response) {
@@ -101,12 +66,6 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                 }
             }
         },
-        error: function (e) {
-            console.log(e);
-        },
-        change: function (e) {
-            console.log(e);
-        }
     });
     scope.libraryName = params.indextypeorlibrary;
 
@@ -118,12 +77,7 @@ router.route('(/)views/library.html', function (params) { // LibraryController
             return;
         }
         var link = e.item.children(".library-link");
-
-        var docData = {};
-        docData.imageID = link.data("imageid");
-        docData.description = link.data("description");
-        docData.type = link.data("type");
-        docData.checkedoutby = link.data("checkedoutby");
+        var docData = link.data();
 
         var buttonLabels = ['View', 'Email'];
         if (docData.checkedoutby == null) {
@@ -146,10 +100,11 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                 switch (buttonIndex) {
                     case 1:
                         // Read
+                        router.navigate("views/readfile.html?fileName=" + docData.description);
                         break;
                     case 2:
                         // Email file
-                        fileHandler().downloadFile(docData.imageID, docData.description,
+                        fileHandler().downloadFile(docData.imageid, docData.description,
                             function (fileEntry) {
                                 var options = {
                                     subject: fileEntry.name, // string
@@ -177,18 +132,17 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                         // Check Out / Check In
                         if (buttonLabels[2] == "Check In") {
                             // check file in
-                            $("#check-in-modal div[data-role=header] span[data-role=view-title]").text("Check In: " + docData.description);
+                            scope.checkInModalViewModel.set("fileName", title);
                             $("#check-in-modal").data("kendoMobileModalView").open();
-                            //api.documentService().undoCheckOutDocument(docData.imageID).then(scope.refreshData);
+                            //api.documentService().undoCheckOutDocument(docData.imageid).then(scope.refreshData);
                         } else
                             if (buttonLabels[2] == "Check Out") {
                                 // check file out
-                                api.documentService().checkOutDocument(docData.imageID).then(scope.refreshData);
+                                api.documentService().checkOutDocument(docData.imageid).then(scope.refreshData);
                             }
                         break;
                     case 4:
                         // Edit / Check Out & Edit
-                        debugger;
                         if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text")) {
                             return;
                         }
@@ -200,20 +154,18 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                             downloadFile();
                         } else
                             if (actionSheetOptions.buttonLabels[3] == 'Check Out & Edit') {
-                                api.documentService().checkOutDocument(docData.imageID).then(downloadFile)
                                 // Check out
+                                api.documentService().checkOutDocument(docData.imageid).then(downloadFile);
                             }
                         function downloadFile(checkOutResults) {
                             scope.data.read();
-                            fileHandler().downloadFile(docData.imageID, docData.description,
+                            fileHandler().downloadFile(docData.imageid, docData.description,
                                 function (fileEntry) {
                                     //success
-                                    debugger;
                                     fileHandler().openFile(fileEntry);
                                 },
                                 function (error) {
                                     //fail
-                                    debugger;
                                     console.log(error);
                                 }
                             );
@@ -224,10 +176,6 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         };
         window.plugins.actionsheet.show(actionSheetOptions, gotAction);
     };
-
-    scope.refreshData = function () {
-        scope.data.read()
-    }
 
     scope.viewShow = function () {
         if (params.subfolder == '') {
@@ -247,11 +195,6 @@ router.route('(/)views/library.html', function (params) { // LibraryController
                 break;
             }
         }
-        // got selectedItem.
-        console.log("*");
-        console.log(scope.libraryName);
-        console.log(selectedItem.ImageID);
-        console.log("*");
         api.documentService().getVersionHistory(scope.libraryName, selectedItem.ImageID).then(function (results) {
             var paramData = {};
             var versionHistory = results.results;
@@ -262,75 +205,73 @@ router.route('(/)views/library.html', function (params) { // LibraryController
         });
     }
 
-    function downloadFile(e, action) {
-        if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text")) {
-            return;
-        }
-        if (e.item.children(".library-link").data("type") == "FOLDER") {
-            return;
-        }
-
-        //The directory to store data
-        var directory = cordova.file.externalDataDirectory; //cordova.file.externalCacheDirectory for volatile storage;
-        var description = e.item.children(".library-link").data("description");
-        var imageID = e.item.children(".library-link").data("imageid");
-        var fileName = description;
-
-        //URL of the document on the server
-        var url = api.rootUrl + "DocumentManagement/GetDocument?documentid=" + imageID;
-
-        //Check for the file. 
-        if (action == "edit") {
-            window.resolveLocalFileSystemURL(directory + fileName, readFile, downloadAndReadFile);
-        } else if (action == "email") {
-            window.resolveLocalFileSystemURL(directory + fileName, readFile, downloadAndEmailFile);
-        }
-        function downloadOnly() {
-            var fileTransfer = new FileTransfer();
-            console.log("About to start transfer");
-            fileTransfer.download(url, directory + fileName,
-                function (entry) {
-                    console.log("Success!");
-                },
-                function (err) {
-                    console.log("Error");
-                    console.dir(err);
-                });
-        }
-        function downloadAndEmailFile() {
-            var fileTransfer = new FileTransfer();
-            console.log("About to start transfer");
-            fileTransfer.download(url, directory + fileName,
-                function (entry) {
-                    debugger;
-                    console.log("Success!");
-                    function callback(a, b, c) {
-                        debugger;
-                    }
-                    window.plugins.emailComposer.showEmailComposerWithCallback(callback, docData.description, docData.description + " is attached.", /* to */[], /* cc */[/*currentUser.email*/], /* bcc */[], false, [entry.toURL()], [[docData.description, 'base64data1']]);
-                },
-                function (err) {
-                    console.log("Error");
-                    console.dir(err);
-                });
-        }
-        function downloadAndReadFile() {
-            var fileTransfer = new FileTransfer();
-            console.log("About to start transfer");
-            fileTransfer.download(url, directory + fileName,
-                function (entry) {
-                    console.log("Success!");
-                    readFile(entry);
-                },
-                function (err) {
-                    console.log("Error");
-                    console.dir(err);
-                });
-        }
-        function readFile(entry) {
-            var transfer = fileHandler().openFile(entry.toURL());
-        }
-    }
+    //function downloadFile(e, action) {
+    //    
+    //    if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text")) {
+    //        return;
+    //    }
+    //    if (e.item.children(".library-link").data("type") == "FOLDER") {
+    //        return;
+    //    }
+    //    //The directory to store data
+    //    var directory = cordova.file.externalDataDirectory; //cordova.file.externalCacheDirectory for volatile storage;
+    //    var description = e.item.children(".library-link").data("description");
+    //    var imageID = e.item.children(".library-link").data("imageid");
+    //    var fileName = description;
+    //    //URL of the document on the server
+    //    var url = api.rootUrl + "DocumentManagement/GetDocument?documentid=" + imageID;
+    //    //Check for the file. 
+    //    if (action == "edit") {
+    //        window.resolveLocalFileSystemURL(directory + fileName, readFile, downloadAndReadFile);
+    //    } else if (action == "email") {
+    //        window.resolveLocalFileSystemURL(directory + fileName, readFile, downloadAndEmailFile);
+    //    }
+    //    function downloadOnly() {
+    //        var fileTransfer = new FileTransfer();
+    //        console.log("About to start transfer");
+    //        fileTransfer.download(url, directory + fileName,
+    //            function (entry) {
+    //                console.log("Success!");
+    //            },
+    //            function (err) {
+    //                console.log("Error");
+    //                console.dir(err);
+    //            });
+    //    }
+    //    function downloadAndEmailFile() {
+    //        var fileTransfer = new FileTransfer();
+    //        console.log("About to start transfer");
+    //        fileTransfer.download(url, directory + fileName,
+    //            function (entry) {
+    //                
+    //                console.log("Success!");
+    //                function callback(a, b, c) {
+    //                    
+    //                }
+    //                window.plugins.emailComposer.showEmailComposerWithCallback(callback, docData.description, docData.description + " is attached.", /* to */[], /* cc */[/*currentUser.email*/], /* bcc */[], false, [entry.toURL()], [[docData.description, 'base64data1']]);
+    //            },
+    //            function (err) {
+    //                console.log("Error");
+    //                console.dir(err);
+    //            });
+    //    }
+    //    function downloadAndReadFile() {
+    //        var fileTransfer = new FileTransfer();
+    //        console.log("About to start transfer");
+    //        fileTransfer.download(url, directory + fileName,
+    //            function (entry) {
+    //                console.log("Success!");
+    //                readFile(entry);
+    //            },
+    //            function (err) {
+    //                console.log("Error");
+    //                console.dir(err);
+    //            });
+    //    }
+    //    function readFile(entry) {
+    //        var transfer = fileHandler().openFile(entry.toURL());
+    //    }
+    //}
 });
 
 router.route('(/)views/account.html', function (params) {
@@ -343,18 +284,13 @@ router.route('(/)views/account.html', function (params) {
 });
 
 router.route('(/)views/searchresult.html', function (params) {
-    debugger;
+
     var searchString = params.searchstring;
     var library = params.library;
-    scope.data = new kendo.data.DataSource({
-        transport: {
-            read: {
-                url: api.rootUrl + "DocumentManagement/SearchDocuments",
-                data: {
-                    searchfor: searchString,
-                    IndexType: library
-                },
-            }
+    scope.data = new api.documentService().data.SearchResult({
+        data: {
+            searchfor: searchString,
+            IndexType: library
         },
         schema: {
             data: function (response) {
@@ -368,16 +304,11 @@ router.route('(/)views/searchresult.html', function (params) {
                 }
             }
         },
-        error: function (e) {
-        },
-        change: function (e) {
-        }
     });
 });
 
 router.route('(/)views/libraryinfo.html', function (params) {
     params.data = JSON.parse(params.data);
-    debugger;
     scope.viewShow = function (e) {
         fillForm($("form[name=extra-info]"), params.data.selectedItem);
     }
@@ -387,20 +318,15 @@ router.route('(/)views/libraryinfo.html', function (params) {
     }
 
     scope.showVersionHistory = function () {
-        router.navigate("/views/versionhistory.html?docID=" + params.data.selectedItem.ImageID + "&libraryName=" + params.data.selectedItem.ParentFolder);
+        router.navigate("views/versionhistory.html?docID=" + params.data.selectedItem.ImageID + "&libraryName=" + params.data.selectedItem.ParentFolder);
     }
 });
 
 router.route('(/)views/versionhistory.html', function (params) {
-    scope.data = new kendo.data.DataSource({
-        transport: {
-            read: {
-                url: api.rootUrl + "DocumentManagement/GetVersionHistory",
-                data: {
-                    Library: params.libraryName,
-                    documentid: params.docID
-                },
-            }
+    scope.data = new api.documentService().data.VersionHistory({
+        data: {
+            Library: params.libraryName,
+            documentid: params.docID
         },
         schema: {
             data: function (response) {
@@ -411,16 +337,39 @@ router.route('(/)views/versionhistory.html', function (params) {
                 }
             }
         },
-        error: function (e) {
-            console.log(e);
-        },
-        change: function (e) {
-            console.log(e);
-        }
     });
-    debugger;
+});
+
+router.route('(/)views/readfile.html', function (params) {
+    var fileReader = new FileReader();
+    var fileName = params.fileName;
+    window.resolveLocalFileSystemURL(cordova.file.externalApplicationStorageDirectory + fileName,
+        function (fileEntry) {
+            fileEntry.file(function (file) {
+                fileReader.onloadend = function (data) {
+                    $("#readfile textarea").val(data);
+                }
+                fileReader.readAsText(file);
+            });
+        },
+        function (error) {
+            console.log(error);
+        }
+    );
+});
+
+router.route('(/)views/favourites.html', function (params) {
+    scope.data = new api.documentService().data.Favourites({
+        schema: {
+            data: function (response) {
+                if (response.results.length == 0) {
+                    $("#versionhistory [data-role=listview]").append(elements.emptyLibrary);
+                } else {
+                    return response.results;
+                }
+            }
+        },
+    });
 });
 
 router.start();
-
-

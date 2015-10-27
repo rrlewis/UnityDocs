@@ -7,6 +7,9 @@ var app = new kendo.mobile.Application(
         initial: "views/authenticate.html",
     }
 );
+
+var navbar;
+
 console.log("Set app");
 (function () {
     "use strict";

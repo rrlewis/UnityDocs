@@ -1,79 +1,41 @@
-﻿<div id="libraries" data-reload="true" data-role="view" data-layout="default-layout" data-title="Libraries" data-init="loadData">
-    <ul data-role="listview" class="data-source sortable" data-template="library-template" data-source="scope.data" data-pull-to-refresh="true">
+﻿<div id="libraries" data-model="librariesViewModel" data-bind="events: { show: onViewShow }" data-reload="true" data-role="view" data-layout="default-layout" data-title="Libraries">
+    <ul data-role="listview" class="data-source sortable" data-bind="source:librariesData" data-template="library-template" data-pull-to-refresh="true">
         <li>Empty</li>
     </ul>
-
-</div>
-
-<!-- Edit Modal Template -->
-<div data-role="modalview" id="edit-modal" style="width: 100%; height: 100%;" data-modal="false">
-    <div data-role="header">
-        <div data-role="navbar">
-            <span data-role="view-title"></span>
-        </div>
-    </div>
-    <form action="./index.html">
-        <ul data-role="listview" data-style="inset">
-            <li>
-                <label>
-                    Name
-                    <input data-field="Name" type="text" />
-                </label>
-
-            </li>
-            <li>
-                <label>
-                    Description
-                    <input data-field="Description" type="text" />
-                </label>
-            </li>
-            <li>
-                <label>
-                    Require content approval for submitting new items
-                    <input data-field="RequireApproval" type="checkbox" />
-                </label>
-            </li>
-            <li>
-                <label>
-                    Allow documents in this library to be searchable
-                    <input data-field="IsSearchable" type="checkbox" />
-                </label>
-            </li>
-            <li>
-                <label>
-                    Allow folders to be created
-                    <input data-field="AllowFolders" type="checkbox" />
-                </label>
-            </li>
-            <li>
-                <label>
-                    Enable versioning
-                    <input data-field="IsVersioningAvailable" type="checkbox" />
-                </label>
-            </li>
-            <li>
-                <label>
-                    Document Template
-                    <input data-field="DocumentTemplate" type="text" />
-                </label>
-
-            </li>
-        </ul>
-    </form>
-    <div data-role="footer">
-        <div data-role="navbar">
-            <a data-click="closeModalView" data-role="button">Done</a>
-        </div>
-    </div>
 </div>
 
 <!-- List Item template -->
 <script type="text/kendo-x-tmpl" id="library-template">
-    <a data-role="button" class="info-button km-primary km-button-right km-icon-button" data-click="openEditModal" data-libname="#:Name#"><i class="fa fa-pencil"></i></a>
-    <a href="\\#views/library.html?indextypeorlibrary=#: Id #&key" class="library-link">
+    <a data-role="button" class="info-button km-primary km-button-right km-icon-button"><i class="fa fa-pencil"></i></a>
+    <a href="\\#views/library.html?indextypeorlibrary=#: Id #&title=#: Id #&key" class="library-link">
         <i class="km-thumbnail fa fa-database font-size-36"></i>
         <h4>#:Name#</h4>
         <p class="extra-info">Last modified on #:LastModifiedAt# by #:LastModifiedBy#.</p>
         <p class="extra-info">Document Count: #:DocumentCount#</p>
     </a>
+</script>
+
+<!-- View Model -->
+<script>
+    var librariesViewModel = {};
+    $(function (jQuery) {
+        librariesViewModel = new kendo.observable({
+            librariesData: new api.documentService().data.Libraries({
+                schema: {
+                    data: function (response) {
+                        if (response.results.length != 0) {
+                            for (var x = 0; x < response.results.length; x++) {
+                                response.results[x].LastModifiedAt = response.results[x].LastModifiedAt.split("T").join(" at ");
+                            }
+                            return response.results;
+                        }
+                    }
+                }
+            }),
+            onViewShow: function (e) {
+                globalOnViewShow(e);
+            },
+        });
+
+    })
 </script>

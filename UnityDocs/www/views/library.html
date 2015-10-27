@@ -1,197 +1,291 @@
-﻿<div id="library" data-reload="true" data-role="view" data-layout="default-layout" data-title="Library">
-    <ul data-role="listview" data-click="scope.getFileOptions" class="data-source sortable" data-template="library-item-template" data-source="scope.data" data-pull-to-refresh="true"></ul>
+﻿<div id="library" data-model="libraryViewModel" data-bind="events: { show: onViewShow }" data-reload="true" data-role="view" data-layout="default-layout" data-title="Library">
+    <div class="breadcrumbs">
+        <ul>
+        </ul>
+    </div>
+    <ul data-role="listview" data-bind="click:getFileOptions, source:libraryData" class="data-source sortable" data-template="library-item-template" data-pull-to-refresh="true"></ul>
 </div>
 
 
 <!-- Modals -->
-    <!-- Check In -->
-    <div id="check-in-modal" data-role="modalview" style="width:100%; height:100%;" data-modal="false">
-        <div data-role="header">
-            <div data-role="navbar">
-                <span data-role="view-title"></span>
-                <a data-align="left" data-click="closeModalView" data-role="button">Cancel</a>
-            </div>
-        </div>
-        <form>
-            <ul data-role="listview">
-                <li>
-                    <label class="km-inline-field km-label-above">
-                        Filename
-                        <input data-field="Filename" name="Filename" type="text" />
-                    </label>
-                </li>
-                <li>
-                    <label class="km-inline-field km-label-above">
-                        Version
-                        <select data-field="Version" name="Version">
-                            <option value="Major Version">Major Version</option>
-                            <option value="Minor Version">Minor Version</option>
-                        </select>
-                    </label>
-                </li>
-                <li>
-                    <label class="km-inline-field km-label-above">
-                        Comments
-                        <textarea data-field="Comments" name="Comments" readonly style="resize:vertical;"></textarea>
-                    </label>
-                </li>
-                <li>
-                    <label class="km-inline-field km-label-above">
-                        Tags
-                        <input data-field="Tags" name="Tags" type="text" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        File
-                        <input data-field="File" name="File" type="file"/>
-                    </label>
-                </li>
-            </ul>
-        </form>
-        <div data-role="footer">
-            <div data-role="navbar">
-                <a data-click="closeModalView" data-role="button">Upload</a>
-            </div>
+<!-- Check In -->
+<div id="check-in-modal" data-model="scope.checkInModalViewModel" data-role="modalview" style="width:100%; height:100%;" data-modal="false">
+    <div data-role="header">
+        <div data-role="navbar">
+            <span data-role="view-title" data-bind="text:fileName"></span>
+            <a data-align="left" data-click="closeModalView" data-role="button">Cancel</a>
         </div>
     </div>
+    <form>
+        <ul data-role="listview">
+            <li>
+                <label class="km-inline-field km-label-above">
+                    Filename
+                    <input data-field="Filename" name="Filename" type="text" />
+                </label>
+            </li>
+            <li>
+                <label class="km-inline-field km-label-above">
+                    Version
+                    <select data-field="Version" name="Version">
+                        <option value="Major Version">Major Version</option>
+                        <option value="Minor Version">Minor Version</option>
+                    </select>
+                </label>
+            </li>
+            <li>
+                <label class="km-inline-field km-label-above">
+                    Comments
+                    <textarea data-field="Comments" name="Comments" readonly style="resize:vertical;"></textarea>
+                </label>
+            </li>
+            <li>
+                <label class="km-inline-field km-label-above">
+                    Tags
+                    <input data-field="Tags" name="Tags" type="text" />
+                </label>
+            </li>
+            <li>
+                <label>
+                    File
+                    <input data-field="File" name="File" type="file" />
+                </label>
+            </li>
+        </ul>
+    </form>
+    <div data-role="footer">
+        <div data-role="navbar">
+            <a data-click="closeModalView" data-role="button">Upload</a>
+        </div>
+    </div>
+</div>
 
-<!-- Templates -->
+<!-- List Item -->
+<script type="text/kendo-x-tmpl" id="library-item-template">
+    # if (CheckedOutBy == scope.user.username){ #
+    <a data-role="button" class="info-button km-primary km-button-right km-icon-button current-user" data-click="scope.getInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
+    # } else if (CheckedOutBy != scope.user.username && CheckedOutBy != null) { #
+    <a data-role="button" class="info-button km-primary km-button-right km-icon-button other-user" data-click="scope.getInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
+    # } else { #
+    <a data-role="button" class="info-button km-primary km-button-right km-icon-button" data-click="scope.getInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
+    # } #
+    # if (Type == 'FOLDER') { #
+    <a href="\\#views/library.html?indextypeorlibrary=#:scope.libraryName#&subfolder=#:Key#&title=#:Description#&key" data-type="#:Type#" class="library-link">
+        <i class="km-thumbnail fa fa-folder font-size-36"></i>
+        <h4>#:Description#</h4>
+        <p class="extra-info">Last modified on #:Modified# by #:ModifiedBy#.</p>
+        <p class="extra-info">
+            &nbsp;
+        </p>
+    </a>
+    # } else { #
 
-    <!-- List Item -->
-    <script type="text/kendo-x-tmpl" id="library-item-template">
-        # if (CheckedOutBy == scope.user.username){ #
-        <a data-role="button" class="info-button km-primary km-button-right km-icon-button current-user" data-click="scope.getInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
-        # } else if (CheckedOutBy != scope.user.username && CheckedOutBy != null) { #
-        <a data-role="button" class="info-button km-primary km-button-right km-icon-button other-user" data-click="scope.getInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
+    <a data-type="#:Type#" data-description="#:Description#" data-imageid="#:ImageID#" data-checkedoutby="#:CheckedOutBy#" class="library-link">
+        # if (Type == 'DOCX' || Type == 'DOC') { #
+        <i class="km-thumbnail fa fa-file-word-o font-size-36"></i>
+        # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF' || Type == 'ICO') { #
+        <i class="km-thumbnail fa fa-file-image-o font-size-36"></i>
+        # } else if (Type == 'XLSM' || Type == 'XLS' || Type == 'XLSX') { #
+        <i class="km-thumbnail fa fa-file-excel-o font-size-36"></i>
+        # } else if (Type == 'PDF') { #
+        <i class="km-thumbnail fa fa-file-pdf-o font-size-36"></i>
+        # } else if (Type == 'TXT') { #
+        <i class="km-thumbnail fa fa-file-text-o font-size-36"></i>
+        # } else if (Type == 'ZIP' || Type == 'RAR') { #
+        <i class="km-thumbnail fa fa-file-archive-o font-size-36"></i>
         # } else { #
-        <a data-role="button" class="info-button km-primary km-button-right km-icon-button" data-click="scope.getInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
+        <i class="km-thumbnail fa fa-file-o font-size-36"></i>
         # } #
-        <!-- FIX THIS TEMPLATE -->
-        # if (Type == 'FOLDER') { #
-        <a href="\\#views/library.html?indextypeorlibrary=#:scope.libraryName#&subfolder=#:Description#&key" data-type="#:Type#" class="library-link">
-            <i class="km-thumbnail fa fa-folder font-size-36"></i>
-            <h4>#:Description#</h4>
-            <p class="extra-info">Last modified on #:Modified# by #:ModifiedBy#.</p>
-            <p class="extra-info">
-                &nbsp;
-            </p>
-        </a>
+
+        <h4>#:Description#</h4>
+
+        <p class="extra-info">Last modified at #:Modified# by #:ModifiedBy#.</p>
+        # if (CheckedOutBy == null){ #
+        <p class="extra-info">
+            Checked Out By: Nobody.
+        </p>
         # } else { #
-
-        <a data-type="#:Type#" data-description="#:Description#" data-imageid="#:ImageID#" data-checkedoutby="#:CheckedOutBy#" class="library-link">
-            # if (Type == 'DOCX' || Type == 'DOC') { #
-            <i class="km-thumbnail fa fa-file-word-o font-size-36"></i>
-            # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF' || Type == 'ICO') { #
-            <i class="km-thumbnail fa fa-file-image-o font-size-36"></i>
-            # } else if (Type == 'XLSM' || Type == 'XLS' || Type == 'XLSX') { #
-            <i class="km-thumbnail fa fa-file-excel-o font-size-36"></i>
-            # } else if (Type == 'PDF') { #
-            <i class="km-thumbnail fa fa-file-pdf-o font-size-36"></i>
-            # } else if (Type == 'TXT') { #
-            <i class="km-thumbnail fa fa-file-text-o font-size-36"></i>
-            # } else if (Type == 'ZIP' || Type == 'RAR') { #
-            <i class="km-thumbnail fa fa-file-archive-o font-size-36"></i>
-            # } else { #
-            <i class="km-thumbnail fa fa-file-o font-size-36"></i>
-            # } #
-
-            <h4>#:Description#</h4>
-
-            <p class="extra-info">Last modified at #:Modified# by #:ModifiedBy#.</p>
-            # if (CheckedOutBy == null){ #
-            <p class="extra-info">
-                Checked Out By: Nobody.
-            </p>
-            # } else { #
-            <p class="extra-info">
-                Checked Out By: #:CheckedOutBy#.
-            </p>
-            # } #
-        </a>
+        <p class="extra-info">
+            Checked Out By: #:CheckedOutBy#.
+        </p>
         # } #
-    </script>
+    </a>
+    # } #
+</script>
 
-<!-- Scripts and Styles -->
+<!-- View Model -->
 <script>
-    var originalData = {};
-    function closeModalView(e) {
-        // find the closest modal view, relative to the button element.
-        var modalView = e.sender.element.closest("[data-role=modalview]").data("kendoMobileModalView");
-        modalView.close();
-    }
+    var libraryViewModel = {};
+    $(function (jQuery) {
+        libraryViewModel = new kendo.observable({
+            libraryData: [],
+            currentUser: currentUser.get(),
+            viewTitle: "",
+            getFileOptions: function (e) {
+                if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text") || e.target.hasClass("empty-library")) {
+                    return;
+                }
+                if (e.item.children(".library-link").data("type") == "FOLDER") {
+                    return;
+                }
+                var link = e.item.children(".library-link");
+                var docData = link.data();
 
-    function openInfoModal(e) {
-        debugger;
-        var modalView = $("#info-modal").data("kendoMobileModalView");
-        var data = e.button.data();
-        var libraryItems = scope.data.data();
-        for (var x = 0; x < libraryItems.length; x++) {
-            scope.selectedItem = libraryItems[x];
-            if (scope.selectedItem.Description == data.description) {
-                break;
-            }
-        }
+                var buttonLabels = ['View', 'Email'];
+                if (docData.checkedoutby == null) {
+                    buttonLabels.push("Check Out");
+                    buttonLabels.push("Check Out & Edit");
+                } else {
+                    buttonLabels.push("Check In");
+                    buttonLabels.push("Edit");
+                }
 
-        api.documentService().getVersionHistory(scope.libraryName, scope.selectedItem.ImageID).then(function (results) {
-            var listView = $("#version-history ul.data-source").data("kendoMobileListView");
-            var dataSource = new kendo.data.DataSource({ data: results.results });
-            $("#info-modal textarea[data-field=Comments").val(results.results[0].Comments == null ? 'No comments.' : results.results[0].Comments);
-            $("#version-history [data-role=view-title]").text(scope.selectedItem.Description + " History");
-            listView.setDataSource(dataSource);
+                var actionSheetOptions = {
+                    'title': 'What do you want to do with ' + docData.description,
+                    'buttonLabels': buttonLabels,
+                    'androidEnableCancelButton': true, // default false
+                    'addCancelButtonWithLabel': 'Cancel',
+                };
+                function gotAction(buttonIndex) {
+                    setTimeout(function () {
+                        // like other Cordova plugins (prompt, confirm) the buttonIndex is 1-based (first button is index 1)
+                        switch (buttonIndex) {
+                            case 1:
+                                // Read
+                                router.navigate("views/readfile.html?fileName=" + docData.description);
+                                break;
+                            case 2:
+                                // Email file
+                                fileHandler().downloadFile(docData.imageid, docData.description,
+                                    function (fileEntry) {
+                                        var options = {
+                                            subject: fileEntry.name, // string
+                                            body: "test body", // string
+                                            to: [], // array
+                                            cc: [], // array
+                                            bcc: [], // array
+                                            isHTML: false, // bool
+                                            attachments: [fileEntry.toURL()], // array
+                                        };
+                                        fileHandler().emailFile(options,
+                                            function (result) {
+                                                if (result == "OK") {
+                                                    console.log("Email worked.")
+                                                }
+                                            }
+                                        );
+                                    },
+                                    function (error) {
+                                        console.log(error);
+                                    }
+                                );
+                                break;
+                            case 3:
+                                // Check Out / Check In
+                                if (buttonLabels[2] == "Check In") {
+                                    // check file in
+                                    scope.checkInModalViewModel.set("fileName", title);
+                                    $("#check-in-modal").data("kendoMobileModalView").open();
+                                    //api.documentService().undoCheckOutDocument(docData.imageid).then(scope.refreshData);
+                                } else
+                                    if (buttonLabels[2] == "Check Out") {
+                                        // check file out
+                                        api.documentService().checkOutDocument(docData.imageid).then(scope.refreshData);
+                                    }
+                                break;
+                            case 4:
+                                // Edit / Check Out & Edit
+                                if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text")) {
+                                    return;
+                                }
+                                if (e.item.children(".library-link").data("type") == "FOLDER") {
+                                    return;
+                                }
+                                if (actionSheetOptions.buttonLabels[3] == 'Edit') {
+                                    // Don't check out
+                                    downloadFile();
+                                } else
+                                    if (actionSheetOptions.buttonLabels[3] == 'Check Out & Edit') {
+                                        // Check out
+                                        api.documentService().checkOutDocument(docData.imageid).then(downloadFile);
+                                    }
+                                function downloadFile(checkOutResults) {
+                                    scope.data.read();
+                                    fileHandler().downloadFile(docData.imageid, docData.description,
+                                        function (fileEntry) {
+                                            //success
+                                            fileHandler().openFile(fileEntry);
+                                        },
+                                        function (error) {
+                                            //fail
+                                            console.log(error);
+                                        }
+                                    );
+                                }
+                                break;
+                        }
+                    });
+                };
+                window.plugins.actionsheet.show(actionSheetOptions, gotAction);
+            },
+            onViewShow: function (e) {
+                var params = e.view.params;
+                for (var prop in params) {
+                    if (params.hasOwnProperty(prop)) {
+                        if (params[prop] == 'undefined') {
+                            params[prop] = '';
+                        }
+                    }
+                }
+                if (typeof params.subfolder == 'undefined') {
+                    params.subfolder = '';
+                }
+                this.set('libraryData', new api.documentService().data.Documents({
+                    data: {
+                        indextypeorlibrary: encodeURI(params.indextypeorlibrary),
+                        subfolder: encodeURI(params.subfolder),
+                        key: encodeURI(params.key),
+                    },
+                    schema: {
+                        data: function (response) {
+                            if (response.results.length == 0) {
+                                loader.hide();
+                                $("#library [data-role=listview]").append(elements.emptyLibrary);
+                            } else {
+                                for (var x = 0; x < response.results.length; x++) {
+                                    response.results[x].Modified = response.results[x].Modified.split("T").join(" at ");
+                                }
+                                return response.results;
+                            }
+                        }
+                    },
+                }));
+                this.set('currentUser', currentUser.get());
+                this.set('libraryName', params.indextypeorlibrary);
+                navbar.title(params.title)
+
+                globalOnViewShow(e);
+            },
         });
-
-        $("#info-modal [data-role=view-title]").text(data.description);
-        modalView.open();
-        originalData = $("form[name=extra-info]").serializeObject();
-        originalData.ImageID = scope.selectedItem.ImageID;
-    }
-
-    function closeInfoModal(e) {
-        var newData = $("form[name=extra-info]").serializeObject();
-        if (newData.Tags != originalData.Tags) {
-            api.documentService().updateDocumentTags(originalData.ImageID, newData.Tags).then(function (result) {
-                $("form[name=extra-info]").trigger('reset');
-                closeModalView(e);
-            })
-        } else {
-            $("form[name=extra-info]").trigger('reset');
-            closeModalView(e);
-        }
-    }
-
-    function openVersionHistory(e) {
-        var modalView = $("#version-history").data("kendoMobileModalView");
-        modalView.open();
-    }
-
-    function closeVersionHistory(e) {
-        closeModalView(e);
-    }
-
-    function openCheckInModal(filePath) {
-
-    }
+    });
 </script>
 
 <style>
-    #version-history div ul {
-        list-style: none;
-        padding: 0;
+    div.breadcrumbs {
     }
 
-        #version-history div ul li {
-            margin-top: 10px;
-            margin-bottom: 10px;
-            padding-left: 10px;
-            padding-right: 10px;
+        div.breadcrumbs ul {
+            list-style: none;
+            padding: 0 5px;
+            margin: 5px;
         }
 
-    #info-modal form[name=extra-info] li {
-        padding: 1.4em .84em .61em .84em;
-    }
+            div.breadcrumbs ul li {
+                display: inline-block;
+                margin: 0 4px;
+            }
 
-    #info-modal form[name=extra-info] li label{
-        width:100%;
-    }
+                div.breadcrumbs ul li a {
+                    padding: 5px;
+                }
 </style>

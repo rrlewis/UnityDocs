@@ -19,6 +19,7 @@
   <gap:plugin name="cordova-plugin-actionsheet" source="npm"/>
   <gap:plugin name="cordova-plugin-email" source="npm"/>
   <gap:plugin name="cordova-plugin-whitelist" source="npm" />
+  <gap:plugin name="cordova-plugin-document-contract" source="npm" />
   
   <!-- Whitelist -->
   <allow-navigation href="http://*/*" />

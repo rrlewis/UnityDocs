@@ -29,11 +29,11 @@
 </head>
 <body>
     <!-- Main Layout -->
-    <section data-role="layout" data-id="default-layout" data-show="viewLoaded">
+    <section data-role="layout" data-id="default-layout">
         <header data-role="header" class="shadow-1 search">
             <div data-role="navbar" class="km-accent">
                 <a data-role="button" data-rel="drawer" href="#drawer" data-icon="hamburger" data-align="left"></a>
-                <span data-role="view-title" id="view-title">Unity Docs</span>
+                <span data-role="view-title" id="view-title" data-bind="text:viewTitle">Unity Docs</span>
                 <form action="javascript:filter.filter()">
                     <input type="search" onkeyup="filter.filter()" onchange="filter.filter()" placeholder="Search..." />
                 </form>
@@ -55,7 +55,7 @@
     </section>
 
     <!-- Auth Layout -->
-    <section data-role="layout" data-id="auth-layout" data-show="viewLoaded"></section>
+    <section data-role="layout" data-id="auth-layout"></section>
 
     <!-- Menu Drawer -->
     <div data-role="drawer" id="drawer" data-before-show="onBeforeShow">
@@ -67,6 +67,7 @@
         <ul data-role="listview" class="km-listview-icons">
             <li data-icon="home"><a href="#views/libraries.html">Libraries</a></li>
             <li data-icon="user"><a href="#views/account.html">Account</a></li>
+            <li data-icon="favorites"><a href="#views/favourites.html">Favourites</a></li>
         </ul>
     </div>
 
@@ -85,6 +86,7 @@
 
     <!-- JS -->
     <script src="js/app.js"></script>
+    <script src="js/viewmodels.js"></script>
     <script src="js/controllers.js"></script>
 
     <script src="js/index.js"></script>
