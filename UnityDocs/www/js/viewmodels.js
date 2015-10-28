@@ -1,17 +1,8 @@
-﻿
-
-
-
-
-var accountViewModel = new kendo.observable({
+﻿var accountViewModel = new kendo.observable({
 
 });
 
 var favouritesViewModel = new kendo.observable({
-
-});
-
-var libraryinfoViewModel = new kendo.observable({
 
 });
 

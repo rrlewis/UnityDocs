@@ -1,9 +1,8 @@
 ﻿<div id="library" data-model="libraryViewModel" data-bind="events: { show: onViewShow }" data-reload="true" data-role="view" data-layout="default-layout" data-title="Library">
     <div class="breadcrumbs">
-        <ul>
-        </ul>
+        <ul></ul>
     </div>
-    <ul data-role="listview" data-bind="click:getFileOptions, source:libraryData" class="data-source sortable" data-template="library-item-template" data-pull-to-refresh="true"></ul>
+    <ul data-role="listview" data-bind="source:libraryData" class="data-source sortable" data-template="library-item-template" data-pull-to-refresh="true"></ul>
 </div>
 
 
@@ -62,12 +61,12 @@
 
 <!-- List Item -->
 <script type="text/kendo-x-tmpl" id="library-item-template">
-    # if (CheckedOutBy == scope.user.username){ #
-    <a data-role="button" class="info-button km-primary km-button-right km-icon-button current-user" data-click="scope.getInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
-    # } else if (CheckedOutBy != scope.user.username && CheckedOutBy != null) { #
-    <a data-role="button" class="info-button km-primary km-button-right km-icon-button other-user" data-click="scope.getInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
+    # if (CheckedOutBy == currentUser.get().username){ #
+    <a data-role="button" class="info-button km-primary km-button-right km-icon-button current-user" data-bind="click:showExtraInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
+    # } else if (CheckedOutBy != currentUser.get().username && CheckedOutBy != null) { #
+    <a data-role="button" class="info-button km-primary km-button-right km-icon-button other-user" data-bind="click:showExtraInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
     # } else { #
-    <a data-role="button" class="info-button km-primary km-button-right km-icon-button" data-click="scope.getInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
+    <a data-role="button" class="info-button km-primary km-button-right km-icon-button" data-bind="click:showExtraInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
     # } #
     # if (Type == 'FOLDER') { #
     <a href="\\#views/library.html?indextypeorlibrary=#:scope.libraryName#&subfolder=#:Key#&title=#:Description#&key" data-type="#:Type#" class="library-link">
@@ -79,8 +78,7 @@
         </p>
     </a>
     # } else { #
-
-    <a data-type="#:Type#" data-description="#:Description#" data-imageid="#:ImageID#" data-checkedoutby="#:CheckedOutBy#" class="library-link">
+    <a data-bind="click:showActionSheet" data-type="#:Type#" data-description="#:Description#" data-imageid="#:ImageID#" data-checkedoutby="#:CheckedOutBy#" class="library-link">
         # if (Type == 'DOCX' || Type == 'DOC') { #
         <i class="km-thumbnail fa fa-file-word-o font-size-36"></i>
         # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF' || Type == 'ICO') { #
@@ -119,44 +117,92 @@
     $(function (jQuery) {
         libraryViewModel = new kendo.observable({
             libraryData: [],
-            currentUser: currentUser.get(),
             viewTitle: "",
-            getFileOptions: function (e) {
-                if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text") || e.target.hasClass("empty-library")) {
-                    return;
+            onViewShow: function (e) {
+                var params = e.view.params;
+                for (var prop in params) {
+                    if (params.hasOwnProperty(prop)) {
+                        if (params[prop] == 'undefined') {
+                            params[prop] = '';
+                        }
+                    }
                 }
-                if (e.item.children(".library-link").data("type") == "FOLDER") {
-                    return;
+                if (typeof params.subfolder == 'undefined') {
+                    params.subfolder = '';
                 }
-                var link = e.item.children(".library-link");
-                var docData = link.data();
+                this.set('libraryData', new api.documentService().data.Documents({
+                    data: {
+                        indextypeorlibrary: encodeURI(typeof params.indextypeorlibrary == 'undefined' ? '' : params.indextypeorlibrary),
+                        subfolder: encodeURI(typeof params.subfolder == 'undefined' ? '' : params.subfolder),
+                        key: encodeURI(typeof params.key == 'undefined' ? '' : params.key),
+                    },
+                    schema: {
+                        data: function (response) {
+                            if (response.results.length == 0) {
+                                loader.hide();
+                                $("#library [data-role=listview]").append(elements.emptyLibrary);
+                            } else {
+                                for (var x = 0; x < response.results.length; x++) {
+                                    response.results[x].Modified = response.results[x].Modified.split("T").join(" at ");
+                                }
+                                return response.results;
+                            }
+                        }
+                    },
+                }));
+                this.set('libraryName', params.indextypeorlibrary);
+                navbar.title(params.title)
 
-                var buttonLabels = ['View', 'Email'];
-                if (docData.checkedoutby == null) {
+                globalOnViewShow(e);
+            },
+            showExtraInfo: function (e) {
+                var listItemData = e.button.data(); // Get the attribute values of the clicked list item element.
+                var libraryItems = this.libraryData.data();
+                var selectedItem;
+                for (var x = 0; x < libraryItems.length; x++) {
+                    selectedItem = libraryItems[x];
+                    if (selectedItem.Description == listItemData.description) {
+                        break;
+                    }
+                }
+                api.documentService().getVersionHistory(selectedItem.ParentFolder, selectedItem.ImageID).then(function (results) {
+                    var paramData = {};
+                    var versionHistory = results.results;
+                    paramData.versionHistory = versionHistory;
+                    paramData.selectedItem = selectedItem;
+                    paramData = JSON.stringify(paramData);
+                    router.navigate("views/libraryinfo.html?data=" + paramData);
+                });
+            },
+            showActionSheet: function (e) {
+                var document = e.data();
+
+                var buttonLabels = ['View', 'Email']; // The buttons that will always be on the actionsheet.
+                if (document.CheckedOutBy == null) {
+                    // if not checked out give option to check out or check out and edit.
                     buttonLabels.push("Check Out");
                     buttonLabels.push("Check Out & Edit");
                 } else {
+                    // else give option to check in or edit.
                     buttonLabels.push("Check In");
                     buttonLabels.push("Edit");
                 }
-
                 var actionSheetOptions = {
-                    'title': 'What do you want to do with ' + docData.description,
+                    'title': 'What do you want to do with ' + document.Description,
                     'buttonLabels': buttonLabels,
                     'androidEnableCancelButton': true, // default false
                     'addCancelButtonWithLabel': 'Cancel',
                 };
                 function gotAction(buttonIndex) {
                     setTimeout(function () {
-                        // like other Cordova plugins (prompt, confirm) the buttonIndex is 1-based (first button is index 1)
                         switch (buttonIndex) {
                             case 1:
                                 // Read
-                                router.navigate("views/readfile.html?fileName=" + docData.description);
+                                router.navigate("views/readfile.html?fileName=" + document.Description);
                                 break;
                             case 2:
                                 // Email file
-                                fileHandler().downloadFile(docData.imageid, docData.description,
+                                fileHandler().downloadFile(document.ImageID, document.Description,
                                     function (fileEntry) {
                                         var options = {
                                             subject: fileEntry.name, // string
@@ -190,28 +236,22 @@
                                 } else
                                     if (buttonLabels[2] == "Check Out") {
                                         // check file out
-                                        api.documentService().checkOutDocument(docData.imageid).then(scope.refreshData);
+                                        api.documentService().checkOutDocument(document.ImageID).then(scope.refreshData);
                                     }
                                 break;
                             case 4:
                                 // Edit / Check Out & Edit
-                                if (e.target.hasClass("km-icon-button") || e.target.hasClass("fa") || e.target.hasClass("km-text")) {
-                                    return;
-                                }
-                                if (e.item.children(".library-link").data("type") == "FOLDER") {
-                                    return;
-                                }
                                 if (actionSheetOptions.buttonLabels[3] == 'Edit') {
                                     // Don't check out
                                     downloadFile();
                                 } else
                                     if (actionSheetOptions.buttonLabels[3] == 'Check Out & Edit') {
                                         // Check out
-                                        api.documentService().checkOutDocument(docData.imageid).then(downloadFile);
+                                        api.documentService().checkOutDocument(document.ImageID).then(downloadFile);
                                     }
                                 function downloadFile(checkOutResults) {
                                     scope.data.read();
-                                    fileHandler().downloadFile(docData.imageid, docData.description,
+                                    fileHandler().downloadFile(document.ImageID, document.Description,
                                         function (fileEntry) {
                                             //success
                                             fileHandler().openFile(fileEntry);
@@ -227,44 +267,6 @@
                     });
                 };
                 window.plugins.actionsheet.show(actionSheetOptions, gotAction);
-            },
-            onViewShow: function (e) {
-                var params = e.view.params;
-                for (var prop in params) {
-                    if (params.hasOwnProperty(prop)) {
-                        if (params[prop] == 'undefined') {
-                            params[prop] = '';
-                        }
-                    }
-                }
-                if (typeof params.subfolder == 'undefined') {
-                    params.subfolder = '';
-                }
-                this.set('libraryData', new api.documentService().data.Documents({
-                    data: {
-                        indextypeorlibrary: encodeURI(params.indextypeorlibrary),
-                        subfolder: encodeURI(params.subfolder),
-                        key: encodeURI(params.key),
-                    },
-                    schema: {
-                        data: function (response) {
-                            if (response.results.length == 0) {
-                                loader.hide();
-                                $("#library [data-role=listview]").append(elements.emptyLibrary);
-                            } else {
-                                for (var x = 0; x < response.results.length; x++) {
-                                    response.results[x].Modified = response.results[x].Modified.split("T").join(" at ");
-                                }
-                                return response.results;
-                            }
-                        }
-                    },
-                }));
-                this.set('currentUser', currentUser.get());
-                this.set('libraryName', params.indextypeorlibrary);
-                navbar.title(params.title)
-
-                globalOnViewShow(e);
             },
         });
     });

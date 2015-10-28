@@ -1,46 +1,46 @@
-﻿<div id="libraryinfo" data-role="view" data-layout="default-layout" data-title="Library Info">
+﻿<div id="libraryinfo" data-model="libraryinfoViewModel" data-bind="events:{ show: onViewShow }" data-role="view" data-layout="default-layout" data-title="Library Info">
     <form name="extra-info">
         <ul data-role="listview">
             <li>
                 <label class="km-inline-field km-label-above">
                     Type
-                    <input data-field="Type" name="Type" type="text" readonly />
+                    <input data-field="Type" name="Type" type="text" data-bind="value:selectedItem.Type" readonly />
                 </label>
             </li>
             <li>
                 <label class="km-inline-field km-label-above">
                     Name
-                    <input data-field="Description" name="Description" type="text" readonly />
+                    <input data-field="Description" name="Description" type="text" data-bind="value:selectedItem.Description" readonly />
                 </label>
             </li>
             <li>
                 <label class="km-inline-field km-label-above">
                     Modified
-                    <input data-field="Modified" name="Modified" type="text" readonly />
+                    <input data-field="Modified" name="Modified" type="text" data-bind="value:selectedItem.Modified" readonly />
                 </label>
             </li>
             <li>
                 <label class="km-inline-field km-label-above">
                     Modified By
-                    <input data-field="ModifiedBy" name="ModifiedBy" type="text" readonly />
+                    <input data-field="ModifiedBy" name="ModifiedBy" type="text" data-bind="value:selectedItem.ModifiedBy" readonly />
                 </label>
             </li>
             <li>
                 <label class="km-inline-field km-label-above">
                     Checked Out By
-                    <input data-field="CheckedOutByFullName" name="CheckedOutByFullName" type="text" readonly />
+                    <input data-field="CheckedOutByFullName" name="CheckedOutByFullName" type="text" data-bind="value:selectedItem.CheckedOutByFullName" readonly />
                 </label>
             </li>
             <li>
                 <label class="km-inline-field km-label-above">
                     Tags
-                    <input data-field="Tags" name="Tags" type="text" placeholder="A string with each tag delimited by a ;" />
+                    <input data-field="Tags" name="Tags" type="text" placeholder="A string with each tag delimited by a ;" data-bind="value:selectedItem.Tags" />
                 </label>
             </li>
             <li>
                 <label class="km-inline-field km-label-above">
                     Comments
-                    <textarea data-field="Comments" name="Comments" readonly style="resize:vertical;"></textarea>
+                    <textarea data-field="Comments" name="Comments" data-bind="value:versionHistory[0].Comments" readonly style="resize:vertical;"></textarea>
                 </label>
             </li>
         </ul>
@@ -62,3 +62,19 @@
             width: 100%;
         }
 </style>
+
+<!-- ViewModel -->
+<script>
+    var libraryinfoViewModel = {};
+    $(function (jQuery) {
+        libraryinfoViewModel = new kendo.observable({
+            selectedItem: {},
+            versionHistory: [],
+            onViewShow: function (e) {
+                var params = JSON.parse(e.view.params.data);
+                this.set('versionHistory', params.versionHistory);
+                this.set('selectedItem', params.selectedItem);
+            }
+        });
+    });
+</script>
