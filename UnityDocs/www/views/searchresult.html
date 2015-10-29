@@ -1,4 +1,4 @@
-﻿<div id="searchresult" data-reload="true" data-role="view" data-layout="default-layout" data-title="Search Results">
+﻿<div id="searchresult" data-model="searchresultViewModel" data-reload="true" data-role="view" data-layout="default-layout" data-title="Search Results">
     <ul data-role="listview" class="data-source sortable" data-template="result-item-template" data-source="scope.data" data-pull-to-refresh="true"></ul>
 </div>
 
@@ -50,4 +50,39 @@
         # } #
     </a>
     # } #
+</script>
+
+<script>
+    var searchresultViewModel;
+    $(function () {
+        searchresultViewModel = new kendo.observable({
+            searchString: "",
+            library: "",
+            searchResultData: [],
+            onViewShow: function (e) {
+                var params = e.view.params;
+                this.set('searchString', params.searchstring);
+                this.set('library', params.library);
+                this.set('searchResultData', new api.documentService().data.SearchResult({
+                    data: {
+                        searchfor: searchString,
+                        IndexType: library
+                    },
+                    schema: {
+                        data: function (response) {
+                            if (response.results.length == 0) {
+                                $("#searchresults [data-role=listview]").append(elements.emptyFolder);
+                            } else {
+                                for (var x = 0; x < response.results.length; x++) {
+                                    response.results[x].LastModifiedAt = response.results[x].LastModifiedAt.split("T").join(" at ");
+                                }
+                                return response.results;
+                            }
+                        }
+                    },
+                }));
+                globalOnViewShow(e);
+            }
+        });
+    });
 </script>

@@ -242,7 +242,7 @@ var fileHandler = function () {
                         )
                     }
                 }
-                );
+            );
         },
         checkFileIn: function () {
         },
@@ -292,11 +292,11 @@ var checkInChecker = {
 var loader = {
     isVisible: false,
     show: function () {
-        app.pane.loader.show();
+        app.showLoading();
         this.isVisible = true;
     },
     hide: function () {
-        app.pane.loader.hide();
+        app.hideLoading();
         this.isVisible = false;
     },
     check: function () {
@@ -347,24 +347,6 @@ var currentUser = {
     }
 };
 
-function checkSearch(e) {
-    var viewID = app.view().element.attr("id");
-    app.searchEnabled = typeof scope.data != "undefined" && viewID == 'library';
-    app.filterEnabled = typeof scope.data != "undefined";
-    if (app.filterEnabled) {
-        $("#" + viewID + " #filter-btn").show();
-        $("#" + viewID + " #options-btn").show();
-    } else {
-        $("#" + viewID + " #filter-btn").hide();
-        $("#" + viewID + " #options-btn").hide();
-    }
-    if (app.searchEnabled) {
-        $("#search-btn").show();
-    } else {
-        $("#search-btn").hide();
-    }
-}
-
 function globalOnViewShow(e) {
     loader.check();
     navbar = app.view().header.find(".km-navbar").data("kendoMobileNavBar");
@@ -379,7 +361,6 @@ function globalOnViewShow(e) {
 }
 
 function defaultLayoutLoaded(e) {
-    checkSearch(e);
     dataOptionsActionSheet.functions().gridView.checkGridView(e);
 }
 

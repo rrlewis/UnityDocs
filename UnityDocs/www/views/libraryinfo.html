@@ -48,7 +48,7 @@
     <div data-role="footer">
         <div data-role="navbar" class="km-accent">
             <a data-align="right" data-click="closeModalView" data-role="button" data-icon="delete">Delete</a>
-            <a data-align="left" data-click="scope.showVersionHistory" data-role="button" data-icon="history">History</a>
+            <a data-align="left" data-bind="click:openVersionHistory" data-role="button" data-icon="history">History</a>
         </div>
     </div>
 </div>
@@ -70,10 +70,18 @@
         libraryinfoViewModel = new kendo.observable({
             selectedItem: {},
             versionHistory: [],
+            deleteItem: function () {
+
+            },
+            openVersionHistory: function () {
+                router.navigate("views/versionhistory.html?selectedItem=" + JSON.stringify(this.selectedItem) + "&versionHistory=" + JSON.stringify(this.versionHistory));
+            },
             onViewShow: function (e) {
                 var params = JSON.parse(e.view.params.data);
                 this.set('versionHistory', params.versionHistory);
                 this.set('selectedItem', params.selectedItem);
+                navbar.title(params.selectedItem.Description + " Info");
+                globalOnViewShow(e);
             }
         });
     });

@@ -1,6 +1,5 @@
-﻿<div id="versionhistory" data-role="view" data-layout="default-layout" data-title="Version History">
-    <ul data-role="listview" class="data-source sortable" data-template="version-history-template" data-source="scope.data">
-
+﻿<div id="versionhistory" data-model="versionhistoryViewModel" data-bind="events: { show: onViewShow }" data-role="view" data-layout="default-layout" data-title="Version History">
+    <ul data-role="listview" data-bind="source:versionHistoryData, events: { data-bound: test }" class="data-source sortable" data-template="version-history-template">
     </ul>
 </div>
 
@@ -42,3 +41,40 @@
             padding-right: 10px;
         }
 </style>
+
+<script>
+    function test(e) {
+        debugger;
+    }
+    var versionhistoryViewModel;
+    $(function (jQuery) {
+        versionhistoryViewModel = new kendo.observable({
+            versionHistoryData: [],
+            onDataBound: function (e) {
+                debugger;
+            },
+            onViewShow: function (e) {
+                var params = {};
+                params.selectedItem = JSON.parse(e.view.params.selectedItem);
+                params.versionHistory = JSON.parse(e.view.params.versionHistory);
+                this.set('versionHistoryData',  new api.documentService().data.VersionHistory({
+                    data: {
+                        Library: params.selectedItem.ParentFolder,
+                        documentid: params.selectedItem.ImageID
+                    },
+                    schema: {
+                        data: function (response) {
+                            if (response.results.length == 0) {
+                                $("#versionhistory [data-role=listview]").append(elements.emptyLibrary);
+                            } else {
+                                return response.results;
+                            }
+                        }
+                    },
+                }))
+                navbar.title(params.selectedItem.Description + " History");
+                globalOnViewShow(e);
+            }
+        });
+    });
+</script>

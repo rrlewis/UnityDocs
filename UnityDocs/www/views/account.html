@@ -1,23 +1,43 @@
-﻿<div id="account" data-role="view" data-layout="default-layout" data-title="Account" data-init="scope.onInit">
+﻿<div id="account" data-model="accountViewModel" data-bind="events: { show: onViewShow }" data-role="view" data-layout="default-layout" data-title="Account">
     <form action="./index.html">
         <ul data-role="listview" data-style="inset">
             <li>
                 <label>
                     Username
-                    <input name="username" type="text" value="" readonly />
+                    <input data-bind="value:username" name="username" type="text" value="" readonly />
                 </label>
             </li>
             <li>
                 <label>
                     Database
-                    <input name="connectionname" type="text" value="" readonly />
+                    <input  data-bind="value:connectionname" name="connectionname" type="text" value="" readonly />
                 </label>
             </li>
             <li>
                 <div class="center-text">
-                    <button data-role="button" data-click="scope.logOut" class="km-negative">Log Out</button>
+                    <button data-role="button" data-bind="click:logOut" class="km-negative">Log Out</button>
                 </div>
             </li>
         </ul>
     </form>
 </div>
+
+<script>
+    var accountViewModel;
+    $(function (jQuery) {
+        accountViewModel = new kendo.observable({
+            username: "",
+            connectionname: "",
+            logOut: function () {
+                currentUser.logOut();
+            },
+            onViewShow: function (e) {
+                var user = currentUser.get();
+                this.set('username', user.username);
+                this.set('connectionname', user.connectionname);
+                globalOnViewShow(e);
+
+            }
+        });
+    });
+</script>

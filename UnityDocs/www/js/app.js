@@ -1,4 +1,5 @@
-﻿var deviceready = false;
+﻿var UNITYDOCS = UNITYDOCS || {};
+var deviceready = false;
 var app = new kendo.mobile.Application(
     document.body,
     {

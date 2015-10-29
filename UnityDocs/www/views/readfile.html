@@ -1,5 +1,33 @@
-﻿<div id="readfile" data-role="view" data-layout="default-layout" data-title="Read File">
-    <textarea>
-
-    </textarea>
+﻿<div id="readfile" data-model="readfileViewModel" data-role="view" data-layout="default-layout" data-title="Read File">
+    <textarea></textarea>
 </div>
+
+<script>
+    var readfileViewModel;
+    $(function () {
+        readfileViewModel = new kendo.observable({
+            fileReader: new FileReader(),
+            fileName: "",
+            fileText: "",
+            onViewShow: function (e) {
+                var params = e.view.params;
+                var $this = this;
+                this.set('fileName', params.fileName);
+                window.resolveLocalFileSystemURL(cordova.file.externalApplicationStorageDirectory + fileName,
+                    function (fileEntry) {
+                        fileEntry.file(function (file) {
+                            fileReader.onloadend = function (data) {
+                                $this.set('fileText', data);
+                            }
+                            fileReader.readAsText(file);
+                        });
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+                );
+                onGlobalViewShow(e);
+            }
+        });
+    });
+</script>

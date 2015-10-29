@@ -54,3 +54,25 @@
     </a>
     # } #
 </script>
+
+<script>
+    var favouritesViewModel;
+    $(function () {
+        favouritesViewModel = new kendo.observable({
+            favouritesData: [],
+            onViewShow: function (e) {
+                this.set('favouritesData', new api.documentService().data.Favourites({
+                    schema: {
+                        data: function (response) {
+                            if (response.results.length == 0) {
+                                $("#versionhistory [data-role=listview]").append(elements.emptyLibrary);
+                            } else {
+                                return response.results;
+                            }
+                        }
+                    },
+                }));
+            }
+        });
+    });
+</script>
