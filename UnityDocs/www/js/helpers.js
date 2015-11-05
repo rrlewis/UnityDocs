@@ -349,7 +349,19 @@ var currentUser = {
 
 function globalOnViewShow(e) {
     loader.check();
+
     navbar = app.view().header.find(".km-navbar").data("kendoMobileNavBar");
+
+    // give header a viewmodel
+    kendo.bind(app.view().header, headerViewModel);
+    var viewID = e.view.id;
+    if (viewID.indexOf('library') > -1 || viewID.indexOf('versionhistory') > -1 || viewID.indexOf('searchresult') > -1) {
+        headerViewModel.set('search.canSearch', true);
+    }
+    else {
+        headerViewModel.set('search.canSearch', false);
+    }
+    dataOptionsActionSheet.check(e);
     var layoutID = e.view.layout.element.data("id");
     switch (layoutID) {
         case "default-layout":

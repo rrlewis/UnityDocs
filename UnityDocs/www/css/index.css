@@ -60,12 +60,26 @@ ul.km-listview.data-source li span.item-state-icon {
 
 ul.km-listview.data-source li a.info-button.other-user {
     background-color: rgb(255, 156, 47);
-    border-color: rgb(220, 144, 59);
+    border-color: rgb(247, 173, 90);
+}
+
+ul.km-listview.data-source li a[data-role=button].other-user.info-button:active {
+    background: rgb(241, 136, 20);
+    border-color: rgb(241, 136, 20);
+    color: white;
+    box-shadow: none;
 }
 
 ul.km-listview.data-source li a.info-button.current-user {
     background-color: #00B100;
     border-color: #00B100;
+}
+
+ul.km-listview.data-source li a[data-role=button].current-user.info-button:active {
+    background-color: #008E00;
+    border-color: #007D00;
+    color: white;
+    box-shadow: none;
 }
 
 /* ActionSheet Popup */

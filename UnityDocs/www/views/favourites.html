@@ -59,9 +59,9 @@
     var favouritesViewModel;
     $(function () {
         favouritesViewModel = new kendo.observable({
-            favouritesData: [],
+            data: [],
             onViewShow: function (e) {
-                this.set('favouritesData', new api.documentService().data.Favourites({
+                this.set('data', new api.documentService().data.Favourites({
                     schema: {
                         data: function (response) {
                             if (response.results.length == 0) {

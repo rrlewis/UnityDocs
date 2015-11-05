@@ -33,21 +33,27 @@
         <header data-role="header" class="shadow-1 search">
             <div data-role="navbar" class="km-accent">
                 <a data-role="button" data-rel="drawer" href="#drawer" data-icon="hamburger" data-align="left"></a>
-                <span data-role="view-title" id="view-title" data-bind="text:viewTitle">Unity Docs</span>
-                <form action="javascript:filter.filter()">
-                    <input type="search" onkeyup="filter.filter()" onchange="filter.filter()" placeholder="Search..." />
+
+                <span data-role="view-title" data-bind="invisible:search.isActive" id="view-title">Unity Docs</span>
+                <form data-model="search" data-bind="visible:search.isActive">
+                    <input type="search" data-bind="value:search.searchString" placeholder="Search..." />
                 </form>
-                <a data-role="button" data-icon="filter" data-click="filter.startFilter" id="filter-btn" data-align="right"></a>
-                <a data-role="button" data-icon="more-v" data-align="right" data-rel="actionsheet" href="#options-actionsheet" id="options-btn"></a>
-                <a data-role="button" data-icon="close" data-click="filter.cancelFilter" style="display:none;" data-align="right"></a>
+
+
+                <span data-align="right" data-bind="visible:search.canSearch">
+                    <a data-role="button" data-click-on="up" data-bind="click:search.start, invisible:search.isActive" data-icon="search" id="search-btn"></a>
+                </span>
+                <a data-role="button" data-click-on="up" data-bind="click:search.cancel, visible:search.isActive" data-icon="close" data-align="right"></a>
+                <a data-role="button" data-click-on="up" data-bind="click:search.getResults, visible:search.isActive" data-align="right"><i class="fa fa-arrow-right"></i></a>
+                <a data-role="button" data-icon="more-v" data-bind="invisible:search.isActive" data-align="right" data-rel="actionsheet" href="#options-actionsheet" class="options-btn"></a>
+
             </div>
         </header>
         <!-- options menu -->
         <ul data-role="actionsheet" id="options-actionsheet">
-            <li><a data-role="touch" data-tap="dataOptionsActionSheet.functions().gridView.toggleGridView">View as thumbnails</a></li>
-            <li><a>Refresh</a></li>
-            <li><a data-role="touch" data-tap="dataOptionsActionSheet.functions().sort.openSort">Sort</a></li>
-            <li id="search-btn"><a data-role="touch" data-tap="dataOptionsActionSheet.functions().search">Search Library</a></li>
+            <li name="viewtoggle"><a data-role="touch" data-tap="dataOptionsActionSheet.functions().gridView.toggleGridView">View as thumbnails</a></li>
+            <li name="refresh"><a data-role="touch" data-tap="dataOptionsActionSheet.functions().refresh">Refresh</a></li>
+            <li name="sort"><a data-role="touch" data-tap="dataOptionsActionSheet.functions().sort.openSort">Sort</a></li>
         </ul>
 
         <!--View content will render here-->
@@ -91,9 +97,35 @@
     <script src="js/index.js"></script>
     <!--<script type="text/javascript" src="http://debug3.build.phonegap.com/target/target-script-min.js#70308104-2ee2-11e5-aa8b-22000b620b71"></script>-->
 
+    <script>
+        // HeaderViewModel
+        var headerViewModel = new kendo.observable({
+            search: {
+                searchString: "",
+                library: "",
+                canSearch: false,
+                isActive: false,
+                start: function (e) {
+                    this.set('search.library', libraryViewModel.libraryName);
+                    this.set('search.isActive', true);
+                },
+                getResults: function (e) {
+                    if (app.view().id == 'views/searchresult.html') {
+                        router.replace("views/searchresult.html?indextype=" + this.search.library + "&searchfor=" + this.search.searchString);
+                    } else {
+                        router.navigate("views/searchresult.html?indextype=" + this.search.library + "&searchfor=" + this.search.searchString);
+                    }
+                },
+                cancel: function (e) {
+                    this.set('search.library', '');
+                    this.set('search.searchString', '');
+                    this.set('search.isActive', false);
+                }
+            },
+        });
+    </script>
     <style>
         header.search form {
-            display: none;
             width: 100%;
         }
 

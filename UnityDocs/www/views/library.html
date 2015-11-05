@@ -2,7 +2,7 @@
     <div class="breadcrumbs">
         <ul></ul>
     </div>
-    <ul data-role="listview" data-bind="source:libraryData" class="data-source sortable" data-template="library-item-template" data-pull-to-refresh="true"></ul>
+    <ul data-role="listview" data-bind="source:data" class="data-source sortable" data-template="library-item-template" data-pull-to-refresh="true"></ul>
 </div>
 
 
@@ -69,7 +69,7 @@
     <a data-role="button" class="info-button km-primary km-button-right km-icon-button" data-bind="click:showExtraInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
     # } #
     # if (Type == 'FOLDER') { #
-    <a href="\\#views/library.html?indextypeorlibrary=#:scope.libraryName#&subfolder=#:Key#&title=#:Description#&key" data-type="#:Type#" class="library-link">
+    <a href="\\#views/library.html?indextypeorlibrary=#:libraryViewModel.libraryName#&subfolder=#:Key#&title=#:Description#&key" data-type="#:Type#" class="library-link">
         <i class="km-thumbnail fa fa-folder font-size-36"></i>
         <h4>#:Description#</h4>
         <p class="extra-info">Last modified on #:Modified# by #:ModifiedBy#.</p>
@@ -116,8 +116,9 @@
     var libraryViewModel = {};
     $(function (jQuery) {
         libraryViewModel = new kendo.observable({
-            libraryData: [],
+            data: [],
             viewTitle: "",
+            libraryName: "",
             onViewShow: function (e) {
                 var params = e.view.params;
                 for (var prop in params) {
@@ -130,7 +131,8 @@
                 if (typeof params.subfolder == 'undefined') {
                     params.subfolder = '';
                 }
-                this.set('libraryData', new api.documentService().data.Documents({
+                this.set('libraryName', params.indextypeorlibrary);
+                this.set('data', new api.documentService().data.Documents({
                     data: {
                         indextypeorlibrary: encodeURI(typeof params.indextypeorlibrary == 'undefined' ? '' : params.indextypeorlibrary),
                         subfolder: encodeURI(typeof params.subfolder == 'undefined' ? '' : params.subfolder),
@@ -157,7 +159,7 @@
             },
             showExtraInfo: function (e) {
                 var listItemData = e.button.data(); // Get the attribute values of the clicked list item element.
-                var libraryItems = this.libraryData.data();
+                var libraryItems = this.data.data();
                 var selectedItem;
                 for (var x = 0; x < libraryItems.length; x++) {
                     selectedItem = libraryItems[x];
@@ -175,7 +177,7 @@
                 });
             },
             showActionSheet: function (e) {
-                var document = e.data();
+                var document = e.data;
 
                 var buttonLabels = ['View', 'Email']; // The buttons that will always be on the actionsheet.
                 if (document.CheckedOutBy == null) {

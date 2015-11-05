@@ -1,5 +1,5 @@
 ﻿<div id="libraries" data-model="librariesViewModel" data-bind="events: { show: onViewShow }" data-reload="true" data-role="view" data-layout="default-layout" data-title="Libraries">
-    <ul data-role="listview" class="data-source sortable" data-bind="source:librariesData" data-template="library-template" data-pull-to-refresh="true">
+    <ul data-role="listview" class="data-source sortable" data-bind="source:data" data-template="library-template" data-pull-to-refresh="true">
         <li>Empty</li>
     </ul>
 </div>
@@ -20,7 +20,7 @@
     var librariesViewModel = {};
     $(function (jQuery) {
         librariesViewModel = new kendo.observable({
-            librariesData: new api.documentService().data.Libraries({
+            data: new api.documentService().data.Libraries({
                 schema: {
                     data: function (response) {
                         if (response.results.length != 0) {

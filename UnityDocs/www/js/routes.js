@@ -9,6 +9,11 @@ var router = new kendo.Router({
         pageInTransition = true;
         scope = {};
         scope.url = e.url;
+        if (typeof headerViewModel != 'undefined') { 
+            headerViewModel.set('search.library', "");
+            headerViewModel.set('search.searchString', "");
+            headerViewModel.set('search.isActive', false);
+        }
         if (typeof filter != "undefined") {
             filter.cancelFilter();
         }

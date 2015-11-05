@@ -1,13 +1,19 @@
-﻿<div id="searchresult" data-model="searchresultViewModel" data-reload="true" data-role="view" data-layout="default-layout" data-title="Search Results">
-    <ul data-role="listview" class="data-source sortable" data-template="result-item-template" data-source="scope.data" data-pull-to-refresh="true"></ul>
+﻿<div id="searchresult" data-model="searchresultViewModel" data-bind="events: { show: onViewShow }" data-reload="true" data-role="view" data-layout="default-layout" data-title="Search Results">
+    <ul data-role="listview" data-bind="source: data" class="data-source sortable" data-template="result-item-template" data-pull-to-refresh="true">
+
+    </ul>
 </div>
 
 <script type="text/kendo-x-tmpl" id="result-item-template">
-    <a data-role="button" class="info-button km-primary km-button-right km-icon-button" data-click="openInfoModal" data-description="#:Description#"><i class="fa fa-info"></i></a>
-
-    <!-- FIX THIS TEMPLATE -->
+    # if (CheckedOutBy == currentUser.get().username){ #
+    <a data-role="button" class="info-button km-primary km-button-right km-icon-button current-user" data-bind="click:showExtraInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
+    # } else if (CheckedOutBy != currentUser.get().username && CheckedOutBy != null) { #
+    <a data-role="button" class="info-button km-primary km-button-right km-icon-button other-user" data-bind="click:showExtraInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
+    # } else { #
+    <a data-role="button" class="info-button km-primary km-button-right km-icon-button" data-bind="click:showExtraInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
+    # } #
     # if (Type == 'FOLDER') { #
-    <a href="\\#views/library.html?indextypeorlibrary=#:scope.libraryName#&subfolder=#:Description#&key" data-type="#:Type#" class="library-link">
+    <a href="\\#views/library.html?indextypeorlibrary=#:libraryViewModel.libraryName#&subfolder=#:Key#&title=#:Description#&key" data-type="#:Type#" class="library-link">
         <i class="km-thumbnail fa fa-folder font-size-36"></i>
         <h4>#:Description#</h4>
         <p class="extra-info">Last modified on #:Modified# by #:ModifiedBy#.</p>
@@ -16,15 +22,10 @@
         </p>
     </a>
     # } else { #
-    # if (CheckedOutBy == null){ #
-    <span class="item-state-icon positive"><i class="fa fa-check"></i></span>
-    # } else { #
-    <span class="item-state-icon negative"><i class="fa fa-close"></i></span>
-    # } #
-    <a data-type="#:Type#" data-description="#:Description#" data-imageid="#:ImageID#" data-checkedoutby="#:CheckedOutBy#" class="library-link">
+    <a data-bind="click:showActionSheet" data-type="#:Type#" data-description="#:Description#" data-imageid="#:ImageID#" data-checkedoutby="#:CheckedOutBy#" class="library-link">
         # if (Type == 'DOCX' || Type == 'DOC') { #
         <i class="km-thumbnail fa fa-file-word-o font-size-36"></i>
-        # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF') { #
+        # } else if (Type == 'PNG' || Type == 'JPG' || Type == 'TIF' || Type == 'ICO') { #
         <i class="km-thumbnail fa fa-file-image-o font-size-36"></i>
         # } else if (Type == 'XLSM' || Type == 'XLS' || Type == 'XLSX') { #
         <i class="km-thumbnail fa fa-file-excel-o font-size-36"></i>
@@ -32,6 +33,8 @@
         <i class="km-thumbnail fa fa-file-pdf-o font-size-36"></i>
         # } else if (Type == 'TXT') { #
         <i class="km-thumbnail fa fa-file-text-o font-size-36"></i>
+        # } else if (Type == 'ZIP' || Type == 'RAR') { #
+        <i class="km-thumbnail fa fa-file-archive-o font-size-36"></i>
         # } else { #
         <i class="km-thumbnail fa fa-file-o font-size-36"></i>
         # } #
@@ -58,25 +61,152 @@
         searchresultViewModel = new kendo.observable({
             searchString: "",
             library: "",
-            searchResultData: [],
+            data: [],
+            showActionSheet: function (e) {
+                var document = e.data;
+
+                var buttonLabels = ['View', 'Email']; // The buttons that will always be on the actionsheet.
+                if (document.CheckedOutBy == null) {
+                    // if not checked out give option to check out or check out and edit.
+                    buttonLabels.push("Check Out");
+                    buttonLabels.push("Check Out & Edit");
+                } else {
+                    // else give option to check in or edit.
+                    buttonLabels.push("Check In");
+                    buttonLabels.push("Edit");
+                }
+                var actionSheetOptions = {
+                    'title': 'What do you want to do with ' + document.Description,
+                    'buttonLabels': buttonLabels,
+                    'androidEnableCancelButton': true, // default false
+                    'addCancelButtonWithLabel': 'Cancel',
+                };
+                function gotAction(buttonIndex) {
+                    setTimeout(function () {
+                        switch (buttonIndex) {
+                            case 1:
+                                // Read
+                                router.navigate("views/readfile.html?fileName=" + document.Description);
+                                break;
+                            case 2:
+                                // Email file
+                                fileHandler().downloadFile(document.ImageID, document.Description,
+                                    function (fileEntry) {
+                                        var options = {
+                                            subject: fileEntry.name, // string
+                                            body: "test body", // string
+                                            to: [], // array
+                                            cc: [], // array
+                                            bcc: [], // array
+                                            isHTML: false, // bool
+                                            attachments: [fileEntry.toURL()], // array
+                                        };
+                                        fileHandler().emailFile(options,
+                                            function (result) {
+                                                if (result == "OK") {
+                                                    console.log("Email worked.")
+                                                }
+                                            }
+                                        );
+                                    },
+                                    function (error) {
+                                        console.log(error);
+                                    }
+                                );
+                                break;
+                            case 3:
+                                // Check Out / Check In
+                                if (buttonLabels[2] == "Check In") {
+                                    // check file in
+                                    scope.checkInModalViewModel.set("fileName", title);
+                                    $("#check-in-modal").data("kendoMobileModalView").open();
+                                    //api.documentService().undoCheckOutDocument(docData.imageid).then(scope.refreshData);
+                                } else
+                                    if (buttonLabels[2] == "Check Out") {
+                                        // check file out
+                                        api.documentService().checkOutDocument(document.ImageID).then(scope.refreshData);
+                                    }
+                                break;
+                            case 4:
+                                // Edit / Check Out & Edit
+                                if (actionSheetOptions.buttonLabels[3] == 'Edit') {
+                                    // Don't check out
+                                    downloadFile();
+                                } else
+                                    if (actionSheetOptions.buttonLabels[3] == 'Check Out & Edit') {
+                                        // Check out
+                                        api.documentService().checkOutDocument(document.ImageID).then(downloadFile);
+                                    }
+                                function downloadFile(checkOutResults) {
+                                    scope.data.read();
+                                    fileHandler().downloadFile(document.ImageID, document.Description,
+                                        function (fileEntry) {
+                                            //success
+                                            fileHandler().openFile(fileEntry);
+                                        },
+                                        function (error) {
+                                            //fail
+                                            console.log(error);
+                                        }
+                                    );
+                                }
+                                break;
+                        }
+                    });
+                };
+                window.plugins.actionsheet.show(actionSheetOptions, gotAction);
+            },
+            showExtraInfo: function (e) {
+                var listItemData = e.button.data(); // Get the attribute values of the clicked list item element.
+                var searchItems = this.data.data();
+                var selectedItem;
+                for (var x = 0; x < searchItems.length; x++) {
+                    selectedItem = searchItems[x];
+                    if (selectedItem.Description == listItemData.description) {
+                        break;
+                    }
+                }
+                api.documentService().getVersionHistory(selectedItem.ParentFolder, selectedItem.ImageID).then(function (results) {
+                    var paramData = {};
+                    var versionHistory = results.results;
+                    paramData.versionHistory = versionHistory;
+                    paramData.selectedItem = selectedItem;
+                    paramData = JSON.stringify(paramData);
+                    router.navigate("views/libraryinfo.html?data=" + paramData);
+                });
+            },
             onViewShow: function (e) {
                 var params = e.view.params;
-                this.set('searchString', params.searchstring);
-                this.set('library', params.library);
-                this.set('searchResultData', new api.documentService().data.SearchResult({
+                var $this = this;
+                this.set('searchString', params.searchfor);
+                this.set('library', params.indextype);
+                this.set('data', new api.documentService().data.SearchResult({
                     data: {
-                        searchfor: searchString,
-                        IndexType: library
+                        searchfor: params.searchfor,
+                        IndexType: params.indextype
                     },
                     schema: {
                         data: function (response) {
                             if (response.results.length == 0) {
                                 $("#searchresults [data-role=listview]").append(elements.emptyFolder);
+                                return [];
                             } else {
+                                var cleanedResults = [];
                                 for (var x = 0; x < response.results.length; x++) {
-                                    response.results[x].LastModifiedAt = response.results[x].LastModifiedAt.split("T").join(" at ");
+                                    if (response.results[x].Date != null) {
+                                        response.results[x].Date = response.results[x].Date.split("T").join(" at ");
+                                    }
+                                    if (response.results[x].Modified != null) {
+                                        response.results[x].Modified = response.results[x].Modified.split("T").join(" at ");
+                                    }
+                                    if (response.results[x].ImageID != "") {
+                                        cleanedResults.push(response.results[x]);
+                                    }
                                 }
-                                return response.results;
+
+                                navbar.title('Results for "' + $this.searchString + '" in ' + $this.library);
+                                
+                                return cleanedResults;
                             }
                         }
                     },

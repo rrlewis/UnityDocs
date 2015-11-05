@@ -1,5 +1,21 @@
 ﻿var isGridView = false;
 var dataOptionsActionSheet = {
+    check: function (e) {
+        var viewModel = app.view().model;
+        var viewID = app.view().element.attr('id');
+        if (viewModel.hasOwnProperty('data')) {
+            // needs actionsheet
+            $("#" + viewID + " .options-btn").show();
+        } else {
+            $("#" + viewID + " .options-btn").hide();
+        }
+        if (viewID == 'versionhistory') {
+            // remove viewtoggle button
+            $("#options-actionsheet li[name=viewtoggle]").hide();
+        } else {
+            $("#options-actionsheet li[name=viewtoggle]").show();
+        }
+    },
     data: {
         gridView: false,
     },
@@ -96,6 +112,10 @@ var dataOptionsActionSheet = {
                         }
                     }
                 }
+            },
+            refresh: function (e) {
+                var model = app.view().model;
+                model.data.read();
             }
         }
     },
@@ -126,12 +146,10 @@ var filter = {
         }
     },
     startFilter: function () {
-        if (app.searchEnabled) {
             $("header.search [data-role=view-title]").hide();
             $("header.search form").css("display", "inline-block");
             $("header.search [data-role=button]:not(:has(i), [data-rel=drawer])").hide();
             $("header.search [data-role=button]:has(i), header.search [data-role=button][data-icon=close]").show();
-        }
     }
 }
 
