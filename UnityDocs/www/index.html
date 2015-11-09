@@ -35,8 +35,8 @@
                 <a data-role="button" data-rel="drawer" href="#drawer" data-icon="hamburger" data-align="left"></a>
 
                 <span data-role="view-title" data-bind="invisible:search.isActive" id="view-title">Unity Docs</span>
-                <form data-model="search" data-bind="visible:search.isActive">
-                    <input type="search" data-bind="value:search.searchString" placeholder="Search..." />
+                <form data-bind="visible:search.isActive, events: { submit: search.submit }">
+                    <input type="search" data-bind="value:search.searchString" placeholder="Search library..." />
                 </form>
 
 
@@ -109,16 +109,24 @@
                     this.set('search.isActive', true);
                 },
                 getResults: function (e) {
+                    var $this = this.search;
+                    if (e === true) {
+                        $this = this;
+                    }
                     if (app.view().id == 'views/searchresult.html') {
-                        router.replace("views/searchresult.html?indextype=" + this.search.library + "&searchfor=" + this.search.searchString);
+                        router.replace("views/searchresult.html?indextype=" + $this.library + "&searchfor=" + $this.searchString);
                     } else {
-                        router.navigate("views/searchresult.html?indextype=" + this.search.library + "&searchfor=" + this.search.searchString);
+                        router.navigate("views/searchresult.html?indextype=" + $this.library + "&searchfor=" + $this.searchString);
                     }
                 },
                 cancel: function (e) {
                     this.set('search.library', '');
                     this.set('search.searchString', '');
                     this.set('search.isActive', false);
+                },
+                submit: function (e) {
+                    e.preventDefault();
+                    this.search.getResults(true);
                 }
             },
         });
