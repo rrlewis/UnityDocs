@@ -27,6 +27,11 @@ ul.km-listview.data-source li {
             font-size: 0.7em;
         }
 
+        ul.km-listview.data-source li a.library-link h3 {
+            margin-top: 25px;
+            margin-bottom: -25px;
+        }
+
     ul.km-listview.data-source li a[data-role=button].info-button {
         margin-top: 26.25px;
         margin-right: 10px;
@@ -42,7 +47,11 @@ ul.km-listview.data-source li {
     visibility: collapse;
 }
 
-ul.km-listview.data-source li a[data-role=button].info-button:active {
+#library ul.km-listview.data-source li a[data-role=button].info-button[data-type=FOLDER] {
+    visibility: collapse;
+}
+
+ul.km-listview.data-source li: {
     background: #0D61AD;
     border-color: #0D61AD;
     color: white;

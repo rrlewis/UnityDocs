@@ -1,5 +1,5 @@
 ﻿<div id="versionhistory" data-model="versionhistoryViewModel" data-bind="events: { show: onViewShow }" data-role="view" data-layout="default-layout" data-title="Version History">
-    <ul data-role="listview" data-bind="source:data, events: { data-bound: test }" class="data-source sortable" data-template="version-history-template"></ul>
+    <ul data-role="listview" data-bind="source:data, events: { data-bound: test }" class="data-source sortable" data-template="version-history-template" data-pull-to-refresh="true"></ul>
 </div>
 
 <script type="text/kendo-x-tmpl" id="version-history-template">
@@ -20,7 +20,7 @@
                 <br />
                 <br />
                 # if (Comments != null) { #
-                #:Comments#
+                #: Comments #
                 # } #
             </li>
         </ul>
@@ -55,7 +55,6 @@
             onViewShow: function (e) {
                 var params = {};
                 params.selectedItem = JSON.parse(e.view.params.selectedItem);
-                params.versionHistory = JSON.parse(e.view.params.versionHistory);
                 this.set('data', new api.documentService().data.VersionHistory({
                     data: {
                         Library: params.selectedItem.ParentFolder,

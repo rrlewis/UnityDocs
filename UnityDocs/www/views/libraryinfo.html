@@ -74,13 +74,23 @@
 
             },
             openVersionHistory: function () {
-                router.navigate("views/versionhistory.html?selectedItem=" + JSON.stringify(this.selectedItem) + "&versionHistory=" + JSON.stringify(this.versionHistory));
+                router.navigate("views/versionhistory.html?selectedItem=" + JSON.stringify(this.selectedItem));
             },
             onViewShow: function (e) {
-                var params = JSON.parse(e.view.params.data);
-                this.set('versionHistory', params.versionHistory);
-                this.set('selectedItem', params.selectedItem);
-                navbar.title(params.selectedItem.Description + " Info");
+                var selectedItem = JSON.parse(e.view.params.selectedItem);
+                this.set('selectedItem', selectedItem);
+                this.set('versionHistory', api.documentService().data.VersionHistory({
+                    data: {
+                        Library: selectedItem.ParentFolder,
+                        documentid: selectedItem.ImageID,
+                    },
+                    schema: {
+                        data: function (response) {
+                            return response.results;
+                        }
+                    }
+                }));
+                navbar.title(selectedItem.Description + " Info");
                 globalOnViewShow(e);
             }
         });

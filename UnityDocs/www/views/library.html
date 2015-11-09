@@ -1,10 +1,11 @@
 ﻿<div id="library" data-model="libraryViewModel" data-bind="events: { show: onViewShow }" data-reload="true" data-role="view" data-layout="default-layout" data-title="Library">
-    <div class="breadcrumbs">
-        <ul></ul>
-    </div>
     <ul data-role="listview" data-bind="source:data" class="data-source sortable" data-template="library-item-template" data-pull-to-refresh="true"></ul>
+    <div data-role="footer">
+        <div data-role="navbar" class="km-accent">
+            <a data-role="button" data-bind="click:addFile" data-icon="add" style="width:100%"></a>
+        </div>
+    </div>
 </div>
-
 
 <!-- Modals -->
 <!-- Check In -->
@@ -62,17 +63,17 @@
 <!-- List Item -->
 <script type="text/kendo-x-tmpl" id="library-item-template">
     # if (CheckedOutBy == currentUser.get().username){ #
-    <a data-role="button" class="info-button km-primary km-button-right km-icon-button current-user" data-bind="click:showExtraInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
+    <a data-role="button" data-type="#:Type#" class="info-button km-primary km-button-right km-icon-button current-user" data-bind="click:showExtraInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
     # } else if (CheckedOutBy != currentUser.get().username && CheckedOutBy != null) { #
-    <a data-role="button" class="info-button km-primary km-button-right km-icon-button other-user" data-bind="click:showExtraInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
+    <a data-role="button" data-type="#:Type#" class="info-button km-primary km-button-right km-icon-button other-user" data-bind="click:showExtraInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
     # } else { #
-    <a data-role="button" class="info-button km-primary km-button-right km-icon-button" data-bind="click:showExtraInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
+    <a data-role="button" data-type="#:Type#" class="info-button km-primary km-button-right km-icon-button" data-bind="click:showExtraInfo" data-description="#:Description#"><i class="fa fa-info"></i></a>
     # } #
     # if (Type == 'FOLDER') { #
     <a href="\\#views/library.html?indextypeorlibrary=#:libraryViewModel.libraryName#&subfolder=#:Key#&title=#:Description#&key" data-type="#:Type#" class="library-link">
         <i class="km-thumbnail fa fa-folder font-size-36"></i>
-        <h4>#:Description#</h4>
-        <p class="extra-info">Last modified on #:Modified# by #:ModifiedBy#.</p>
+        <h3>#:Description#</h3>
+        <p class="extra-info">&nbsp;</p>
         <p class="extra-info">
             &nbsp;
         </p>
@@ -100,7 +101,7 @@
         <p class="extra-info">Last modified at #:Modified# by #:ModifiedBy#.</p>
         # if (CheckedOutBy == null){ #
         <p class="extra-info">
-            Checked Out By: Nobody.
+            &nbsp;
         </p>
         # } else { #
         <p class="extra-info">
@@ -167,14 +168,8 @@
                         break;
                     }
                 }
-                api.documentService().getVersionHistory(selectedItem.ParentFolder, selectedItem.ImageID).then(function (results) {
-                    var paramData = {};
-                    var versionHistory = results.results;
-                    paramData.versionHistory = versionHistory;
-                    paramData.selectedItem = selectedItem;
-                    paramData = JSON.stringify(paramData);
-                    router.navigate("views/libraryinfo.html?data=" + paramData);
-                });
+                selectedItem = JSON.stringify(selectedItem);
+                router.navigate("views/libraryinfo.html?selectedItem=" + selectedItem);
             },
             showActionSheet: function (e) {
                 var document = e.data;
@@ -270,6 +265,29 @@
                 };
                 window.plugins.actionsheet.show(actionSheetOptions, gotAction);
             },
+            addFile: function (e) {
+                window.plugins.actionsheet.show({
+                    title: 'Add file from where?',
+                    buttonLabels: ['From Camera', 'From Storage'],
+                    androidEnableCancelButton: true, // default false
+                    addCancelButtonWithLabel: 'Cancel',
+                }, function (buttonIndex) {
+                    setTimeout(function () {
+                        switch (buttonIndex) {
+                            case 1:
+                                //Camera
+                                navigator.camera.getPicture(function (result) {
+                                    debugger;
+                                })
+                                break;
+                            case 3:
+                                //Storage
+
+                                break;
+                        }
+                    });
+                });
+            }
         });
     });
 </script>
