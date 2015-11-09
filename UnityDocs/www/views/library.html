@@ -268,7 +268,7 @@
             addFile: function (e) {
                 window.plugins.actionsheet.show({
                     title: 'Add file from where?',
-                    buttonLabels: ['Camera', 'Gallery', 'Storage'],
+                    buttonLabels: ['Camera', 'Storage'],
                     androidEnableCancelButton: true, // default false
                     addCancelButtonWithLabel: 'Cancel',
                 }, function (buttonIndex) {
@@ -287,7 +287,7 @@
                                 });
                                 break;
                             case 2:
-                                //Gallery
+                                //Gallery / storage
                                 navigator.camera.getPicture(function (result) {
                                     debugger;
                                 },
@@ -297,10 +297,6 @@
                                 {
                                     sourceType: Camera.PictureSourceType.PHOTOLIBRARY
                                 });
-                                break;
-                            case 3:
-                                //Storage
-
                                 break;
                         }
                     });
