@@ -1,6 +1,7 @@
 ﻿var isGridView = false;
 var dataOptionsActionSheet = {
     check: function (e) {
+        debugger;
         var viewModel = app.view().model;
         var viewID = app.view().element.attr('id');
         if (viewModel.hasOwnProperty('data')) {
@@ -97,6 +98,7 @@ var dataOptionsActionSheet = {
                     return $this.data.gridView;
                 },
                 checkGridView: function (changeEvent) {
+                    debugger;
                     var shouldBeGridView = this.isGridView();
                     if (typeof app != "undefined") {
                         if (typeof app.view === "function") {
