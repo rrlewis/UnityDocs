@@ -277,10 +277,10 @@
                             case 1:
                                 //Camera
                                 navigator.camera.getPicture(function (result) {
-                                    debugger;
+                                    router.navigate('views/addfile.html?uri=' + result);
                                 },
                                 function (error) {
-                                    debugger;
+                                    console.log(error);
                                 },
                                 {
                                     sourceType: Camera.PictureSourceType.CAMERA
@@ -289,10 +289,10 @@
                             case 2:
                                 //Gallery / storage
                                 navigator.camera.getPicture(function (result) {
-                                    debugger;
+                                    router.navigate('views/addfile.html?uri=' + result);
                                 },
                                 function (error) {
-                                    debugger;
+                                    console.log(error);
                                 },
                                 {
                                     sourceType: Camera.PictureSourceType.PHOTOLIBRARY

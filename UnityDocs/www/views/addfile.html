@@ -1,0 +1,41 @@
+﻿<div id="addfile" data-model="addfileViewModel" data-bind="events: { show: onViewShow }" data-role="view" data-layout="default-layout" data-title="Add File">
+    <form>
+        <ul data-role="listview">
+            <li>
+                <label class="km-inline-field km-label-above">
+                    Filename
+                    <input data-field="Filename" data-bind="value:filename" name="Filename" type="text" />
+                </label>
+            </li>
+            <li>
+                <label class="km-inline-field km-label-above">
+                    Comments
+                    <textarea data-field="Comments" data-bind="comments" name="Comments" readonly style="resize:vertical;"></textarea>
+                </label>
+            </li>
+            <li>
+                <label class="km-inline-field km-label-above">
+                    Tags
+                    <input data-field="Tags" data-bind="tags" name="Tags" type="text" />
+                </label>
+            </li>
+        </ul>
+    </form>
+</div>
+
+<script>
+    var addfileViewModel = {};
+    $(function (jQuery) {
+        addfileViewModel = new kendo.observable({
+            fileURI: "",
+            filename: "",
+            comments: "",
+            tags: "",
+            onViewShow: function (e) {
+                var params = e.view.params;
+                this.fileURI = params.uri;
+                globalOnViewShow(e);
+            }
+        });
+    });
+</script>

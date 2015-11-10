@@ -48,8 +48,10 @@ ul.km-listview.data-source li {
 }
 
 #library ul.km-listview.data-source li a[data-role=button].info-button[data-type=FOLDER] {
-    visibility: collapse;
+    display: none;
 }
+
+
 
 ul.km-listview.data-source li: {
     background: #0D61AD;
@@ -110,6 +112,7 @@ ul.km-listview.data-source li a[data-role=button].current-user.info-button:activ
 ul.data-source.sortable.grid-view {
     text-align: center;
 }
+
 
     ul.data-source.sortable.grid-view li:not(.empty-library) {
         display: inline-block;
@@ -178,4 +181,17 @@ ul.data-source.sortable.grid-view {
     line-height: 53px;
     margin-top: 38px;
     left: 25%;
+}
+
+ul.data-source.sortable.grid-view li a[data-type=FOLDER] i.fa {
+    line-height: 120px !important;
+    font-size: 60px;
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    left: 50% !important;
+    margin-right: 0;
+    width: 55.7118px;
 }
