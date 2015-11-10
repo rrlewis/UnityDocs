@@ -2,12 +2,10 @@
 var router = new kendo.Router({
     routeMissing: function (e) {
         //think of this like a local 404
-        debugger;
         router.navigate("views/libraries.html");
     },
     change: function (e) {
         //fires any time the route changes
-        debugger;
         pageInTransition = true;
         scope = {};
         scope.url = e.url;

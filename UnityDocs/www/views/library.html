@@ -277,7 +277,7 @@
                             case 1:
                                 //Camera
                                 navigator.camera.getPicture(function (result) {
-                                    router.navigate('views/addfile.html?uri=' + btoa(result));
+                                    router.navigate('views/addfile.html?uri=' + result);
                                 },
                                 function (error) {
                                     console.log(error);
@@ -289,7 +289,7 @@
                             case 2:
                                 //Gallery / storage
                                 navigator.camera.getPicture(function (result) {
-                                    router.navigate('views/addfile.html?uri=' + btoa(result));
+                                    router.navigate('views/addfile.html?uri=' + result);
                                 },
                                 function (error) {
                                     console.log(error);
