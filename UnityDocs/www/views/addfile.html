@@ -34,6 +34,7 @@
             onViewShow: function (e) {
                 var params = e.view.params;
                 this.fileURI = params.uri;
+                this.filename = params.uri.split("/").pop();
                 globalOnViewShow(e);
             }
         });
