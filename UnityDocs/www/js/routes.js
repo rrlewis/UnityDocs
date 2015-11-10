@@ -2,6 +2,7 @@
 var router = new kendo.Router({
     routeMissing: function (e) {
         //think of this like a local 404
+        debugger;
         router.navigate("views/libraries.html");
     },
     change: function (e) {
@@ -53,6 +54,10 @@ router.route('(/)views/favourites.html', function (params) {
 
 router.route('(/)views/searchresult.html', function (params) {
 });
+
+router.route('(/)views/addfile.html', function (params) {
+});
+
 
 router.start();
 
