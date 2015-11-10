@@ -33,8 +33,8 @@
             tags: "",
             onViewShow: function (e) {
                 var params = e.view.params;
-                this.fileURI = params.uri;
-                this.filename = params.uri.split("/").pop();
+                this.set('fileURI', params.uri);
+                this.set('filename', params.uri.split("/").pop());
                 globalOnViewShow(e);
             }
         });
