@@ -7,6 +7,7 @@ var router = new kendo.Router({
     },
     change: function (e) {
         //fires any time the route changes
+        debugger;
         pageInTransition = true;
         scope = {};
         scope.url = e.url;
