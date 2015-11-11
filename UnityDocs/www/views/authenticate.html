@@ -86,7 +86,7 @@
             },
             gotLogInResult: function (result) {
                 if (result.LoggedIn) {
-                    router.navigate("views/libraries.html");
+                    router.replace("views/libraries.html");
                 } else {
                     this.set("error", { visible: true, message: result.ErrorMessage });
                 }
@@ -98,9 +98,9 @@
 <style>
     #authenticate [data-role=content] {
         /*background: #3fa9f5;*/
-        -webkit-box-shadow: inset 0px 0px 125px 0px rgba(0,0,0,0.3);
-        -moz-box-shadow: inset 0px 0px 125px 0px rgba(0,0,0,0.3);
-        box-shadow: inset 0px 0px 125px 0px rgba(0,0,0,0.3);
+        -webkit-box-shadow: inset 0 0 125px 0 rgba(0,0,0,0.3);
+        -moz-box-shadow: inset 0 0 125px 0 rgba(0,0,0,0.3);
+        box-shadow: inset 0 0 125px 0 rgba(0,0,0,0.3);
     }
 
     #newdesign h1, #newdesign h2 {
