@@ -19,6 +19,11 @@
                     <input data-field="Tags" data-bind="value:tags" name="Tags" type="text" />
                 </label>
             </li>
+            <li>
+                <div class="center-text">
+                    <button data-role="button">Upload</button>
+                </div>
+            </li>
         </ul>
     </form>
 </div>
@@ -31,12 +36,15 @@
             filename: "",
             comments: "",
             tags: "",
+            upload: function () {
+                // upload file to server in the directory where upload was pressed.
+            },
             onViewShow: function (e) {
                 var params = e.view.params;
                 this.set('fileURI', params.uri);
                 this.set('filename', params.uri.split("/").pop());
                 globalOnViewShow(e);
-            }
+            },
         });
     });
 </script>
