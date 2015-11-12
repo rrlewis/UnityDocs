@@ -132,7 +132,6 @@
                 if (typeof params.subfolder == 'undefined') {
                     params.subfolder = '';
                 }
-                this.set('libraryName', params.indextypeorlibrary);
                 this.set('data', new api.documentService().data.Documents({
                     data: {
                         indextypeorlibrary: encodeURI(typeof params.indextypeorlibrary == 'undefined' ? '' : params.indextypeorlibrary),
@@ -266,7 +265,8 @@
                 window.plugins.actionsheet.show(actionSheetOptions, gotAction);
             },
             addFile: function (e) {
-                router.navigate("views/addfile.html");
+                //get current directory send to addfile
+                router.navigate("views/addfile.html?libraryName=" + this.libraryName);
             }
         });
     });

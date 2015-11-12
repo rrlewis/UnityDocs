@@ -191,6 +191,17 @@
                     }
                 })
             },
+            getFolderList: function (Library) {
+                return $.ajax({
+                    url: $this.rootUrl + "DocumentManagement/GetFolderList",
+                    data: {
+                        Library: Library,
+                    },
+                    success: function (results) {
+                        return results;
+                    }
+                })
+            },
             createFolder: function (libraryName, folderName, parentFolder) {
                 return $.ajax({
                     url: $this.rootUrl + "DocumentManagement/CreateFolder",

@@ -8,13 +8,15 @@
             <li data-bind="visible:gotFile">
                 <label>
                     Filename
-                    <input type="text" data-bind="value:fileData.filename"/>
+                    <input type="text" data-bind="value:fileData.filename" />
                 </label>
             </li>
             <li data-bind="visible:gotFile">
                 <label>
                     Folder
-                    <input type="text" data-bind="value:fileData.folder" />
+                    <select data-bind="source:folderData, value:fileData.folder">
+
+                    </select>
                 </label>
             </li>
             <li data-bind="visible:gotFile">
@@ -56,6 +58,7 @@
     $(function (jQuery) {
         addfileViewModel = new kendo.observable({
             filePath: "",
+            folderData: [],
             fileData: {
                 filename: "",
                 comments: "",
@@ -63,6 +66,7 @@
                 folder: "",
                 checkoutfile: false,
             },
+            libraryName: "",
             gotFile: false,
             openFileDialog: function (e) {
                 $("#addfile-file").click();
@@ -81,10 +85,15 @@
             },
             onViewShow: function (e) {
                 var params = e.view.params;
-
+                // get library folders.
+                var $this = this;
+                this.set('libraryName', params.libraryName);
+                api.documentService().getFolderList(params.libraryName).then(function (response) {
+                    var results = response.results;
+                    $this.set('folderData', results);
+                });
                 globalOnViewShow(e);
             },
         });
     });
 </script>
-
