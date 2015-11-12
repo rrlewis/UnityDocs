@@ -1,15 +1,81 @@
 ﻿<div id="addfile" data-model="addfileViewModel" data-bind="events: { show: onViewShow }" data-role="view" data-layout="default-layout" data-title="Add File">
-    <input type="file" data-role="upload" />
+    <form>
+        <ul data-role="listview">
+            <li style="display:none;">
+                <input type="file" id="addfile-file" data-bind="events: { change:onFileGet }" />
+            </li>
+            <!-- Hidden -->
+            <li data-bind="visible:gotFile">
+                <label>
+                    Filename
+                    <input type="text" data-bind="value:fileData.filename"/>
+                </label>
+            </li>
+            <li data-bind="visible:gotFile">
+                <label>
+                    Folder
+                    <input type="text" data-bind="value:fileData.folder" />
+                </label>
+            </li>
+            <li data-bind="visible:gotFile">
+                <label>
+                    Comments
+                    <textarea style="resize:vertical;" data-bind="value:fileData.comments"></textarea>
+                </label>
+            </li>
+            <li data-bind="visible:gotFile">
+                <label>
+                    Tags
+                    <input type="text" data-bind="value:fileData.tags" />
+                </label>
+            </li>
+            <li data-bind="visible:gotFile">
+                <label>
+                    Check out file
+                    <input type="checkbox" data-bind="value:fileData.checkoutfile" />
+                </label>
+            </li>
+            <li data-bind="visible:gotFile">
+                <div class="center-text">
+                    <a data-role="button" data-bind="click:uploadFile" class="km-primary">Upload</a>
+                </div>
+            </li>
+            <!-- ****** -->
+            <li data-bind="invisible:gotFile">
+                <div class="center-text">
+                    <a data-role="button" data-bind="click:openFileDialog">Select File</a>
+                </div>
+            </li>
+
+        </ul>
+    </form>
 </div>
 
 <script>
     var addfileViewModel = {};
     $(function (jQuery) {
         addfileViewModel = new kendo.observable({
-            fileURI: "",
-            filename: "",
-            comments: "",
-            tags: "",
+            filePath: "",
+            fileData: {
+                filename: "",
+                comments: "",
+                tags: "",
+                folder: "",
+                checkoutfile: false,
+            },
+            gotFile: false,
+            openFileDialog: function (e) {
+                $("#addfile-file").click();
+            },
+            onFileGet: function (e) {
+                //file selection done
+                var input = $(e.target);
+                var filePath = input.val();
+                var fileName = filePath.split('\\').pop();
+                this.set('fileData.filename', fileName);
+                this.set('filePath', filePath);
+                this.set('gotFile', true);
+            },
             upload: function () {
                 // upload file to server in the directory where upload was pressed.
             },
@@ -22,14 +88,3 @@
     });
 </script>
 
-<style>
-    .k-button.k-upload-button {
-        margin: 0;
-        padding: .8em;
-        width: 100%;
-        height: 100%;
-        padding-left: 0;
-        padding-right: 0;
-        border: 0;
-    }
-</style>
