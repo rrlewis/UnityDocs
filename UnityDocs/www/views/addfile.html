@@ -1,31 +1,5 @@
 ﻿<div id="addfile" data-model="addfileViewModel" data-bind="events: { show: onViewShow }" data-role="view" data-layout="default-layout" data-title="Add File">
-    <form>
-        <ul data-role="listview">
-            <li>
-                <label class="km-inline-field km-label-above">
-                    Filename
-                    <input data-field="Filename" data-bind="value:filename" name="Filename" type="text" />
-                </label>
-            </li>
-            <li>
-                <label class="km-inline-field km-label-above">
-                    Comments
-                    <textarea data-field="Comments" data-bind="value:comments" name="Comments" readonly style="resize:vertical;"></textarea>
-                </label>
-            </li>
-            <li>
-                <label class="km-inline-field km-label-above">
-                    Tags
-                    <input data-field="Tags" data-bind="value:tags" name="Tags" type="text" />
-                </label>
-            </li>
-            <li>
-                <div class="center-text">
-                    <button data-role="button">Upload</button>
-                </div>
-            </li>
-        </ul>
-    </form>
+    <input type="file" data-role="upload" accept="image/*" capture />
 </div>
 
 <script>
@@ -41,10 +15,19 @@
             },
             onViewShow: function (e) {
                 var params = e.view.params;
-                this.set('fileURI', params.uri);
-                this.set('filename', params.uri.split("/").pop());
+
                 globalOnViewShow(e);
             },
         });
     });
 </script>
+
+<style>
+    .k-button.k-upload-button {
+        margin: 0;
+        padding: .8em;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+</style>

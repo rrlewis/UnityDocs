@@ -267,41 +267,7 @@
                 window.plugins.actionsheet.show(actionSheetOptions, gotAction);
             },
             addFile: function (e) {
-                window.plugins.actionsheet.show({
-                    title: 'Add file from where?',
-                    buttonLabels: ['Camera', 'Storage'],
-                    androidEnableCancelButton: true, // default false
-                    addCancelButtonWithLabel: 'Cancel',
-                }, function (buttonIndex) {
-                    setTimeout(function () {
-                        switch (buttonIndex) {
-                            case 1:
-                                //Camera
-                                navigator.camera.getPicture(function (result) {
-                                    router.navigate('views/addfile.html?uri=' + result);
-                                },
-                                function (error) {
-                                    console.log(error);
-                                },
-                                {
-                                    sourceType: Camera.PictureSourceType.CAMERA
-                                });
-                                break;
-                            case 2:
-                                //Gallery / storage
-                                navigator.camera.getPicture(function (result) {
-                                    router.navigate('views/addfile.html?uri=' + result);
-                                },
-                                function (error) {
-                                    console.log(error);
-                                },
-                                {
-                                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY
-                                });
-                                break;
-                        }
-                    });
-                });
+                router.navigate("views/addfile.html");
             }
         });
     });
