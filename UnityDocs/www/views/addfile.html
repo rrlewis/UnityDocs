@@ -1,5 +1,5 @@
 ﻿<div id="addfile" data-model="addfileViewModel" data-bind="events: { show: onViewShow }" data-role="view" data-layout="default-layout" data-title="Add File">
-    <form>
+    <form action="http://apprentice2/unity/api/documentmanagement/UploadDocument" method="post">
         <ul data-role="listview">
             <li style="display:none;">
                 <input type="file" id="addfile-file" data-bind="events: { change:onFileGet }" />
@@ -8,33 +8,31 @@
             <li data-bind="visible:gotFile">
                 <label>
                     Filename
-                    <input type="text" data-bind="value:fileData.filename" />
+                    <input type="text" data-bind="value:fileData.FileName" />
                 </label>
             </li>
             <li data-bind="visible:gotFile">
                 <label>
                     Folder
-                    <select data-bind="source:folderData, value:fileData.folder">
-
-                    </select>
+                    <select data-bind="source:folderData, value:fileData.Folder"></select>
                 </label>
             </li>
             <li data-bind="visible:gotFile">
                 <label>
                     Comments
-                    <textarea style="resize:vertical;" data-bind="value:fileData.comments"></textarea>
+                    <textarea style="resize:vertical;" data-bind="value:fileData.VersionComments"></textarea>
                 </label>
             </li>
             <li data-bind="visible:gotFile">
                 <label>
                     Tags
-                    <input type="text" data-bind="value:fileData.tags" />
+                    <input type="text" data-bind="value:fileData.Tags" />
                 </label>
             </li>
             <li data-bind="visible:gotFile">
                 <label>
                     Check out file
-                    <input type="checkbox" data-bind="value:fileData.checkoutfile" />
+                    <input type="checkbox" data-bind="value:fileData.CheckoutAfterUpload" />
                 </label>
             </li>
             <li data-bind="visible:gotFile">
@@ -42,29 +40,40 @@
                     <a data-role="button" data-bind="click:uploadFile" class="km-primary">Upload</a>
                 </div>
             </li>
-            <!-- ****** -->
-            <li data-bind="invisible:gotFile">
-                <div class="center-text">
-                    <a data-role="button" id="b" data-bind="click:openFileDialog">Select File</a>
-                </div>
-            </li>
-
         </ul>
     </form>
+    <div data-bind="invisible:gotFile" class="center-text">
+        <a data-role="button" data-bind="click:openFileDialog">Select File</a>
+    </div>
 </div>
 
 <script>
     var addfileViewModel = {};
+
     $(function (jQuery) {
         addfileViewModel = new kendo.observable({
+            defaults: [
+                    ['filePath', ""],
+                    ['folderData', []],
+                    ['fileData', {
+                        FileName: "",
+                        VersionComments: "",
+                        Tags: "",
+                        Folder: "",
+                        CheckoutAfterUpload: false,
+                    }
+                    ],
+                    ['libraryName', ""],
+                    ['gotFile', false]
+            ],
             filePath: "",
             folderData: [],
             fileData: {
-                filename: "",
-                comments: "",
-                tags: "",
-                folder: "",
-                checkoutfile: false,
+                FileName: "",
+                VersionComments: "",
+                Tags: "",
+                Folder: "",
+                CheckoutAfterUpload: false,
             },
             libraryName: "",
             gotFile: false,
@@ -75,19 +84,33 @@
                 //file selection done
                 var input = $(e.target);
                 var filePath = input.val();
+
                 var fileName = filePath.split('\\').pop();
-                this.set('fileData.filename', fileName);
+                this.set('fileData.FileName', fileName);
                 this.set('filePath', filePath);
                 this.set('gotFile', true);
             },
             uploadFile: function () {
                 // upload file to server in the directory where upload was pressed.
-                var formData = $("#addfile form").data();
+                var form = $("#addfile form");
+                var formData = {};
+
+                formData.FileName = this.fileData.FileName;
+                formData.VersionComments = this.fileData.VersionComments;
+                formData.Tags = this.fileData.Tags;
+                formData.Folder = this.fileData.Folder;
+                formData.CheckoutAfterUpload = this.CheckoutAfterUpload;
+
+                form.formData = formData;
+                debugger;
+                form.submit(function (result) {
+                    debugger;
+                });
                 debugger;
 
             },
             onViewShow: function (e) {
-                debugger;
+                this.reset();
                 var params = e.view.params;
                 // get library folders.
                 var $this = this;
@@ -96,9 +119,23 @@
                     var results = response.results;
                     $this.set('folderData', results);
                 });
-                $("#b").click();
                 globalOnViewShow(e);
             },
+            reset: function (e) {
+                for (var x = 0; x < this.defaults.length; x++) {
+                    var propName = this.defaults[x][0];
+                    var propVal = this.defaults[x][1];
+                    if (this.hasOwnProperty(propName)) {
+                        this.set(propName, propVal);
+                    }
+                }
+            }
         });
     });
 </script>
+
+<style>
+    #addfile [data-role=content] {
+        line-height: 38pc;
+    }
+</style>
