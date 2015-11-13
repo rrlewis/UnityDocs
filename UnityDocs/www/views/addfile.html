@@ -45,7 +45,7 @@
             <!-- ****** -->
             <li data-bind="invisible:gotFile">
                 <div class="center-text">
-                    <a data-role="button" data-bind="click:openFileDialog">Select File</a>
+                    <a data-role="button" id="b" data-bind="click:openFileDialog">Select File</a>
                 </div>
             </li>
 
@@ -96,7 +96,7 @@
                     var results = response.results;
                     $this.set('folderData', results);
                 });
-                $("#addfile-file").click();
+                $("#b").click();
                 globalOnViewShow(e);
             },
         });
