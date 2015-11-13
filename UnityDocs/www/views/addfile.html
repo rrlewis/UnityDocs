@@ -80,8 +80,11 @@
                 this.set('filePath', filePath);
                 this.set('gotFile', true);
             },
-            upload: function () {
+            uploadFile: function () {
                 // upload file to server in the directory where upload was pressed.
+                var formData = $("#addfile form").data();
+                debugger;
+
             },
             onViewShow: function (e) {
                 var params = e.view.params;
@@ -92,6 +95,7 @@
                     var results = response.results;
                     $this.set('folderData', results);
                 });
+                $("#addfile-file").click();
                 globalOnViewShow(e);
             },
         });
