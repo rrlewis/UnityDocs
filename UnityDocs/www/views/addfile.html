@@ -2,7 +2,7 @@
     <form action="http://apprentice2/unity/api/documentmanagement/UploadDocument" method="post">
         <ul data-role="listview">
             <li style="display:none;">
-                <input type="file" id="addfile-file" data-bind="events: { change:onFileGet }" />
+                <input type="file" capture="camera" accept="image/*" id="addfile-file" data-bind="events: { change:onFileGet }">
             </li>
             <!-- Hidden -->
             <li data-bind="visible:gotFile">
