@@ -42,9 +42,7 @@
             </li>
         </ul>
     </form>
-    <div data-bind="invisible:gotFile" class="center-text">
-        <a data-role="button" data-bind="click:openFileDialog">Select File</a>
-    </div>
+    <a data-role="button" class="add-file" data-bind="click:openFileDialog,invisible:gotFile"><i class="fa fa-plus"></i>&nbsp;Add File</a>
 </div>
 
 <script>
@@ -136,6 +134,24 @@
 
 <style>
     #addfile [data-role=content] {
-        line-height: 38pc;
+    }
+
+    #addfile .add-file {
+        padding: 0;
+        border: 0;
+        height: 100%;
+        box-sizing: border-box;
+        margin: 0;
+        width: 100%;
+        line-height: 80vh;
+        font-weight: 900;
+        font-size: 28px;
+    }
+
+    #addfile .km-scroll-container {
+        box-sizing: border-box;
+        height: 100%;
+        position: absolute;
+        width: 100%;
     }
 </style>
