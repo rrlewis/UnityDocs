@@ -184,6 +184,7 @@
                     buttonLabels.push("Edit");
                 }
                 var actionSheetOptions = {
+                    'androidTheme': window.plugins.actionsheet.ANDROID_THEMES.THEME_HOLO_LIGHT, // default is THEME_TRADITIONAL
                     'title': 'What do you want to do with ' + document.Description,
                     'buttonLabels': buttonLabels,
                     'androidEnableCancelButton': true, // default false

@@ -39,7 +39,6 @@
                     <input type="search" data-bind="value:search.searchString" placeholder="Search library..." />
                 </form>
 
-                <a data-role="button" data-click-on="up" data-click="testActionSheet" data-icon="home"></a>
                 <span data-align="right" data-bind="visible:search.canSearch">
                     <a data-role="button" data-click-on="up" data-bind="click:search.start, invisible:search.isActive" data-icon="search" id="search-btn"></a>
                 </span>
@@ -75,35 +74,6 @@
             <li data-icon="favorites"><a href="#views/favourites.html">Favourites</a></li>
         </ul>
     </div>
-
-    <script>
-        var theme = 1;
-        function testActionSheet() {
-            var callback = function (buttonIndex) {
-                setTimeout(function () {
-                    switch (buttonIndex) {
-                        case 1:
-                            break;
-                        case 2:
-                            break;
-                    }
-                });
-            };
-
-            var options = {
-                'androidTheme': theme, 
-                'title': 'Where would you like to add a file from?',
-                'buttonLabels': ['Camera', 'Storage'],
-                'androidEnableCancelButton': true, // default false
-                'addCancelButtonWithLabel': 'Cancel',
-            };
-            theme++;
-            if (theme == 6) {
-                theme = 1;
-            }
-            window.plugins.actionsheet.show(options, callback);
-        }
-    </script>
 
     <!-- jQuery & Kendo -->
     <script src="js/jquery/2.1.4/jquery-2.1.4.min.js"></script>
