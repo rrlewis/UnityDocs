@@ -14,7 +14,7 @@
                 var params = e.view.params;
                 var $this = this;
                 this.set('fileName', params.fileName);
-                window.resolveLocalFileSystemURL(cordova.file.externalApplicationStorageDirectory + fileName,
+                window.resolveLocalFileSystemURL(cordova.file.externalApplicationStorageDirectory + params.fileName,
                 function (fileEntry) {
                     debugger;
                     fileEntry.file(function (file) {
