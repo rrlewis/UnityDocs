@@ -247,10 +247,6 @@
                                         api.documentService().checkOutDocument(document.ImageID).then(downloadFile);
                                     }
                                 function downloadFile(checkOutResults) {
-                                    debugger;
-                                    if (typeof scope.data != 'undefined') {
-                                        scope.data.read();
-                                    }
                                     fileHandler().downloadFile(document.ImageID, document.Description,
                                         function (fileEntry) {
                                             //success

@@ -19,13 +19,13 @@
                     debugger;
                     fileEntry.file(function (file) {
                         debugger;
-                        fileReader.onloadend = function (data) {
+                        $this.fileReader.onloadend = function (data) {
                             debugger;
                             $this.set('fileText', data);
-                            }
-                            fileReader.readAsText(file);
-                        });
-                    },
+                        }
+                        fileReader.readAsText(file);
+                    });
+                },
                     function (error) {
                         console.log(error);
                     }
