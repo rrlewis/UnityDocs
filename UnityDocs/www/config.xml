@@ -21,6 +21,7 @@
   <gap:plugin name="cordova-plugin-whitelist" source="npm" />
   <gap:plugin name="cordova-plugin-document-contract" source="npm" />
   <gap:plugin name="cordova-plugin-camera" source="npm" />
+  <gap:plugin name="de.sitewaerts.cordova.documentviewer" source="plugins.cordova.io" />
   
   <!-- Whitelist -->
   <allow-navigation href="http://*/*" />
