@@ -19,9 +19,9 @@
                     debugger;
                     fileEntry.file(function (file) {
                         debugger;
-                        $this.fileReader.onloadend = function (data) {
+                        $this.fileReader.onloadend = function (evt) {
                             debugger;
-                            $this.set('fileText', data);
+                            $this.set('fileText', evt.target.result);
                         }
                         $this.fileReader.readAsText(file);
                     });
