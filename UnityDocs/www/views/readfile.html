@@ -23,14 +23,14 @@
                             debugger;
                             $this.set('fileText', data);
                         }
-                        fileReader.readAsText(file);
+                        $this.fileReader.readAsText(file);
                     });
                 },
                     function (error) {
                         console.log(error);
                     }
                 );
-                onGlobalViewShow(e);
+                //onGlobalViewShow(e);
             }
         });
     });
