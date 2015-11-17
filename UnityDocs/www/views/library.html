@@ -195,7 +195,73 @@
                         switch (buttonIndex) {
                             case 1:
                                 // Read
-                                router.navigate("views/readfile.html?fileName=" + document.Description);
+                                if (document.Description.indexOf('.pdf') > -1) {
+                                    var options = {
+                                        title: document.Description,
+                                        documentView: {
+                                            closeLabel: "Close Label dview"
+                                        },
+                                        navigationView: {
+                                            closeLabel: "Close Label nview"
+                                        },
+                                        email: {
+                                            enabled: true
+                                        },
+                                        print: {
+                                            enabled: true
+                                        },
+                                        openWith: {
+                                            enabled: true
+                                        },
+                                        bookmarks: {
+                                            enabled: true
+                                        },
+                                        search: {
+                                            enabled: true
+                                        },
+                                    };
+                                    SitewaertsDocumentViewer.canViewDocument(
+                                        cordova.file.externalApplicationStorageDirectory + document.Description,
+                                        'application/pdf',
+                                        options,
+                                        function () {
+                                            // possible to open, so open
+                                            SitewaertsDocumentViewer.viewDocument(
+                                                cordova.file.externalApplicationStorageDirectory + document.Description,
+                                                'application/pdf',
+                                                options,
+                                                function () {
+                                                    console.log('document shown');
+                                                },
+                                                function () {
+                                                    console.log('document closed');
+                                                },
+                                                function () {
+                                                    debugger;
+                                                },
+                                                function (error) {
+                                                    console.log(error);
+                                                    alert("Sorry! Cannot show document.");
+                                                    debugger;
+                                                });
+                                        },
+                                        function () {
+                                            // app missing to view, alert it.
+                                            debugger;
+                                        },
+                                        function () {
+                                            console.log('document cannot be shown');
+                                            debugger;
+                                            //e.g. track document usage
+                                        },
+                                        function (error) {
+                                            console.log(error);
+                                            alert("Sorry! Cannot show document.");
+                                            debugger;
+                                        });
+                                } else {
+                                    router.navigate("views/readfile.html?fileName=" + document.Description);
+                                }
                                 break;
                             case 2:
                                 // Email file
