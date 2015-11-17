@@ -2,7 +2,7 @@
     <form action="http://apprentice2/unity/api/documentmanagement/UploadDocument" method="post">
         <ul data-role="listview">
             <li style="display:none;">
-                <input type="file" capture="camera" accept="image/*" id="addfile-file" data-bind="events: { change:onFileGet }">
+                <input type="file" capture accept="image/*" id="addfile-file" data-bind="events: { change:onFileGet }">
             </li>
             <!-- Hidden -->
             <li data-bind="visible:gotFile">
@@ -42,7 +42,7 @@
             </li>
         </ul>
     </form>
-    <a data-role="button" class="add-file" data-bind="click:openFileDialog,invisible:gotFile"><i class="fa fa-plus"></i>&nbsp;Add File</a>
+    <a data-role="button" class="add-file" data-bind="click:openFileActionSheet,invisible:gotFile"><i class="fa fa-plus"></i>&nbsp;Add File</a>
 </div>
 
 <script>
@@ -75,6 +75,23 @@
             },
             libraryName: "",
             gotFile: false,
+            openFileActionSheet: function (e) {
+                var callback = function (buttonIndex) {
+                    setTimeout(function () {
+
+                    });
+                };
+
+                var options = {
+                    'androidTheme': window.plugins.actionsheet.ANDROID_THEMES.THEME_HOLO_LIGHT, // default is THEME_TRADITIONAL
+                    'title': 'Where would you like to add a file from?',
+                    'buttonLabels': ['Camera', 'Storage'],
+                    'androidEnableCancelButton': true, // default false
+                    'addCancelButtonWithLabel': 'Cancel',
+                };
+
+                window.plugins.actionsheet.show(options, callback);
+            },
             openFileDialog: function (e) {
                 $("#addfile-file").click();
             },
