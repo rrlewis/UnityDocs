@@ -1,5 +1,8 @@
 ﻿'use strict';
 class ActionSheet {
+    onButtonPressed() {
+
+    }
     constructor(config, buttonPressed) {
         debugger;
         var buildConfig = function (config) {
@@ -49,9 +52,7 @@ class ActionSheet {
         this.onButtonPressed = buttonPressed;
     }
 
-    onButtonPressed() {
 
-    }
 
     show() {
         var onButtonPressed = this.onButtonPressed;
