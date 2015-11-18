@@ -4,7 +4,7 @@ class ActionSheet {
         var buildConfig = function (config) {
             var configProperties = ['title', 'buttonLabels', 'androidEnableCancelButton', 'addCancelButtonWithLabel'];
             var defaultPropertyValues = {
-                'title': 'Title',
+                'title': '',
                 'buttonLabels': [],
                 'androidEnableCancelButton': false, 
                 'addCancelButtonWithLabel': 'Cancel',
@@ -26,8 +26,7 @@ class ActionSheet {
         }
 
         if (typeof buttonPressed == 'undefined') { 
-            throw Error('No callback defined');
-            return;
+            buttonPressed = new Function();
         } else {
             if (buttonPressed.constructor != Function) {
                 throw Error('Invalid callback defined');
@@ -36,8 +35,7 @@ class ActionSheet {
         } // Validates buttonPressed callback.
 
         if (typeof config == 'undefined') {
-            throw Error('Invalid config object');
-            return;
+            config = {};
         } else {
             if (config.constructor != Object) {
                 throw Error('Invalid config object');
