@@ -47,6 +47,10 @@ class ActionSheet {
         this.onButtonPressed = buttonPressed;
     }
 
+    onButtonPressed() {
+
+    }
+
     show() {
         var onButtonPressed = this.onButtonPressed;
         if (typeof onButtonPressed != 'function') {
