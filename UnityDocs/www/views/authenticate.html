@@ -1,6 +1,6 @@
 ﻿
 <div id="authenticate" data-role="view" data-model="authenticateViewModel" data-bind="events: { show: onViewShow }" data-layout="auth-layout" data-swipe-to-open="false">
-    <div>
+    <!--<div>
         <div class="center-text">
             <h1>Unity Docs</h1>
             <img src="images/SCL.ICO" />
@@ -34,8 +34,8 @@
         <div class="center-text">
             <button data-role="button" class="km-primary" data-bind="click:authenticate">Sign In</button>
         </div>
-    </div>
-    <!--<div id="newdesign">
+    </div>-->
+    <div id="newdesign">
         <div class="center-text">
             <h1>Unity Docs</h1>
             <img src="images/SCL.ICO" />
@@ -52,8 +52,7 @@
                 </div>
                 <br />
                 <div>
-                    <select data-bind="value:credentials.connectionname, source: connectionItems">
-                    </select>
+                    <select data-bind="value:credentials.connectionname, source: connectionItems"></select>
                 </div>
                 <div class="error-message" data-bind="visible:error.visible, text:error.message">
                 </div>
@@ -63,7 +62,7 @@
                 </div>
             </form>
         </div>
-    </div>-->
+    </div>
 </div>
 
 <!-- View Model -->
@@ -97,7 +96,7 @@
 
 <style>
     #authenticate [data-role=content] {
-        /*background: #3fa9f5;*/
+        background: #3fa9f5;
         -webkit-box-shadow: inset 0 0 125px 0 rgba(0,0,0,0.3);
         -moz-box-shadow: inset 0 0 125px 0 rgba(0,0,0,0.3);
         box-shadow: inset 0 0 125px 0 rgba(0,0,0,0.3);
@@ -107,8 +106,17 @@
         color: white;
     }
 
-    #newdesign form {
-        margin-top: 150px;
+    /* Portrait */
+    @media screen and (device-width: 601px) and (device-height: 906px) and (-webkit-min-device-pixel-ratio: 1.331) and (-webkit-max-device-pixel-ratio: 1.332) and (orientation: portrait) {
+        #newdesign form {
+            margin-top: 150px;
+        }
+    }
+    /* Landscape */
+    @media screen and (device-width: 601px) and (device-height: 906px) and (-webkit-min-device-pixel-ratio: 1.331) and (-webkit-max-device-pixel-ratio: 1.332) and (orientation: landscape) {
+        #newdesign form {
+            margin-top: 55px;
+        }
     }
 
     #newdesign input[type=text], #newdesign input[type=password], #newdesign select {

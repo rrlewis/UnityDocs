@@ -5,7 +5,9 @@
   <author href="http://www.sanderson.com/" email="Ronan.Lewis@sanderson.com">Sanderson</author>
   <content src="index.html" />
   <access origin="*" />
-  <icon src="images/icon.png" width="48" height="48"></icon>
+  <platform name="android">
+    <icon src="images/icon.png" width="48" height="48"></icon>
+  </platform>
 
   <!-- Phonegap Version -->
   <!--<preference name="phonegap-version" value="3.7.0" />-->
@@ -21,11 +23,11 @@
   <gap:plugin name="cordova-plugin-whitelist" source="npm" />
   <gap:plugin name="cordova-plugin-document-contract" source="npm" />
   <gap:plugin name="cordova-plugin-camera" source="npm" />
-  
+
   <!-- Whitelist -->
   <allow-navigation href="http://*/*" />
   <allow-navigation href="https://*/*" />
   <allow-navigation href="data:*" />
   <access origin="*" />
-  
+
 </widget>
