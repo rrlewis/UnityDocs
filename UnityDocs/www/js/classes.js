@@ -1,4 +1,5 @@
-﻿class ActionSheet {
+﻿'use strict';
+class ActionSheet {
     constructor(config, buttonPressed) {
         var buildConfig = function (config) {
             var configProperties = ['title', 'buttonLabels', 'androidEnableCancelButton', 'addCancelButtonWithLabel', 'addDestructiveButtonWithLabel'];
