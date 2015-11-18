@@ -47,9 +47,8 @@ class ActionSheet {
             }
         } // Validates config object.
         debugger;
-
         this.options = buildConfig(config);
-        this.onButtonPressed = buttonPressed;
+        this.prototype.onButtonPressed = buttonPressed;
     }
 
 
