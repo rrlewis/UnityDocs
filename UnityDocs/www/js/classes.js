@@ -2,17 +2,27 @@
 class ActionSheet {
     constructor(config, buttonPressed) {
         var buildConfig = function (config) {
-            var configProperties = ['title', 'buttonLabels', 'androidEnableCancelButton', 'addCancelButtonWithLabel', 'addDestructiveButtonWithLabel'];
+            var configProperties = ['title', 'buttonLabels', 'androidEnableCancelButton', 'addCancelButtonWithLabel'];
+            var defaultPropertyValues = {
+                'title': 'Title',
+                'buttonLabels': [],
+                'androidEnableCancelButton': false, 
+                'addCancelButtonWithLabel': 'Cancel',
+            };
             var optionObj = {}; // the new optionObj to build.
             var currentProperty;
-            for (var i = 0; i < configProperties.length; i++) { // iterate through the properties the options object can have/be edited.
+            // iterate through the properties the options object can have/be edited.
+            for (var i = 0; i < configProperties.length; i++) { 
                 currentProperty = configProperties[i];
                 if (config.hasOwnProperty(currentProperty)) {
                     // if the config object passed to the constructor has the current property
                     optionObj[currentProperty] = config[currentProperty];
+                } else {
+                    optionObj[currentProperty] = defaultPropertyValues[currentProperty];
                 }
             }
             optionObj.androidTheme = window.plugins.actionsheet.ANDROID_THEMES.THEME_HOLO_LIGHT; // Standardize theme throughout app.
+            return optionObj;
         }
 
         if (typeof buttonPressed == 'undefined') { 
@@ -26,7 +36,7 @@ class ActionSheet {
         } // Validates buttonPressed callback.
 
         if (typeof config == 'undefined') {
-            throw Error('No callback defined');
+            throw Error('Invalid config object');
             return;
         } else {
             if (config.constructor != Object) {
