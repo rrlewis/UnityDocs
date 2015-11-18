@@ -1,6 +1,7 @@
 ﻿'use strict';
 class ActionSheet {
     constructor(config, buttonPressed) {
+        debugger;
         var buildConfig = function (config) {
             var configProperties = ['title', 'buttonLabels', 'androidEnableCancelButton', 'addCancelButtonWithLabel'];
             var defaultPropertyValues = {
@@ -42,6 +43,7 @@ class ActionSheet {
                 return;
             }
         } // Validates config object.
+        debugger;
 
         this.options = buildConfig(config);
         this.onButtonPressed = buttonPressed;
