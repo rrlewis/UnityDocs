@@ -14,26 +14,46 @@ class ActionSheet {
             }
             optionObj.androidTheme = window.plugins.actionsheet.ANDROID_THEMES.THEME_HOLO_LIGHT; // Standardize theme throughout app.
         }
-        if (typeof buttonPressed == 'undefined') {
-            throw Error('No callback defined.');
+
+        if (typeof buttonPressed == 'undefined') { 
+            throw Error('No callback defined');
             return;
         } else {
-            if (typeof buttonPressed != 'function') {
-                throw Error('Invalid callback defined.');
+            if (buttonPressed.constructor != Function) {
+                throw Error('Invalid callback defined');
                 return;
             }
-        }
+        } // Validates buttonPressed callback.
+
+        if (typeof config == 'undefined') {
+            throw Error('No callback defined');
+            return;
+        } else {
+            if (config.constructor != Object) {
+                throw Error('Invalid config object');
+                return;
+            }
+        } // Validates config object.
 
         this.options = buildConfig(config);
         this.onButtonPressed = buttonPressed;
     }
 
     show() {
-        console.log("showing sheet");
-        window.plugins.actionsheet.show(this.options, this.onButtonPressed);
+        var onButtonPressed = this.onButtonPressed;
+        if (typeof onButtonPressed != 'function') {
+            throw Error('No callback defined');
+        }
+        
+        window.plugins.actionsheet.show(this.options, onButtonPressed);
     }
-    close() {
-        window.plugins.actionsheet.show
+    close(onSuccess, onError) {
+        if (typeof onSuccess != 'function'){
+            onSuccess = new Function();        
+        }
+        if (typeof onError != 'function'){
+            onError = new Function();        
+        }
+        window.plugins.actionsheet.hide({}, onSuccess, onError);
     }
 }
-
