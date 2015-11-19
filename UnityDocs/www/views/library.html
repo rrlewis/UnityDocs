@@ -209,12 +209,14 @@
                                 break;
                             case 'Check In':
                                 // check file in
-                                //scope.checkInModalViewModel.set("fileName", title);
-                                //$("#check-in-modal").data("kendoMobileModalView").open();
-                                api.documentService().undoCheckOutDocument(document.ImageID).then(function (checkOutResults) {
-                                    debugger;
-                                    $this.refreshData();
-                                });
+                                // upload file then
+                                if (document.CheckedOutBy == currentUser.get().username) {
+                                    api.documentService().undoCheckOutDocument(document.ImageID).then(function (checkOutResults) {
+                                        $this.refreshData();
+                                    });
+                                } else {
+                                    alert("You don't have this document checked out!");
+                                }
                                 break;
                             case 'Check Out':
                                 api.documentService().checkOutDocument(document.ImageID).then(function (checkOutResults) {
