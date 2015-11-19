@@ -215,7 +215,7 @@
                                         $this.refreshData();
                                     });
                                 } else {
-                                    alert("You don't have this document checked out!");
+                                    window.plugins.toast.showLongCenter("You don't have this document (" + document.Description + ") checked out!");
                                 }
                                 break;
                             case 'Check Out':
