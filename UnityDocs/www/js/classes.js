@@ -1,6 +1,9 @@
 ﻿'use strict';
+
 class ActionSheet {
     constructor(config, buttonPressed) {
+
+        // Validates buttonPressed callback.
         if (typeof buttonPressed == 'undefined') {
             buttonPressed = new Function();
         } else {
@@ -8,8 +11,8 @@ class ActionSheet {
                 throw Error('Invalid callback defined');
                 return;
             }
-        } // Validates buttonPressed callback.
-
+        } 
+        // Validates config object.
         if (typeof config == 'undefined') {
             config = {};
         } else {
@@ -17,7 +20,7 @@ class ActionSheet {
                 throw Error('Invalid config object');
                 return;
             }
-        } // Validates config object.
+        }
 
         var configProperties = ['title', 'buttonLabels', 'androidEnableCancelButton', 'addCancelButtonWithLabel'];
         var defaultPropertyValues = {
@@ -40,21 +43,20 @@ class ActionSheet {
                 optionObj[currentProperty] = defaultPropertyValues[currentProperty];
             }
         }
+
         optionObj.androidTheme = window.plugins.actionsheet.ANDROID_THEMES.THEME_HOLO_LIGHT; // Standardize theme throughout app.
 
         this.options = optionObj;
         this.onButtonPressed = buttonPressed;
     }
 
-    onButtonPressed() {
-    }
-
     show() {
         var onButtonPressed = this.onButtonPressed;
+        var options = this.options;
         if (typeof onButtonPressed != 'function') {
             throw Error('No callback defined');
         }
-        window.plugins.actionsheet.show(this.options, onButtonPressed);
+        window.plugins.actionsheet.show(options, onButtonPressed);
     }
 
     close(onSuccess, onError) {
@@ -67,6 +69,3 @@ class ActionSheet {
         window.plugins.actionsheet.hide({}, onSuccess, onError);
     }
 }
-
-
-

@@ -264,7 +264,13 @@
                 window.plugins.actionsheet.show(actionSheetOptions, gotAction);
             },
             actionSheet: {
+                options: {
 
+                },
+                onButtonPressed: function (buttonIndex) {
+
+                },
+                element: new ActionSheet({}, this.onButtonPressed),
             },
             refreshData: function (e){
                 this.data.read();
