@@ -171,9 +171,10 @@
                 router.navigate("views/libraryinfo.html?selectedItem=" + selectedItem);
             },
             showActionSheet: function (e) {
-                var document = e.data;
-
+                var $this = this;
+                var document = e.data; // Document object
                 var buttonLabels = ['View', 'Email']; // The buttons that will always be on the actionsheet.
+
                 if (document.CheckedOutBy) {
                     // else give option to check in or edit.
                     buttonLabels.push("Check In");
@@ -191,100 +192,94 @@
                     'addCancelButtonWithLabel': 'Cancel',
                 };
                 function gotAction(buttonIndex) {
-                    setTimeout(function (a, b) {
-                        debugger;
+                    setTimeout(function () {
                         var buttonPressed = buttonLabels[buttonIndex - 1];
                         // View
                         // Email
+                        // Check In
                         // Check Out
                         // Check Out & Open
-                        // Check In
                         // Edit
                         switch (buttonPressed) {
-                            case 1:
-                                // View
-                                router.navigate("views/readfile.html?fileName=" + document.Description);
+                            case 'View':
+                                $this.viewFile(document.Description);
                                 break;
-                            case 2:
-                                // Email file
-                                fileHandler().downloadFile(document.ImageID, document.Description,
-                                    function (fileEntry) {
-                                        var options = {
-                                            subject: fileEntry.name, // string
-                                            body: "test body", // string
-                                            to: [], // array
-                                            cc: [], // array
-                                            bcc: [], // array
-                                            isHTML: false, // bool
-                                            attachments: [fileEntry.toURL()], // array
-                                        };
-                                        fileHandler().emailFile(options,
-                                            function (result) {
-                                                if (result == "OK") {
-                                                    console.log("Email worked.")
-                                                }
-                                            }
-                                        );
-                                    },
-                                    function (error) {
-                                        console.log(error);
-                                    }
-                                );
+                            case 'Email':
+                                $this.emailFile(document.ImageID, document.Description);
                                 break;
-                            case 3:
-                                // Check Out / Check In
-                                if (buttonLabels[2] == "Check In") {
-                                    // check file in
-                                    scope.checkInModalViewModel.set("fileName", title);
-                                    $("#check-in-modal").data("kendoMobileModalView").open();
-                                    //api.documentService().undoCheckOutDocument(docData.imageid).then(scope.refreshData);
-                                } else
-                                    if (buttonLabels[2] == "Check Out") {
-                                        // check file out
-                                        api.documentService().checkOutDocument(document.ImageID).then(scope.refreshData);
-                                    }
+                            case 'Check In':
+                                // check file in
+                                scope.checkInModalViewModel.set("fileName", title);
+                                $("#check-in-modal").data("kendoMobileModalView").open();
+                                //api.documentService().undoCheckOutDocument(docData.imageid).then(scope.refreshData);
                                 break;
-                            case 4:
-                                // Edit / Check Out & Open
-                                if (actionSheetOptions.buttonLabels[3] == 'Edit') {
-                                    // Don't check out
-                                    downloadFile();
-                                } else if (actionSheetOptions.buttonLabels[3] == 'Check Out & Open') {
-                                    // Check out
-                                    api.documentService().checkOutDocument(document.ImageID).then(downloadFile);
-                                }
-                                function downloadFile(checkOutResults) {
-                                    fileHandler().downloadFile(document.ImageID, document.Description,
-                                        function (fileEntry) {
-                                            //success
-                                            fileHandler().openFile(fileEntry);
-                                        },
-                                        function (error) {
-                                            //fail
-                                            console.log(error);
-                                        }
-                                    );
-                                }
+                            case 'Check Out':
+                                api.documentService().checkOutDocument(document.ImageID).then(function (checkOutResults) {
+                                    debugger;
+                                    $this.refreshData();
+                                });
+                                break;
+                            case 'Check Out & Open':
+                                api.documentService().checkOutDocument(document.ImageID).then(function (checkOutResults) {
+                                    debugger;
+                                    $this.refreshData();
+                                    $this.downloadFile(document.ImageID, document.Description);
+                                });
+                                break;
+                            case 'Edit':
+                                $this.downloadFile(document.ImageID, document.Description);
                                 break;
                         }
                     });
                 };
                 window.plugins.actionsheet.show(actionSheetOptions, gotAction);
             },
-            refreshData: function (e) {
+            refreshData: function () {
                 this.data.read();
             },
-            file: {
-                download: function (e) { },
-                add: function (e) { },
-
+            downloadFile: function (documentID, documentName) {
+                fileHandler().downloadFile(documentID, documentName,
+                    function (fileEntry) {
+                        //success
+                        fileHandler().openFile(fileEntry);
+                    },
+                    function (error) {
+                        //fail
+                        console.log(error);
+                    }
+                );
             },
-            downloadFile: function (e) {
-
+            emailFile: function (documentID, documentName) {
+                fileHandler().downloadFile(documentID, documentName,
+                    function (fileEntry) {
+                        var options = {
+                            subject: fileEntry.name, // string
+                            body: "test body", // string
+                            to: [], // array
+                            cc: [], // array
+                            bcc: [], // array
+                            isHTML: false, // bool
+                            attachments: [fileEntry.toURL()], // array
+                        };
+                        fileHandler().emailFile(options,
+                            function (result) {
+                                if (result == "OK") {
+                                    console.log("Email worked.")
+                                }
+                            }
+                        );
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+                );
             },
-            addFile: function (e) {
+            addFile: function (libraryName) {
                 //get current directory send to addfile
-                router.navigate("views/addfile.html?libraryName=" + this.libraryName);
+                router.navigate("views/addfile.html?libraryName=" + libraryName);
+            },
+            viewFile: function (documentName) {
+                router.navigate("views/readfile.html?fileName=" + documentName);
             }
         });
     });
