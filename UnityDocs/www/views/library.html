@@ -174,14 +174,14 @@
                 var document = e.data;
 
                 var buttonLabels = ['View', 'Email']; // The buttons that will always be on the actionsheet.
-                if (document.CheckedOutBy == null) {
-                    // if not checked out give option to check out or check out and edit.
-                    buttonLabels.push("Check Out");
-                    buttonLabels.push("Check Out & Open");
-                } else {
+                if (document.CheckedOutBy) {
                     // else give option to check in or edit.
                     buttonLabels.push("Check In");
                     buttonLabels.push("Edit");
+                } else {
+                    // if not checked out give option to check out or check out and edit.
+                    buttonLabels.push("Check Out");
+                    buttonLabels.push("Check Out & Open");
                 }
                 var actionSheetOptions = {
                     'androidTheme': window.plugins.actionsheet.ANDROID_THEMES.THEME_HOLO_LIGHT, // default is THEME_TRADITIONAL
@@ -191,10 +191,18 @@
                     'addCancelButtonWithLabel': 'Cancel',
                 };
                 function gotAction(buttonIndex) {
-                    setTimeout(function () {
-                        switch (buttonIndex) {
+                    setTimeout(function (a, b) {
+                        debugger;
+                        var buttonPressed = buttonLabels[buttonIndex - 1];
+                        // View
+                        // Email
+                        // Check Out
+                        // Check Out & Open
+                        // Check In
+                        // Edit
+                        switch (buttonPressed) {
                             case 1:
-                                // Read
+                                // View
                                 router.navigate("views/readfile.html?fileName=" + document.Description);
                                 break;
                             case 2:
@@ -263,16 +271,7 @@
                 };
                 window.plugins.actionsheet.show(actionSheetOptions, gotAction);
             },
-            actionSheet: {
-                options: {
-
-                },
-                onButtonPressed: function (buttonIndex) {
-
-                },
-                element: new ActionSheet({}, this.onButtonPressed),
-            },
-            refreshData: function (e){
+            refreshData: function (e) {
                 this.data.read();
             },
             file: {
