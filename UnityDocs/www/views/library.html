@@ -211,7 +211,7 @@
                                 // check file in
                                 //scope.checkInModalViewModel.set("fileName", title);
                                 //$("#check-in-modal").data("kendoMobileModalView").open();
-                                api.documentService().undoCheckOutDocument(docData.imageid).then(function (checkOutResults) {
+                                api.documentService().undoCheckOutDocument(document.ImageID).then(function (checkOutResults) {
                                     debugger;
                                     $this.refreshData();
                                 });
