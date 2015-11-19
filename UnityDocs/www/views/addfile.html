@@ -77,20 +77,37 @@
             gotFile: false,
             openFileActionSheet: function (e) {
                 var $this = this;
-                window.plugins.actionsheet.show({
+                var options = {
                     'androidTheme': window.plugins.actionsheet.ANDROID_THEMES.THEME_HOLO_LIGHT, // default is THEME_TRADITIONAL
                     'title': 'Where would you like to add a file from?',
                     'buttonLabels': ['Camera', 'Storage'],
                     'androidEnableCancelButton': true, // default false
                     'addCancelButtonWithLabel': 'Cancel',
-                }, function (buttonIndex) {
+                };
+                window.plugins.actionsheet.show(options, function (buttonIndex) {
                     setTimeout(function () {
-                        switch (buttonIndex) {
-                            case 1:
-                                // Camera
+                        var buttonPressed = options.buttonLabels[buttonIndex - 1];
+                        switch (buttonPressed) {
+                            case 'Camera':
+                                function gotPicture() {
+                                    function uploadSuccess() {
+                                        debugger;
+                                    }
+                                    function uploadFail() {
+                                        debugger;
+                                    }
+                                    debugger;
+                                }
+                                function failedToGetPicture() {
+                                    debugger;
+                                }
+
+                                navigator.camera.getPicture(gotPicture, failedToGetPicture, {
+                                    quality: 50, destinationType: Camera.DestinationType.FILE_URI
+                                });
 
                                 break;
-                            case 2:
+                            case 'Storage':
                                 $this.openFileDialog(e);
                                 break;
                         }
