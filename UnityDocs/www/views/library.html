@@ -209,9 +209,12 @@
                                 break;
                             case 'Check In':
                                 // check file in
-                                scope.checkInModalViewModel.set("fileName", title);
-                                $("#check-in-modal").data("kendoMobileModalView").open();
-                                //api.documentService().undoCheckOutDocument(docData.imageid).then(scope.refreshData);
+                                //scope.checkInModalViewModel.set("fileName", title);
+                                //$("#check-in-modal").data("kendoMobileModalView").open();
+                                api.documentService().undoCheckOutDocument(docData.imageid).then(function (checkOutResults) {
+                                    debugger;
+                                    $this.refreshData();
+                                });
                                 break;
                             case 'Check Out':
                                 api.documentService().checkOutDocument(document.ImageID).then(function (checkOutResults) {
