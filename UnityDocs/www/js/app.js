@@ -4,7 +4,8 @@ var app = new kendo.mobile.Application(
     document.body,
     {
         platform: "android",
-        skin: 'material-light',
+        //skin: 'material-light',
+        skin: 'nova',
         initial: "views/authenticate.html",
     }
 );
