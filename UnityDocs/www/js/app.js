@@ -68,10 +68,7 @@ console.log("Set app");
     };
 
     function onBackButtonPressed(e) {
-        console.log("trying to go back");
-        debugger;
         if (app.view().element.attr('id') == 'authenticate') {
-            debugger;
             e.preventDefault();
             return;
         }
