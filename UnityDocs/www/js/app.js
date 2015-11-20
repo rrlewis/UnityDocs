@@ -73,6 +73,8 @@ console.log("Set app");
         if (app.view().element.attr('id') == 'authenticate') {
             debugger;
             e.preventDefault();
+            return;
         }
+        history.back();
     }
 })();
