@@ -4,7 +4,7 @@ var app = new kendo.mobile.Application(
     document.body,
     {
         platform: "android",
-        skin: 'nova',
+        skin: 'material-light',
         initial: "views/authenticate.html",
     }
 );
@@ -23,6 +23,7 @@ console.log("Set app");
         // Handle the Cordova pause and resume events
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
+        document.addEventListener("backbutton", onBackButtonPressed.bind(this), false);
         $(document).ajaxStart(function (event) {
             loader.show();
         });
@@ -64,4 +65,8 @@ console.log("Set app");
             });
         }
     };
+
+    function onBackButtonPressed(e) {
+        debugger;
+    }
 })();
