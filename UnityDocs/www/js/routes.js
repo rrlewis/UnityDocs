@@ -28,8 +28,6 @@ var router = new kendo.Router({
 });
 
 router.route('(/)(views/authenticate.html)', function (params) {
-    debugger;
-    console.log(params._back);
 });
 
 router.route('(/)views/libraries.html', function (params) {
