@@ -44,7 +44,7 @@ class ActionSheet {
             }
         }
 
-        optionObj.androidTheme = window.plugins.actionsheet.ANDROID_THEMES.THEME_HOLO_LIGHT; // Standardize theme throughout app.
+        optionObj.androidTheme = window.plugins.actionsheet.ANDROID_THEMES.THEME_DEVICE_DEFAULT_DARK; // Standardize theme throughout app.
 
         this.options = optionObj;
         this.onButtonPressed = buttonPressed;
