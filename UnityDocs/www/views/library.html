@@ -2,7 +2,7 @@
     <ul data-role="listview" data-bind="source:data" class="data-source sortable" data-template="library-item-template" data-pull-to-refresh="true"></ul>
     <div data-role="footer">
         <div data-role="navbar" class="km-accent">
-            <a data-role="button" data-bind="click:addFile" data-icon="add" style="width:100%"></a>
+            <a data-role="button" data-bind="click:openAddDialog" data-icon="add" style="width:100%"></a>
         </div>
     </div>
 </div>
@@ -120,6 +120,7 @@
             data: [],
             viewTitle: "",
             libraryName: "",
+            subfolder: [],
             onViewShow: function (e) {
                 var params = e.view.params;
                 for (var prop in params) {
@@ -132,6 +133,7 @@
                 if (typeof params.subfolder == 'undefined') {
                     params.subfolder = '';
                 }
+                this.set('subfolder', params.subfolder);
                 this.set('data', new api.documentService().data.Documents({
                     data: {
                         indextypeorlibrary: encodeURI(typeof params.indextypeorlibrary == 'undefined' ? '' : params.indextypeorlibrary),
@@ -278,6 +280,35 @@
                         console.log(error);
                     }
                 );
+            },
+            openAddDialog: function () {
+                var $this = this;
+                var options = {
+                    title: 'Which would you like to add?',
+                    buttonLabels: ['File', 'Folder'],
+                    androidTheme: window.plugins.actionsheet.ANDROID_THEMES.THEME_DEVICE_DEFAULT_DARK, // default is THEME_TRADITIONAL
+                    androidEnableCancelButton: true, // default false
+                    addCancelButtonWithLabel: 'Cancel',
+                };
+                window.plugins.actionsheet.show(options, function (buttonIndex) {
+                    setTimeout(function () {
+                        var buttonPressed = options.buttonLabels[buttonIndex - 1];
+                        switch (buttonPressed) {
+                            case 'File':
+                                $this.addFile($this.libraryName);
+                                break;
+                            case 'Folder':
+                                $this.addFolder($this.libraryName, $this.subfolder);
+                                break;
+                        }
+                    });
+                });
+            },
+            addFolder: function (libraryName, subfolder) {
+                var folderName = prompt("Enter folder name");
+                api.documentService().createFolder(libraryName, folderName, subfolder).then(function (result) {
+                    debugger;
+                });
             },
             addFile: function (libraryName) {
                 //get current directory send to addfile
