@@ -195,3 +195,10 @@ ul.data-source.sortable.grid-view li a[data-type=FOLDER] i.fa {
     margin-right: 0;
     width: 55.7118px;
 }
+
+/* Drawer */
+
+#drawer footer a {
+    width: 100%;
+    background-color: rgba(255, 0, 0, 0.5);
+}

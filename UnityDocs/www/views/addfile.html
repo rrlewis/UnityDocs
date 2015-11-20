@@ -97,6 +97,22 @@
                                         debugger;
                                     }
                                     debugger;
+
+                                    var options = new FileUploadOptions();
+                                    options.fileKey = "file";
+                                    var userid = '123456';
+                                    options.fileName = 'test.jpg';
+                                    options.mimeType = "image/jpg";
+
+                                    var params = new Object();
+                                    params.imageURI = imageURI;
+                                    params.formData = {}; // here
+                                    options.params = params;
+                                    options.chunkedMode = false;
+                                    var ft = new FileTransfer();
+                                    var url = "Your_Web_Service_URL";
+                                    ft.upload(imageURI, url, win, fail, options, true);
+
                                 }
                                 function failedToGetPicture(a, b, c) {
                                     debugger;

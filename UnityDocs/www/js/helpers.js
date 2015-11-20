@@ -341,9 +341,11 @@ var currentUser = {
     },
     logOut: function () {
         // logout and remove autologin
-        localStorage.removeItem("uda");
-        localStorage.removeItem("ud");
-        router.navigate("views/authenticate.html");
+        if (confirm("Are you sure you want to log out?")) {
+            localStorage.removeItem("uda");
+            localStorage.removeItem("ud");
+            router.navigate("views/authenticate.html");
+        }
     }
 };
 
