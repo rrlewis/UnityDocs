@@ -68,8 +68,8 @@ console.log("Set app");
     };
 
     function onBackButtonPressed(e) {
-        debugger;
         if (app.view().element.attr('id') == 'authenticate') {
+            debugger;
             e.preventDefault();
         }
     }
