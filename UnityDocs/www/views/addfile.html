@@ -42,8 +42,8 @@
             </li>
         </ul>
     </form>
-    <input type="file" accept="image/*" capture="camera"/>
-    <a data-role="button" class="add-file" data-bind="click:openFileActionSheet,invisible:gotFile"><i class="fa fa-plus"></i>&nbsp;Add File</a>
+    <a data-role="button" class="add-file" data-bind="click:fromCamera,invisible:gotFile"><i class="fa fa-camera"></i>&nbsp;Camera</a>
+    <a data-role="button" class="add-file" data-bind="click:fromStorage,invisible:gotFile"><i class="fa fa-hdd-o"></i>&nbsp;Storage</a>
 </div>
 
 <script>
@@ -90,38 +90,6 @@
                         var buttonPressed = options.buttonLabels[buttonIndex - 1];
                         switch (buttonPressed) {
                             case 'Camera':
-                                function gotPicture(a,b,c) {
-                                    function uploadSuccess(a, b, c) {
-                                        debugger;
-                                    }
-                                    function uploadFail(a, b, c) {
-                                        debugger;
-                                    }
-                                    debugger;
-
-                                    var options = new FileUploadOptions();
-                                    options.fileKey = "file";
-                                    var userid = '123456';
-                                    options.fileName = 'test.jpg';
-                                    options.mimeType = "image/jpg";
-
-                                    var params = new Object();
-                                    params.imageURI = imageURI;
-                                    params.formData = {}; // here
-                                    options.params = params;
-                                    options.chunkedMode = false;
-                                    var ft = new FileTransfer();
-                                    var url = "Your_Web_Service_URL";
-                                    ft.upload(imageURI, url, win, fail, options, true);
-
-                                }
-                                function failedToGetPicture(a, b, c) {
-                                    debugger;
-                                }
-
-                                navigator.camera.getPicture(gotPicture, failedToGetPicture, {
-                                    quality: 50, destinationType: Camera.DestinationType.FILE_URI
-                                });
 
                                 break;
                             case 'Storage':
@@ -131,7 +99,42 @@
                     });
                 });
             },
-            openFileDialog: function (e) {
+            fromCamera: function (e) {
+                function gotPicture(a, b, c) {
+                    function uploadSuccess(a, b, c) {
+                        debugger;
+                    }
+                    function uploadFail(a, b, c) {
+                        debugger;
+                    }
+                    debugger;
+
+                    var options = new FileUploadOptions();
+                    options.fileKey = "file";
+                    var userid = '123456';
+                    options.fileName = 'test.jpg';
+                    options.mimeType = "image/jpg";
+
+                    var params = new Object();
+                    params.imageURI = imageURI;
+                    params.formData = {}; // here
+                    options.params = params;
+                    options.chunkedMode = false;
+                    var ft = new FileTransfer();
+                    var url = "Your_Web_Service_URL";
+                    ft.upload(imageURI, url, win, fail, options, true);
+
+                }
+                function failedToGetPicture(a, b, c) {
+                    debugger;
+                }
+
+                navigator.camera.getPicture(gotPicture, failedToGetPicture, {
+                    quality: 50, destinationType: Camera.DestinationType.FILE_URI
+                });
+
+            },
+            fromStorage: function (e) {
                 $("#addfile-file").click();
             },
             onFileGet: function (e) {
