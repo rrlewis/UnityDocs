@@ -110,7 +110,7 @@
                     }
                     debugger;
 
-                    var fileName = filePath.split('\\').pop();
+                    var fileName = filePath.split('/').pop();
                     this.set('fileData.FileName', fileName);
                     this.set('filePath', filePath);
                     this.set('gotFile', true);
