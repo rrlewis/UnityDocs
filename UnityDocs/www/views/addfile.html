@@ -1,8 +1,8 @@
 ﻿<div id="addfile" data-model="addfileViewModel" data-bind="events: { show: onViewShow, beforeunload: test }" data-role="view" data-layout="default-layout" data-title="Add File">
     <form action="http://apprentice2/unity/api/documentmanagement/UploadDocument" method="post">
         <ul data-role="listview">
-            <li>
-                <img alt="Selected image" height="100" width="100" data-bind="attr: {src: filePath}"/>
+            <li class="center-text">
+                <img alt="Selected image" height="100" width="100" data-bind="attr: {src: filePath}, visible: gotFile"/>
             </li>
             <li style="display:none;">
                 <input type="file" name="file" id="addfile-file" data-bind="events: { change:onFileGet }">
