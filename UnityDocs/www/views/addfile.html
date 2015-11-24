@@ -191,11 +191,13 @@
                         fileData: $this.fileData
                     };
 
-                    fileTransfer.upload($this.filePath, encodeURI(api.rootURL + 'documentmanagement/UploadDocument'), 
+                    debugger;
+                    fileTransfer.upload($this.filePath, encodeURI(api.rootURL + 'documentmanagement/UploadDocument'),
                         function (a,b,c) { // Success
                             debugger;
                         },
                         function (error) { // Fail
+                            debugger;
                             console.log(error);
                         },
                         options);
