@@ -1,5 +1,5 @@
 ﻿<div id="addfile" data-model="addfileViewModel" data-bind="events: { show: onViewShow, beforeunload: test }" data-role="view" data-layout="default-layout" data-title="Add File">
-    <form action="http://apprentice2/unity/api/documentmanagement/UploadDocument" method="post">
+    <form action="http://apprentice2/unity/api/documentmanagement/UploadDocument" method="post" name="addfile">
         <ul data-role="listview">
             <li class="center-text" data-bind="visible: gotFile">
                 <img alt="Selected image" height="250" width="250" data-bind="attr: {src: filePath}"/>
@@ -202,7 +202,8 @@
                         },
                         options);
                 } else if (from == 'storage') {
-
+                    var data = $("#addfile form[name=addfile]");
+                    data.fileData = $this.fileData;
                 }
 
             },
