@@ -1,8 +1,11 @@
-﻿<div id="addfile" data-model="addfileViewModel" data-bind="events: { show: onViewShow }" data-role="view" data-layout="default-layout" data-title="Add File">
+﻿<div id="addfile" data-model="addfileViewModel" data-bind="events: { show: onViewShow, beforeunload: test }" data-role="view" data-layout="default-layout" data-title="Add File">
     <form action="http://apprentice2/unity/api/documentmanagement/UploadDocument" method="post">
         <ul data-role="listview">
+            <li>
+                <img alt="Selected image" height="100" width="100" data-bind="attr: {src: filePath}"/>
+            </li>
             <li style="display:none;">
-                <input type="file" id="addfile-file" data-bind="events: { change:onFileGet }">
+                <input type="file" name="file" id="addfile-file" data-bind="events: { change:onFileGet }">
             </li>
             <!-- Hidden -->
             <li data-bind="visible:gotFile">
@@ -37,7 +40,7 @@
             </li>
             <li data-bind="visible:gotFile">
                 <div class="center-text">
-                    <a data-role="button" data-bind="click:uploadFile" class="km-primary">Upload</a>
+                    <a data-role="button" data-bind="click:submitForm" class="km-primary">Upload</a>
                 </div>
             </li>
         </ul>
@@ -66,6 +69,7 @@
                     ['gotFile', false]
             ],
             filePath: "",
+            from: "",
             folderData: [],
             fileData: {
                 FileName: "",
@@ -102,6 +106,7 @@
             fromCamera: function (e) {
                 var $this = this;
                 function gotPicture(filePath, b, c) {
+                    $this.set('from', 'camera');
                     function uploadSuccess(a, b, c) {
                         debugger;
                     }
@@ -149,6 +154,7 @@
                 var filePath = input.val();
 
                 var fileName = filePath.split('\\').pop();
+                this.set('from', 'camera');
                 this.set('fileData.FileName', fileName);
                 this.set('filePath', filePath);
                 this.set('gotFile', true);
@@ -170,6 +176,26 @@
                     debugger;
                 });
                 debugger;
+
+            },
+            submitForm: function (e) {
+                var $this = this;
+                var from = $this.get('from');
+                $this.set('from', '');
+                if (from == 'camera') {
+                    var fileTransfer = new FileTransfer();
+                    var options = new FileUploadOptions();
+
+                    options.fileName = $this.get('fileData.FileName');
+                    options.params = {};
+
+                    fileTransfer.upload($this.filePath, encodeURI(), uploadSuccess, uploadFail, options);
+                } else if (from == 'storage') {
+
+                }
+
+            },
+            test: function (e) {
 
             },
             onViewShow: function (e) {
