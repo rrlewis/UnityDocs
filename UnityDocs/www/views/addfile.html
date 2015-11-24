@@ -1,8 +1,8 @@
 ﻿<div id="addfile" data-model="addfileViewModel" data-bind="events: { show: onViewShow, beforeunload: test }" data-role="view" data-layout="default-layout" data-title="Add File">
     <form action="http://apprentice2/unity/api/documentmanagement/UploadDocument" method="post">
         <ul data-role="listview">
-            <li class="center-text">
-                <img alt="Selected image" height="100" width="100" data-bind="attr: {src: filePath}, visible: gotFile"/>
+            <li class="center-text" data-bind="visible: gotFile">
+                <img alt="Selected image" height="250" width="250" data-bind="attr: {src: filePath}"/>
             </li>
             <li style="display:none;">
                 <input type="file" name="file" id="addfile-file" data-bind="events: { change:onFileGet }">
@@ -187,9 +187,18 @@
                     var options = new FileUploadOptions();
 
                     options.fileName = $this.get('fileData.FileName');
-                    options.params = {};
+                    options.params = {
+                        fileData: $this.fileData
+                    };
 
-                    fileTransfer.upload($this.filePath, encodeURI(), uploadSuccess, uploadFail, options);
+                    fileTransfer.upload($this.filePath, encodeURI(api.rootURL + 'documentmanagement/UploadDocument'), 
+                        function (a,b,c) { // Success
+                            debugger;
+                        },
+                        function (error) { // Fail
+                            console.log(error);
+                        },
+                        options);
                 } else if (from == 'storage') {
 
                 }
