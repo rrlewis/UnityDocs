@@ -45,13 +45,14 @@
             </li>
         </ul>
     </form>
+    <input id="fileupload" type="file" name="files[]" data-url="server/php/" multiple>
     <a data-role="button" class="add-file" data-bind="click:fromCamera,invisible:gotFile"><i class="fa fa-camera"></i>&nbsp;Camera</a>
     <a data-role="button" class="add-file" data-bind="click:fromStorage,invisible:gotFile"><i class="fa fa-hdd-o"></i>&nbsp;Storage</a>
 </div>
 
 <script>
     var addfileViewModel = {};
-
+    $("#fileupload").fileupload();
     $(function (jQuery) {
         addfileViewModel = new kendo.observable({
             defaults: [
@@ -234,7 +235,6 @@
         });
     });
 </script>
-the sun shines on your face perfect time perfect place see the daylight shine today is yours and mine
 <style>
     #addfile [data-role=content] {
     }
