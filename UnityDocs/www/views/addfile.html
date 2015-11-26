@@ -7,7 +7,7 @@
             <li style="display:none;">
                 <input id="addfile-file" type="file" name="files[]" data-url="server/php/" data-bind="events: { change:onFileGet }">
             </li>
-             Hidden 
+             Hidden
             <li data-bind="visible:gotFile">
                 <label>
                     Filename
@@ -194,7 +194,7 @@
 
                     debugger;
                     fileTransfer.upload($this.filePath, encodeURI(api.rootUrl + 'documentmanagement/UploadDocument'),
-                        function (a,b,c) { // Success
+                        function (a, b, c) { // Success
                             debugger;
                         },
                         function (error) { // Fail
@@ -315,7 +315,7 @@
                                 }
                             }
                         });
-                    };
+
                     },
                 });
                 var $this = this;
