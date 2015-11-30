@@ -1,226 +1,78 @@
 ﻿<div id="addfile" data-model="addfileViewModel" data-bind="events: { show: onViewShow, beforeunload: test }" data-role="view" data-layout="default-layout" data-title="Add File">
-    <!--<form action="http://apprentice2/unity/api/documentmanagement/UploadDocument" method="post" name="addfile">
-        <ul data-role="listview">
-            <li class="center-text" data-bind="visible: gotFile">
-                <img alt="Selected image" height="250" width="250" data-bind="attr: {src: filePath}"/>
-            </li>
-            <li style="display:none;">
-                <input id="addfile-file" type="file" name="files[]" data-url="server/php/" data-bind="events: { change:onFileGet }">
-            </li>
-             Hidden
-            <li data-bind="visible:gotFile">
-                <label>
-                    Filename
-                    <input type="text" data-bind="value:fileData.FileName" />
-                </label>
-            </li>
-            <li data-bind="visible:gotFile">
-                <label>
-                    Folder
-                    <select data-bind="source:folderData, value:fileData.Folder"></select>
-                </label>
-            </li>
-            <li data-bind="visible:gotFile">
-                <label>
-                    Comments
-                    <textarea style="resize:vertical;max-height:200px;" data-bind="value:fileData.VersionComments"></textarea>
-                </label>
-            </li>
-            <li data-bind="visible:gotFile">
-                <label>
-                    Tags
-                    <input type="text" data-bind="value:fileData.Tags" />
-                </label>
-            </li>
-            <li data-bind="visible:gotFile">
-                <label>
-                    Check out file
-                    <input type="checkbox" data-bind="value:fileData.CheckoutAfterUpload" />
-                </label>
-            </li>
-            <li data-bind="visible:gotFile">
-                <div class="center-text">
-                    <a data-role="button" data-bind="click:submitForm" class="km-primary">Upload</a>
-                </div>
-            </li>
-        </ul>
-    </form>
-    <a data-role="button" class="add-file" data-bind="click:fromCamera,invisible:gotFile"><i class="fa fa-camera"></i>&nbsp;Camera</a>
-    <a data-role="button" class="add-file" data-bind="click:fromStorage,invisible:gotFile"><i class="fa fa-hdd-o"></i>&nbsp;Storage</a>-->
-    <input id="addfile-file" type="file" name="files[]" data-url="server/php/" data-bind="events: { change:onFileGet }">
+    <ul data-role="listview" data-bind="source: files" data-template="addfile-item-template" class="data-source sortable"></ul>
+    <a data-role="button" class="addfile-btn small" data-bind="visible: filesWaiting, click:openFileDialog"><i class="fa fa-plus"></i>&nbsp;Add File</a>
+    <a data-role="button" class="addfile-btn big" data-bind="invisible: filesWaiting, click:openFileDialog"><i class="fa fa-plus"></i>&nbsp;Add File</a>
+    <input id="file-input" type="file" name="files[]" data-bind="events: { change:onFileGet }">
+    <footer data-role="footer">
+        <div data-role="navbar" class="km-accent">
+            <a data-role="button" style="width:100%"><i class="fa fa-upload"></i>&nbsp;Upload</a>
+        </div>
+    </footer>
 </div>
+
+<script id="addfile-item-template" type="text/kendo-x-tmpl">
+    <div class="file-upload-row">
+        <div class="file-upload-row-header">
+            <input type="text" name="header" placeholder="Filename" />
+            <div>
+                <a><i class="fa fa-close"></i></a>
+            </div>
+        </div>
+        <form>
+            <label class="km-inline-field km-label-above">
+                Folder
+                <input type="text" placeholder="Folder" />
+            </label>
+            <label class="km-inline-field km-label-above">
+                Comments
+                <input type="text" placeholder="Comments" />
+            </label>
+            <label class="km-inline-field km-label-above">
+                Tags
+                <input type="text" placeholder="Tags" />
+            </label>
+            <label class="km-inline-field km-label-above">
+                Checkout File
+                <input type="checkbox" data-role="switch" />
+            </label>
+        </form>
+    </div>
+</script>
 
 <script>
     var addfileViewModel = {};
     $(function (jQuery) {
         addfileViewModel = new kendo.observable({
-            defaults: [
-                    ['filePath', ""],
-                    ['folderData', []],
-                    ['fileData', {
-                        FileName: "",
-                        VersionComments: "",
-                        Tags: "",
-                        Folder: "",
-                        CheckoutAfterUpload: false,
-                    }
-                    ],
-                    ['libraryName', ""],
-                    ['gotFile', false]
-            ],
-            filePath: "",
-            from: "",
-            folderData: [],
-            fileData: {
-                FileName: "",
-                VersionComments: "",
-                Tags: "",
-                Folder: "",
-                CheckoutAfterUpload: false,
-            },
-            libraryName: "",
-            gotFile: false,
-            openFileActionSheet: function (e) {
+            libraryName: '',
+            subfolderKey: '',
+            libraryItems: [],
+            filesToUpload: [],
+            onViewShow: function (e) {
                 var $this = this;
-                var options = {
-                    'androidTheme': window.plugins.actionsheet.ANDROID_THEMES.THEME_DEVICE_DEFAULT_DARK, // default is THEME_TRADITIONAL
-                    'title': 'Where would you like to add a file from?',
-                    'buttonLabels': ['Camera', 'Storage'],
-                    'androidEnableCancelButton': true, // default false
-                    'addCancelButtonWithLabel': 'Cancel',
-                };
-                window.plugins.actionsheet.show(options, function (buttonIndex) {
-                    setTimeout(function () {
-                        var buttonPressed = options.buttonLabels[buttonIndex - 1];
-                        switch (buttonPressed) {
-                            case 'Camera':
-
-                                break;
-                            case 'Storage':
-                                $this.openFileDialog(e);
-                                break;
-                        }
-                    });
-                });
-            },
-            fromCamera: function (e) {
-                var $this = this;
-                function gotPicture(filePath, b, c) {
-                    $this.set('from', 'camera');
-                    function uploadSuccess(a, b, c) {
-                        debugger;
-                    }
-                    function uploadFail(a, b, c) {
-                        debugger;
-                    }
-                    debugger;
-
-                    var fileName = filePath.split('/').pop();
-                    $this.set('fileData.FileName', fileName);
-                    $this.set('filePath', filePath);
-                    $this.set('gotFile', true);
-
-                    //var options = new FileUploadOptions();
-                    //options.fileKey = "file";
-                    //var userid = '123456';
-                    //options.fileName = 'test.jpg';
-                    //options.mimeType = "image/jpg";
-
-                    //var params = new Object();
-                    //params.imageURI = imageURI;
-                    //params.formData = {}; // here
-                    //options.params = params;
-                    //options.chunkedMode = false;
-                    //var ft = new FileTransfer();
-                    //var url = "Your_Web_Service_URL";
-                    //ft.upload(imageURI, url, win, fail, options, true);
-
-                }
-                function failedToGetPicture(error) {
-                    debugger;
-                }
-
-                navigator.camera.getPicture(gotPicture, failedToGetPicture, {
-                    quality: 50, destinationType: Camera.DestinationType.FILE_URI
-                });
-
-            },
-            fromStorage: function (e) {
-                $("#addfile-file").click();
+                var params = e.view.params;
+                $this.setParams(params);
+                $this.initialiseFileUpload();
+                $this.getLibraryItems($this.libraryName, $this.subfolderKey);
+                globalOnViewShow(e);
             },
             onFileGet: function (e) {
-                //file selection done
-                var input = $(e.target);
-                var filePath = input.val();
-
-                var fileName = filePath.split('\\').pop();
-                this.set('from', 'camera');
-                this.set('fileData.FileName', fileName);
-                this.set('filePath', filePath);
-                this.set('gotFile', true);
-            },
-            uploadFile: function () {
-                // upload file to server in the directory where upload was pressed.
-                var form = $("#addfile form");
-                var formData = {};
-
-                formData.FileName = this.fileData.FileName;
-                formData.VersionComments = this.fileData.VersionComments;
-                formData.Tags = this.fileData.Tags;
-                formData.Folder = this.fileData.Folder;
-                formData.CheckoutAfterUpload = this.CheckoutAfterUpload;
-
-                form.formData = formData;
                 debugger;
-                form.submit(function (result) {
-                    debugger;
-                });
-                debugger;
-
             },
-            submitForm: function (e) {
+            openFileDialog: function (e) {
+                $("#file-input").click();
+            },
+            filesWaiting: function () {
+                return this.get('filesToUpload').length > 0;
+            },
+            initialiseFileUpload: function () {
                 var $this = this;
-                var from = $this.get('from');
-                $this.set('from', '');
-                if (from == 'camera') {
-                    var fileTransfer = new FileTransfer();
-                    var options = new FileUploadOptions();
+                var $fileInput = $('#file-input');
 
-                    options.fileName = $this.get('fileData.FileName');
-                    options.params = {
-                        fileData: $this.fileData
-                    };
-
-                    debugger;
-                    fileTransfer.upload($this.filePath, encodeURI(api.rootUrl + 'documentmanagement/UploadDocument'),
-                        function (a, b, c) { // Success
-                            debugger;
-                        },
-                        function (error) { // Fail
-                            debugger;
-                            console.log(error);
-                        },
-                        options);
-                } else if (from == 'storage') {
-                    var data = $("#addfile form[name=addfile]");
-                    data.fileData = $this.fileData;
-                }
-
-            },
-            test: function (e) {
-
-            },
-            onViewShow: function (e) {
-                this.reset();
-                var params = e.view.params;
-                // get library folders.
-                $("#addfile-file").fileupload({
+                $fileInput.fileupload({
                     autoUpload: false,
-                    url: api.rootUrl + '/api/DocumentManagement/UploadDocument',
+                    url: api.rootUrl + 'DocumentManagement/UploadDocument',
                     add: function (e, data) {
-                        debugger;
                         $.each(data.files, function (index, file) {
-                            debugger;
                             var fileName = file.name;
                             var extension = fileName.substr(fileName.lastIndexOf("."));
                             var fileNameWithoutExtension = fileName.substr(0, fileName.lastIndexOf("."));
@@ -228,15 +80,15 @@
                             var currentDocument;
 
                             // Check whether this file already exists in this folder. If so, then display the 'check-in' option rather than upload.
-                            for (var i = 0; i < that.Documents.length; i++) {
+                            for (var i = 0; i < $this.folderData.length; i++) {
 
-                                var item = that.Documents[i];
+                                var item = $this.folderData[i];
                                 if (!item.IsFolder && item.Filename && item.Filename.toLowerCase() == fileName.toLowerCase()) {
 
                                     // Check the 'check-out' status of this document
                                     if (item.CheckedOutBy) {
 
-                                        if (item.CheckedOutBy != sanderson.user.name) {
+                                        if (item.CheckedOutBy != currentUser.get().username) {
                                             // The document is checked out to another user
                                             alert("This document has been checked out by another user");
                                             allowUpload = false;
@@ -278,8 +130,13 @@
                             }
 
                             if (allowUpload) {
+                                var filesToUpload = $this.get('filesToUpload');
+                                debugger;
+                                filesToUpload.push(); // here
+                                $this.set('filesToUpload', filesToUpload);
 
                                 var template = kendo.template($("#img9a-upload-document-row").html());
+                                // display file form
                                 data.currentDocument = currentDocument;
                                 data.context = $(template({})).data(data);
 
@@ -314,25 +171,28 @@
                                 }
                             }
                         });
-
                     },
                 });
-                var $this = this;
-                this.set('libraryName', params.libraryName);
-                api.documentService().getFolderList(params.libraryName).then(function (response) {
-                    var results = response.results;
-                    $this.set('folderData', results);
-                });
-                globalOnViewShow(e);
             },
-            reset: function (e) {
-                for (var x = 0; x < this.defaults.length; x++) {
-                    var propName = this.defaults[x][0];
-                    var propVal = this.defaults[x][1];
-                    if (this.hasOwnProperty(propName)) {
-                        this.set(propName, propVal);
+            setParams: function (params) {
+                var $this = this;
+                for (var param in params) {
+                    if (params.hasOwnProperty(param)) {
+                        $this.set(param, params[param]);
                     }
                 }
+            },
+            getLibraryItems: function (libraryName, subfolderKey) {
+                var $this = this;
+                api.documentService().getDocumentsFromLibrary(libraryName, '', subfolderKey).then(function (response) {
+                    var results;
+                    if (response.constructor == Error) {
+                        results = [];
+                    } else {
+                        results = response.results;
+                    }
+                    $this.set('libraryItems', results);
+                });
             }
         });
     });
@@ -435,31 +295,85 @@
         });
     };
 </script>
+
 <style>
-    #addfile [data-role=content] {
+    #file-input {
+        display: none;
     }
 
-    #addfile .add-file {
-        padding: 0;
-        border: 0;
-        height: 50%;
-        box-sizing: border-box;
-        margin: 0;
-        width: 100%;
-        line-height: 40vh;
-        font-weight: 900;
-        font-size: 28px;
-        border-radius: 0;
+    .km-accent.test {
+        background: red;
     }
 
-        #addfile .add-file:first-of-type {
-            border-bottom: 1px solid rgba(0, 0, 0, 0.33);
+    .addfile-btn {
+        width: 100% !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+    }
+
+        .addfile-btn.small {
+            height: 100px;
+            line-height: 64px;
+            font-size: 32px;
         }
 
-    #addfile .km-scroll-container {
-        box-sizing: border-box;
-        height: 100%;
+        .addfile-btn.big {
+            height: 100%;
+            text-align: center;
+        }
+
+            .addfile-btn.big span {
+                top: 45%;
+                position: relative;
+            }
+
+    .km-scroll-container {
         position: absolute;
+        height: 100%;
         width: 100%;
     }
+    /* File upload rows */
+    .file-upload-row .km-inline-field {
+        overflow: visible;
+        padding-left: 1em !important;
+    }
+
+        .file-upload-row .km-inline-field input {
+            padding-left: 1em !important;
+        }
+
+        .file-upload-row .km-inline-field:last-of-type {
+            padding: 0;
+            padding-bottom: 40px;
+            padding-top: 40px;
+        }
+
+    .file-upload-row .file-upload-row-header {
+        padding: 5px;
+        margin-bottom: 5px;
+        background-color: #2F7EC5;
+        line-height: 32px;
+    }
+
+        .file-upload-row .file-upload-row-header input {
+            position: relative !important;
+            transform: none !important;
+            width: 92% !important;
+            text-align: center !important;
+            color: white !important;
+            padding-left: 8% !important;
+        }
+
+        .file-upload-row .file-upload-row-header div {
+            display: inline-block;
+            width: 32px;
+            height: 100%;
+            text-align: center;
+        }
+
+            .file-upload-row .file-upload-row-header div a {
+                display: block;
+                color: white;
+            }
 </style>

@@ -1,10 +1,10 @@
 ﻿<div id="library" data-model="libraryViewModel" data-bind="events: { show: onViewShow }" data-reload="true" data-role="view" data-layout="default-layout" data-title="Library">
     <ul data-role="listview" data-bind="source:data" class="data-source sortable" data-template="library-item-template" data-pull-to-refresh="true"></ul>
-    <div data-role="footer">
+    <footer data-role="footer">
         <div data-role="navbar" class="km-accent">
             <a data-role="button" data-bind="click:openAddDialog" data-icon="add" style="width:100%"></a>
         </div>
-    </div>
+    </footer>
 </div>
 
 <!-- Modals -->
@@ -283,7 +283,8 @@
             },
             openAddDialog: function () {
                 var $this = this;
-                $this.addFile($this.libraryName);
+                $this.addFile($this.libraryName, $this.subfolder);
+                // uncomment when on tablet
                 //var options = {
                 //    title: 'Which would you like to add?',
                 //    buttonLabels: ['File', 'Folder'],
@@ -311,9 +312,9 @@
                     debugger;
                 });
             },
-            addFile: function (libraryName) {
+            addFile: function (libraryName, subfolder) {
                 //get current directory send to addfile
-                router.navigate("views/addfile.html?libraryName=" + libraryName);
+                router.navigate("views/addfile.html?libraryName=" + libraryName + "&subfolderKey=" + subfolder);
             },
             viewFile: function (documentName) {
                 router.navigate("views/readfile.html?fileName=" + documentName);

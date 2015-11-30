@@ -63,8 +63,26 @@
             },
             // Documents
             getDocumentsFromLibrary: function (indexTypeOrLibrary, key, subfolder) {
+
+                if (key == 'undefined') {
+                    return {
+                        then: function (callback) {
+                            callback(new Error('key undefined'));
+                        }
+                    };
+                }
+                if (indexTypeOrLibrary == 'undefined') {
+                    return {
+                        then: function (callback) {
+                            callback(new Error('indexTypeOrLibrary undefined'));
+                        }
+                    };
+                }
+                if (subfolder == 'undefined') {
+                    subfolder = '';
+                }
                 return $.ajax({
-                    url: $this.rootUrl + "documentlibrary/getdocuments",
+                    url: $this.rootUrl + "DocumentManagement/getdocuments",
 
                     data: {
                         indextypeorlibrary: indexTypeOrLibrary,
