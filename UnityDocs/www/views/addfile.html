@@ -1,5 +1,5 @@
 ﻿<div id="addfile" data-model="addfileViewModel" data-bind="events: { show: onViewShow, beforeunload: test }" data-role="view" data-layout="default-layout" data-title="Add File">
-    <ul data-role="listview" data-bind="source: files" data-template="addfile-item-template" class="data-source sortable"></ul>
+    <ul data-role="listview" data-bind="source: filesToUpload" data-template="addfile-item-template" class="data-source sortable"></ul>
     <a data-role="button" class="addfile-btn small" data-bind="visible: filesWaiting, click:openFileDialog"><i class="fa fa-plus"></i>&nbsp;Add File</a>
     <a data-role="button" class="addfile-btn big" data-bind="invisible: filesWaiting, click:openFileDialog"><i class="fa fa-plus"></i>&nbsp;Add File</a>
     <input id="file-input" type="file" name="files[]" data-bind="events: { change:onFileGet }">
