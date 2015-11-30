@@ -131,43 +131,23 @@
 
                             if (allowUpload) {
                                 var filesToUpload = $this.get('filesToUpload');
-                                debugger;
-                                filesToUpload.push(); // here
+                                filesToUpload.push(item); // here
                                 $this.set('filesToUpload', filesToUpload);
 
-                                var template = kendo.template($("#img9a-upload-document-row").html());
-                                // display file form
-                                data.currentDocument = currentDocument;
-                                data.context = $(template({})).data(data);
+                                data;
+                                debugger;
 
-                                data.context.appendTo('.files-list');
-
-                                var $dataContext = $(data.context);
-                                $dataContext.attr("data-filename", fileName);
-
-                                $dataContext.find(".upload-file-name").val(fileNameWithoutExtension);
-                                $dataContext.find(".upload-file-extension").text(extension.toLowerCase());
-                                $dataContext.find(".upload-file-size").text(parseInt(file.size / 1024) + " KB");
-                                $dataContext.find(".upload-folder").val(that.CurrentFolder.toUpperCase());
-                                $dataContext.find(".remove-file-btn").on('click', function () {
-                                    var $this = $(this);
-                                    var data = $this.parents(".upload-file-row").data();
-                                    data.abort();
-                                    $this.parents(".upload-file-row").remove();
-                                });
-
-                                kendo.bind($dataContext, that);
 
                                 if (currentDocument) {
                                     // This is a check in of an existing document rather than an upload of a new one.
-                                    $dataContext.find(".upload-document-type").text("Check In Document");
-                                    $dataContext.find(".upload-file-folder-label").hide();
-                                    $dataContext.find(".upload-file-version-label").show();
-                                    $dataContext.find(".upload-folder").hide();
-                                    $dataContext.find(".upload-file-tag").val(currentDocument.Tags);
+                                    //$dataContext.find(".upload-document-type").text("Check In Document");
+                                    //$dataContext.find(".upload-file-folder-label").hide();
+                                    //$dataContext.find(".upload-file-version-label").show();
+                                    //$dataContext.find(".upload-folder").hide();
+                                    //$dataContext.find(".upload-file-tag").val(currentDocument.Tags);
                                 }
                                 else {
-                                    $dataContext.find(".upload-version").hide();
+                                    //$dataContext.find(".upload-version").hide();
                                 }
                             }
                         });
