@@ -83,7 +83,7 @@
                             for (var i = 0; i < $this.libraryItems.length; i++) {
 
                                 var item = $this.libraryItems[i];
-                                if (!item.IsFolder && item.Filename && item.Filename.toLowerCase() == fileName.toLowerCase()) {
+                                if (!item.IsFolder && item.Description && item.Description.toLowerCase() == fileName.toLowerCase()) {
 
                                     // Check the 'check-out' status of this document
                                     if (item.CheckedOutBy) {
