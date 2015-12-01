@@ -40,6 +40,51 @@
 </script>
 
 <script>
+    var FileData = kendo.data.Model.define({
+        id: 'fileID',
+        fields: {
+            Filename: {
+                type: 'string',
+                defaultValue: '',
+                validation: {
+                    required: true,
+                }
+            },
+            Extension: {
+                type: 'string',
+                defaultValue: '',
+                validation: {
+                    required: true,
+                }
+            },
+            FileSizeKB: {
+                type: 'number',
+                defaultValue: 0,
+                editable: false,
+                validation: {
+                    required: true,
+                    min: 0,
+                }
+            },
+            Folder: {
+                type: 'string',
+                defaultValue: '',
+            },
+            Tags: {
+                type: 'string',
+                defaultValue: '',
+
+            },
+            Comments: {
+                type: 'string',
+                defaultValue: '',
+            },
+            CheckOut: {
+                type: 'boolean',
+                defaultValue: false,
+            }
+        }
+    });
     var addfileViewModel = {};
     $(function (jQuery) {
         addfileViewModel = new kendo.observable({
@@ -141,7 +186,9 @@
                                 fileDisplay.Comments = '';
                                 fileDisplay.CheckOut = false;
 
-                                filesToUpload.push(fileDisplay); // here
+                                var fileData = new FileData(fileDisplay);
+
+                                filesToUpload.push(fileData); // here
                                 $this.set('filesToUpload', filesToUpload);
 
                                 //var template = kendo.template($("#img9a-upload-document-row").html());
@@ -202,103 +249,6 @@
         });
     });
 
-    var g = function (e, data) {
-        $.each(data.files, function (index, file) {
-
-            var fileName = file.name;
-            var extension = fileName.substr(fileName.lastIndexOf("."));
-            var fileNameWithoutExtension = fileName.substr(0, fileName.lastIndexOf("."));
-            var allowUpload = true;
-            var currentDocument;
-
-            // Check whether this file already exists in this folder. If so, then display the 'check-in' option rather than upload.
-            for (var i = 0; i < that.Documents.length; i++) {
-
-                var item = that.Documents[i];
-                if (!item.IsFolder && item.Filename && item.Filename.toLowerCase() == fileName.toLowerCase()) {
-
-                    // Check the 'check-out' status of this document
-                    if (item.CheckedOutBy) {
-
-                        if (item.CheckedOutBy != sanderson.user.name) {
-                            // The document is checked out to another user
-                            alert("This document has been checked out by another user");
-                            allowUpload = false;
-                            data.abort();
-                        }
-                        else {
-                            currentDocument = item;
-                        }
-                    }
-                    else {
-
-                        if (confirm("You must check out this document before uploading a new version. Would you like to do this now?")) {
-
-                            // Check out the document now. If not successful then remove the document from the list again
-
-                            checkOut(item).done(function (result) {
-
-                            }).fail(function (result) {
-
-                                // Couldn't check out the document, display an error and remove the document from the upload list
-                                alert("Failed to check out document");
-
-
-                                // TODO: This needs testing
-                                data.abort();
-                            });
-
-                            currentDocument = item;
-                        }
-                        else {
-                            //allowUpload = false;
-                            //data.abort();
-                        }
-                    }
-
-                    // The file was found so stop looking for it.
-                    break;
-                }
-            }
-
-            if (allowUpload) {
-
-                var template = kendo.template($("#img9a-upload-document-row").html());
-                data.currentDocument = currentDocument;
-                data.context = $(template({})).data(data);
-
-                data.context.appendTo('.files-list');
-
-                var $dataContext = $(data.context);
-                $dataContext.attr("data-filename", fileName);
-
-                $dataContext.find(".upload-file-name").val(fileNameWithoutExtension);
-                $dataContext.find(".upload-file-extension").text(extension.toLowerCase());
-                $dataContext.find(".upload-file-size").text(parseInt(file.size / 1024) + " KB");
-                $dataContext.find(".upload-folder").val(that.CurrentFolder.toUpperCase());
-                $dataContext.find(".remove-file-btn").on('click', function () {
-                    var $this = $(this);
-                    var data = $this.parents(".upload-file-row").data();
-                    data.abort();
-                    $this.parents(".upload-file-row").remove();
-                });
-
-                kendo.bind($dataContext, that);
-
-                if (currentDocument) {
-                    // This is a check in of an existing document rather than an upload of a new one.
-                    $dataContext.find(".upload-document-type").text("Check In Document");
-                    $dataContext.find(".upload-file-folder-label").hide();
-                    $dataContext.find(".upload-file-version-label").show();
-                    $dataContext.find(".upload-folder").hide();
-                    $dataContext.find(".upload-file-tag").val(currentDocument.Tags);
-                }
-                else {
-                    $dataContext.find(".upload-version").hide();
-                }
-            }
-        });
-    };
 </script>
 
 <style>
