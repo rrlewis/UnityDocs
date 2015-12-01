@@ -136,7 +136,10 @@
                                 fileDisplay.Filename = fileNameWithoutExtension;
                                 fileDisplay.Extension = extension.toLowerCase();
                                 fileDisplay.FileSizeKB = parseInt(file.size / 1024) + " KB";
-                                fileDisplay.Folder = that.CurrentFolder.toUpperCase();
+                                fileDisplay.Folder = '';
+                                fileDisplay.Tags = '';
+                                fileDisplay.Comments = '';
+                                fileDisplay.CheckOut = false;
 
                                 filesToUpload.push(fileDisplay); // here
                                 $this.set('filesToUpload', filesToUpload);
