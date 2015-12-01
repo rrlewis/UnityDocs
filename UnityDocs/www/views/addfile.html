@@ -13,7 +13,7 @@
 <script id="addfile-item-template" type="text/kendo-x-tmpl">
     <div class="file-upload-row">
         <div class="file-upload-row-header">
-            <input type="text" name="header" placeholder="Filename" value="#: Filename #" />
+            <input type="text" name="header" placeholder="Filename" data-bind="value:Filename"/>
             <div>
                 <a><i class="fa fa-close"></i></a>
             </div>
@@ -21,19 +21,19 @@
         <form>
             <label class="km-inline-field km-label-above">
                 Folder
-                <input type="text" placeholder="Folder" value="#: Folder #" />
+                <input type="text" placeholder="Folder" data-bind="value:Folder"/>
             </label>
             <label class="km-inline-field km-label-above">
                 Comments
-                <input type="text" placeholder="Comments" value="#: Comments #" />
+                <input type="text" placeholder="Comments" data-bind="value:Comments"/>
             </label>
             <label class="km-inline-field km-label-above">
                 Tags
-                <input type="text" placeholder="Tags" value="#: Tags #" />
+                <input type="text" placeholder="Tags" data-bind="value:Tags"/>
             </label>
             <label class="km-inline-field km-label-above">
                 Checkout File
-                <input type="checkbox" data-role="switch" value="#: CheckOut #" />
+                <input type="checkbox" data-role="switch" data-bind="checked:CheckOut"/>
             </label>
         </form>
     </div>
@@ -187,7 +187,6 @@
                                 fileDisplay.CheckOut = false;
 
                                 var fileData = new FileData(fileDisplay);
-                                data;
                                 filesToUpload.push(fileData); // here
                                 $this.set('filesToUpload', filesToUpload);
 
