@@ -3,7 +3,7 @@
     <a data-role="button" class="addfile-btn small" data-bind="visible: filesWaiting, click:openFileDialog"><i class="fa fa-plus"></i>&nbsp;Add File</a>
     <a data-role="button" class="addfile-btn big" data-bind="invisible: filesWaiting, click:openFileDialog"><i class="fa fa-plus"></i>&nbsp;Add File</a>
     <input id="file-input" type="file" name="files[]" data-bind="events: { change:onFileGet }">
-    <footer data-role="footer">
+    <footer data-role="footer" data-bind="visible: filesWaiting">
         <div data-role="navbar" class="km-accent">
             <a data-role="button" style="width:100%"><i class="fa fa-upload"></i>&nbsp;Upload</a>
         </div>
@@ -13,35 +13,54 @@
 <script id="addfile-item-template" type="text/kendo-x-tmpl">
     <div class="file-upload-row">
         <div class="file-upload-row-header">
-            <input type="text" name="header" placeholder="Filename" data-bind="value:Filename"/>
-            <div>
-                <a><i class="fa fa-close"></i></a>
-            </div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <span class="file-size">
+                                <span data-bind="text:FileSizeKB"></span>
+                                <span>KB</span>
+                            </span>
+                        </td>
+                        <td>
+                            <div class="file-name-container">
+                                <span class="file-name" contenteditable="true" data-bind="text:Filename, events: { keyup: updateFilename }"></span>
+                                <span class="file-extension" data-bind="text:Extension"></span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="close-button">
+                                <a data-click-on="up" data-bind="events: { click: removeFile }"><i class="fa fa-close"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <form>
-            <label class="km-inline-field km-label-above">
+            <label class="file-folder km-inline-field km-label-above">
                 Folder
-                <input type="text" placeholder="Folder" data-bind="value:Folder"/>
+                <input type="text" placeholder="Folder" data-bind="value:Folder" />
             </label>
-            <label class="km-inline-field km-label-above">
+            <label class="file-comments km-inline-field km-label-above">
                 Comments
-                <input type="text" placeholder="Comments" data-bind="value:Comments"/>
+                <input type="text" placeholder="Comments" data-bind="value:Comments" />
             </label>
-            <label class="km-inline-field km-label-above">
+            <label class="file-tags km-inline-field km-label-above">
                 Tags
-                <input type="text" placeholder="Tags" data-bind="value:Tags"/>
+                <input type="text" placeholder="Tags" data-bind="value:Tags" />
             </label>
-            <label class="km-inline-field km-label-above">
+            <label class="file-checkout km-inline-field km-label-above">
                 Checkout File
-                <input type="checkbox" data-role="switch" data-bind="checked:CheckOut"/>
+                <input type="checkbox" data-role="switch" data-bind="checked:CheckOut" />
             </label>
         </form>
+
     </div>
 </script>
 
 <script>
     var FileData = kendo.data.Model.define({
-        id: 'fileID',
         fields: {
             Filename: {
                 type: 'string',
@@ -101,7 +120,6 @@
                 globalOnViewShow(e);
             },
             onFileGet: function (e) {
-                debugger;
             },
             openFileDialog: function (e) {
                 $("#file-input").click();
@@ -177,10 +195,9 @@
                             if (allowUpload) {
                                 var filesToUpload = $this.get('filesToUpload');
                                 var fileDisplay = {};
-                                debugger;
                                 fileDisplay.Filename = fileNameWithoutExtension;
                                 fileDisplay.Extension = extension.toLowerCase();
-                                fileDisplay.FileSizeKB = parseInt(file.size / 1024) + " KB";
+                                fileDisplay.FileSizeKB = parseInt(file.size / 1024);
                                 fileDisplay.Folder = '';
                                 fileDisplay.Tags = '';
                                 fileDisplay.Comments = '';
@@ -244,7 +261,32 @@
                     }
                     $this.set('libraryItems', results);
                 });
-            }
+            },
+            updateFilename: function (e) {
+                var $this = this;
+                var data = e.data;
+                var newFilename = e.target.innerText;
+                data.Filename = newFilename;
+                for (var x = 0; x < $this.filesToUpload.length; x++) {
+                    if ($this.filesToUpload[x].uid == data.uid) {
+                        $this.set('filesToUpload[' + x + ']', data);
+                        break;
+                    }
+                }
+                return;
+            },
+            removeFile: function (e) {
+                var $this = this;
+                var data = e.data;
+                var filesToUpload = $this.get('filesToUpload');
+                for (var x = 0; x < filesToUpload.length; x++) {
+                    if (filesToUpload[x].uid == data.uid) {
+                        filesToUpload.splice(x, 1);
+                        break;
+                    }
+                }
+                $this.set('filesToUpload', filesToUpload);
+            },
         });
     });
 
@@ -275,6 +317,7 @@
         .addfile-btn.big {
             height: 100%;
             text-align: center;
+            font-size: 32px;
         }
 
             .addfile-btn.big span {
@@ -287,6 +330,7 @@
         height: 100%;
         width: 100%;
     }
+
     /* File upload rows */
     .file-upload-row .km-inline-field {
         overflow: visible;
@@ -310,24 +354,57 @@
         line-height: 32px;
     }
 
-        .file-upload-row .file-upload-row-header input {
-            position: relative !important;
-            transform: none !important;
-            width: 92% !important;
-            text-align: center !important;
-            color: white !important;
-            padding-left: 8% !important;
+        .file-upload-row .file-upload-row-header table td:nth-child(1) {
+            width: 15%;
         }
 
-        .file-upload-row .file-upload-row-header div {
-            display: inline-block;
-            width: 32px;
-            height: 100%;
+        .file-upload-row .file-upload-row-header table td:nth-child(2) {
+            width: 85%;
             text-align: center;
         }
 
-            .file-upload-row .file-upload-row-header div a {
+        .file-upload-row .file-upload-row-header .file-size {
+            color: white;
+        }
+
+        .file-upload-row .file-upload-row-header span.file-name {
+            position: relative !important;
+            transform: none !important;
+            text-align: right !important;
+            color: white !important;
+            height: 100% !important;
+            background: rgba(255,255,255,0.2) !important;
+            box-shadow: inset 0 0 15px -5px rgba(0,0,0,0.75) !important;
+            border-radius: 15px !important;
+            display: inline-block;
+            padding: 0 10px;
+            max-width: 50vw;
+            overflow: hidden;
+            white-space: nowrap;
+            margin-top: 10px;
+        }
+
+        .file-upload-row .file-upload-row-header span.file-extension {
+            color: white !important;
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        .file-upload-row .file-upload-row-header div.file-name-container {
+        }
+
+        .file-upload-row .file-upload-row-header div.close-button {
+            display: inline-block;
+            width: 32px;
+            text-align: center;
+        }
+
+            .file-upload-row .file-upload-row-header div.close-button a {
                 display: block;
                 color: white;
             }
+
+                .file-upload-row .file-upload-row-header div.close-button a:active {
+                    color: black;
+                }
 </style>
