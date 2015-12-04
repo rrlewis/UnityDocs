@@ -282,7 +282,7 @@
                             VersionComments: file.Comments,
                             Tags: file.Tags,
                             CheckoutAfterUpload: file.CheckOut,
-                            FileName: file.Filename,
+                            FileName: file.Filename + file.Extension,
                         };
                         data.submit().done(function (result) {
                             history.back()
