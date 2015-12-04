@@ -285,26 +285,26 @@
                 var $this = this;
                 $this.addFile($this.libraryName, $this.subfolder);
                 // uncomment when on tablet
-                var options = {
-                    title: 'Which would you like to add?',
-                    buttonLabels: ['File', 'Folder'],
-                    androidTheme: window.plugins.actionsheet.ANDROID_THEMES.THEME_DEVICE_DEFAULT_DARK, // default is THEME_TRADITIONAL
-                    androidEnableCancelButton: true, // default false
-                    addCancelButtonWithLabel: 'Cancel',
-                };
-                window.plugins.actionsheet.show(options, function (buttonIndex) {
-                    setTimeout(function () {
-                        var buttonPressed = options.buttonLabels[buttonIndex - 1];
-                        switch (buttonPressed) {
-                            case 'File':
-                                $this.addFile($this.libraryName);
-                                break;
-                            case 'Folder':
-                                $this.addFolder($this.libraryName, $this.subfolder);
-                                break;
-                        }
-                    });
-                });
+                //var options = {
+                //    title: 'Which would you like to add?',
+                //    buttonLabels: ['File', 'Folder'],
+                //    androidTheme: window.plugins.actionsheet.ANDROID_THEMES.THEME_DEVICE_DEFAULT_DARK, // default is THEME_TRADITIONAL
+                //    androidEnableCancelButton: true, // default false
+                //    addCancelButtonWithLabel: 'Cancel',
+                //};
+                //window.plugins.actionsheet.show(options, function (buttonIndex) {
+                //    setTimeout(function () {
+                //        var buttonPressed = options.buttonLabels[buttonIndex - 1];
+                //        switch (buttonPressed) {
+                //            case 'File':
+                //                $this.addFile($this.libraryName);
+                //                break;
+                //            case 'Folder':
+                //                $this.addFolder($this.libraryName, $this.subfolder);
+                //                break;
+                //        }
+                //    });
+                //});
             },
             addFolder: function (libraryName, subfolder) {
                 var folderName = prompt("Enter folder name");

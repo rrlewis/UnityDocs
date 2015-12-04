@@ -137,7 +137,6 @@
                     url: api.rootUrl + 'DocumentManagement/UploadDocument',
                     add: function (e, data) {
                         $.each(data.files, function (index, file) {
-                            debugger;
                             var fileName = file.name;
                             var extension = fileName.substr(fileName.lastIndexOf("."));
                             var fileNameWithoutExtension = fileName.substr(0, fileName.lastIndexOf("."));
@@ -205,7 +204,6 @@
                                 fileDisplay.Comments = '';
                                 fileDisplay.CheckOut = false;
 
-                                debugger;
                                 data.currentDocument = currentDocument;
                                 fileDisplay.data = data;
 
@@ -269,7 +267,6 @@
                 for (var x = 0; x < filesToUpload.length; x++) {
                     var file = filesToUpload[x];
                     var data = file.data;
-                    debugger;
                     var tags = file.Tags;
                     var fileName = file.Filename;
                     var docId;
@@ -286,130 +283,54 @@
                             CheckoutAfterUpload: file.CheckOut,
                             FileName: file.Filename,
                         };
-
-                                data.submit().done(function (result) {
-
-                                });
+                        data.submit().done(function (result) {
+                            history.back()
+                        });
                     }
-                        // Validate the upload item. Mustn't use the same filename as any other document in the folder (unless the user
+                    // Validate the upload item. Mustn't use the same filename as any other document in the folder (unless the user
                     // is checking in a file).
-                    debugger;
-                        if (!data.currentDocument || (data.currentDocument && data.currentDocument.Filename.toLowerCase() != fileName.toLowerCase())) {
-                            // Need to do the validation...
-                            $.ajax({
-                                url: sanderson.url + "/api/" + that.dataManagerOptions.api + "/GetDocumentsByFileName",
-                                data: {
-                                    FileName: fileName,
-                                    Folder: $(item).find(".upload-folder input").val(),
-                                    Library: that.IndexType
-                                }
-                            }).done(function (result) {
+                    if (!data.currentDocument || (data.currentDocument && data.currentDocument.Filename.toLowerCase() != fileName.toLowerCase())) {
+                        // Need to do the validation...
+                        $.ajax({
+                            url: api.rootUrl + "DocumentManagement/GetDocumentsByFileName",
+                            data: {
+                                FileName: fileName,
+                                Folder: file.Folder,
+                                Library: $this.libraryName
+                            }
+                        }).done(function (result) {
+                            if (result.results.length > 0) {
+                                // TODO: There's already a document uploaded to this folder with this name...
+                                if (confirm("The filename '" + fileName + "' is already being used in this folder. Would you like to overwrite the existing document")) {
 
-                                if (result.results.length > 0) {
-                                    // TODO: There's already a document uploaded to this folder with this name...
-                                    if (confirm("The filename '" + fileName + "' is already being used in this folder. Would you like to overwrite the existing document")) {
+                                    function _continueOverwrite() {
 
-                                        function _continueOverwrite() {
+                                    }
 
-                                        }
+                                    // Check out the document first
+                                    if (result.results[0].CheckedOutBy && result.results[0].CheckedOutBy != currentUser.get().username) {
 
-                                        // Check out the document first
-                                        if (result.results[0].CheckedOutBy && result.results[0].CheckedOutBy != sanderson.user.name) {
-
-                                            checkOut(result.results[0]).done(_continueOverwrite);
-                                        }
-                                        else {
-                                            _continueOverwrite();
-                                        }
+                                        checkOut(result.results[0]).done(_continueOverwrite);
+                                    }
+                                    else {
+                                        _continueOverwrite();
                                     }
                                 }
-                                else {
-                                    _continueSubmit();
-                                }
-                            });
+                            }
+                            else {
+                                _continueSubmit();
+                            }
+                        });
 
-                        }
-                        else if (data.currentDocument) {
-                            docId = data.currentDocument.ImageID;
-                            _continueSubmit();
-                        }
+                    }
+                    else if (data.currentDocument) {
+                        docId = data.currentDocument.ImageID;
+                        _continueSubmit();
+                    }
                 }
-                debugger;
             },
         });
     });
-
-    //kendoWindow.find(".upload-file-row").each(function (idx, item) {
-
-    //    var data = $(item).data();
-    //    var tags = $(item).find(".upload-file-tag").val();
-    //    var fileName = $(item).find(".upload-file-name").val() + $(item).find(".upload-file-extension").text();
-    //    var docId;
-
-    //    function _continueSubmit() {
-    //        // The tags should be a semi-colon (;) delimited list. Replace any commas or spaces with a semi-colon
-    //        if (tags) {
-    //            tags = tags.replace(/,| /gi, ";");
-    //            tags = tags.replace(";;", ";");
-    //        }
-
-    //        data.formData = {
-    //            DocumentLibrary: that.Header.Name,
-    //            Folder: $(item).find(".upload-folder input").val(),
-    //            VersionComments: $(item).find(".upload-file-comments").val(),
-    //            Tags: tags,
-    //            CheckoutAfterUpload: $(item).find(".upload-file-checkout")[0].checked,
-    //            FileName: fileName,
-
-    //        };
-
-    //        data.submit().done(function (result) {
-
-    //        });
-    //    }
-
-    //    // Validate the upload item. Mustn't use the same filename as any other document in the folder (unless the user
-    //    // is checking in a file).
-    //    if (!data.currentDocument || (data.currentDocument && data.currentDocument.Filename.toLowerCase() != fileName.toLowerCase())) {
-    //        // Need to do the validation...
-    //        $.ajax({
-    //            url: sanderson.url + "/api/" + that.dataManagerOptions.api + "/GetDocumentsByFileName",
-    //            data: {
-    //                FileName: fileName,
-    //                Folder: $(item).find(".upload-folder input").val(),
-    //                Library: that.IndexType
-    //            }
-    //        }).done(function (result) {
-
-    //            if (result.results.length > 0) {
-    //                // TODO: There's already a document uploaded to this folder with this name...
-    //                if (confirm("The filename '" + fileName + "' is already being used in this folder. Would you like to overwrite the existing document")) {
-
-    //                    function _continueOverwrite() {
-
-    //                    }
-
-    //                    // Check out the document first
-    //                    if (result.results[0].CheckedOutBy && result.results[0].CheckedOutBy != sanderson.user.name) {
-
-    //                        checkOut(result.results[0]).done(_continueOverwrite);
-    //                    }
-    //                    else {
-    //                        _continueOverwrite();
-    //                    }
-    //                }
-    //            }
-    //            else {
-    //                _continueSubmit();
-    //            }
-    //        });
-
-    //    }
-    //    else if (data.currentDocument) {
-    //        docId = data.currentDocument.ImageID;
-    //        _continueSubmit();
-    //    }
-    //});
 </script>
 
 <style>
