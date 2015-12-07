@@ -47,7 +47,7 @@
     </form>
     <div data-role="footer">
         <div data-role="navbar" class="km-accent">
-            <a data-align="right" data-click="closeModalView" data-role="button" data-icon="delete">Delete</a>
+            <a data-align="right" data-bind="click:deleteItem" data-role="button" data-icon="delete">Delete</a>
             <a data-align="left" data-bind="click:openVersionHistory" data-role="button" data-icon="history">History</a>
         </div>
     </div>
@@ -70,8 +70,12 @@
         libraryinfoViewModel = new kendo.observable({
             selectedItem: {},
             versionHistory: [],
-            deleteItem: function () {
-
+            deleteItem: function (e) {
+                if (confirm('Are you sure you want to delete ' + e.data.selectedItem.Description + '?')) {
+                    api.documentService().removeDocumentFromLibrary(e.data.selectedItem.ImageID).then(function (result) {
+                        history.back();
+                    });
+                }
             },
             openVersionHistory: function () {
                 router.navigate("views/versionhistory.html?selectedItem=" + JSON.stringify(this.selectedItem));
