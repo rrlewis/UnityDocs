@@ -23,52 +23,51 @@ var dataOptionsActionSheet = {
         var $this = this;
         return {
             sort: {
-                config: {
-                    title: "Sort",
-                    items: [
-                        { text: "Name (Ascending)", value: 1 },
-                        { text: "Name (Descending)", value: 2 },
-                        { text: "Newest", value: 3 },
-                        { text: "Oldest", value: 4 },
-                        { text: "Largest", value: 5 },
-                        { text: "Smallest", value: 6 }
-                    ],
-                    selectedValue: 1,
-                    doneButtonLabel: "Done",
-                    cancelButtonLabel: "Cancel"
-                },
                 openSort: function (e) {
                     //open sort modal
                     var $this = this;
+                    var config = {
+                        title: "Sort",
+                        items: [
+                            { text: "Name (Ascending)", value: 1 },
+                            { text: "Name (Descending)", value: 2 },
+                            { text: "Newest", value: 3 },
+                            { text: "Oldest", value: 4 },
+                            { text: "Largest", value: 5 },
+                            { text: "Smallest", value: 6 }
+                        ],
+                        selectedValue: 1,
+                        doneButtonLabel: "Done",
+                        cancelButtonLabel: "Cancel"
+                    }
                     // Show the picker
                     debugger;
-                    window.plugins.listpicker.showPicker($this.config,
-                        $this.sortBy,
+                    window.plugins.listpicker.showPicker(config,
+                        function (btnIndex) {
+                            var $this = this;
+                            switch (btnIndex) {
+                                case 1:
+                                    // Name (Ascending)
+                                    break;
+                                case 2:
+                                    // Name (Descending)
+                                    break;
+                                case 3:
+                                    break;
+                                case 4:
+                                    break;
+                                case 5:
+                                    break;
+                                case 6:
+                                    break;
+                            }
+                            $this.config.selectedValue = btnIndex;
+                        },
                         function () {
 
                         }
                     );
                 },
-                sortBy: function (btnIndex) {
-                    var $this = this;
-                    switch (btnIndex) {
-                        case 1:
-                            // Name (Ascending)
-                            break;
-                        case 2:
-                            // Name (Descending)
-                            break;
-                        case 3:
-                            break;
-                        case 4:
-                            break;
-                        case 5:
-                            break;
-                        case 6:
-                            break;
-                    }
-                    $this.config.selectedValue = btnIndex;
-                }
             },
             search: function (e) {
                 var searchString = prompt("What would you like to search for?");
