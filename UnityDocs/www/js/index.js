@@ -37,7 +37,7 @@ var dataOptionsActionSheet = {
                     doneButtonLabel: "Done",
                     cancelButtonLabel: "Cancel"
                 },
-                openSort: function () {
+                openSort: function (e) {
                     //open sort modal
                     var $this = this;
                     // Show the picker
