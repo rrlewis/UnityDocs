@@ -42,9 +42,6 @@
 </style>
 
 <script>
-    function test(e) {
-        debugger;
-    }
     var versionhistoryViewModel = {};
     $(function (jQuery) {
         versionhistoryViewModel = new kendo.observable({
@@ -68,7 +65,7 @@
                             return response.results;
                         }
                     },
-                }))
+                }));
                 navbar.title(params.selectedItem.Description + " History");
                 globalOnViewShow(e);
             }

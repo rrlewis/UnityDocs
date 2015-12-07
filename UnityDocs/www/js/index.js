@@ -41,6 +41,7 @@ var dataOptionsActionSheet = {
                     //open sort modal
                     var $this = this;
                     // Show the picker
+                    debugger;
                     window.plugins.listpicker.showPicker($this.config,
                         $this.sortBy,
                         function () {

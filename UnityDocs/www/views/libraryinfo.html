@@ -40,7 +40,7 @@
             <li>
                 <label class="km-inline-field km-label-above">
                     Comments
-                    <textarea data-field="Comments" name="Comments" data-bind="value:versionHistory[0].Comments" readonly style="resize:vertical;"></textarea>
+                    <textarea data-field="Comments" name="Comments" data-bind="value:mostRecentComment" readonly style="resize:vertical;"></textarea>
                 </label>
             </li>
         </ul>
@@ -69,7 +69,7 @@
     $(function (jQuery) {
         libraryinfoViewModel = new kendo.observable({
             selectedItem: {},
-            versionHistory: [],
+            mostRecentComment: '',
             deleteItem: function (e) {
                 if (confirm('Are you sure you want to delete ' + e.data.selectedItem.Description + '?')) {
                     api.documentService().removeDocumentFromLibrary(e.data.selectedItem.ImageID).then(function (result) {
@@ -81,19 +81,12 @@
                 router.navigate("views/versionhistory.html?selectedItem=" + JSON.stringify(this.selectedItem));
             },
             onViewShow: function (e) {
+                var $this = this;
                 var selectedItem = JSON.parse(e.view.params.selectedItem);
-                this.set('selectedItem', selectedItem);
-                this.set('versionHistory', api.documentService().data.VersionHistory({
-                    data: {
-                        Library: selectedItem.ParentFolder,
-                        documentid: selectedItem.ImageID,
-                    },
-                    schema: {
-                        data: function (response) {
-                            return response.results;
-                        }
-                    }
-                }));
+                $this.set('selectedItem', selectedItem);
+                api.documentService().getVersionHistory(selectedItem.ParentFolder, selectedItem.ImageID).then(function (result) {
+                    $this.set('mostRecentComment', result.results[0].Comments);
+                });
                 navbar.title(selectedItem.Description + " Info");
                 globalOnViewShow(e);
             }
