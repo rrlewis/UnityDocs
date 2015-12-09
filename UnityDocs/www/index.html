@@ -31,12 +31,14 @@
     <!-- Main Layout -->
     <section data-role="layout" data-id="default-layout">
         <header data-role="header" class="shadow-1 search">
+            <a data-role="button" href="#views/libraries.html" class="fab" data-icon="home"></a>
             <div data-role="navbar" class="km-accent">
-                <a data-role="button" data-rel="drawer" href="#drawer" data-icon="hamburger" data-align="left"></a>
+                <a data-role="button" href="#views/account.html" data-align="left"><i class="fa fa-user"></i></a>
+                <!--<a data-role="button" data-rel="drawer" href="#drawer" data-icon="hamburger" data-align="left"></a>-->
 
                 <span data-role="view-title" data-bind="invisible:search.isActive" id="view-title">Unity Docs</span>
                 <form data-bind="visible:search.isActive, events: { submit: search.submit }">
-                    <input type="search" data-bind="value:search.searchString" placeholder="Search library..." />
+                    <input type="search" data-bind="value:search.searchString" id="librarysearch" placeholder="Search library..." />
                 </form>
 
                 <span data-align="right" data-bind="visible:search.canSearch">
@@ -51,11 +53,9 @@
         <ul data-role="actionsheet" id="options-actionsheet">
             <li name="viewtoggle"><a data-role="touch" data-tap="dataOptionsActionSheet.functions().gridView.toggleGridView">View as thumbnails</a></li>
             <li name="refresh"><a data-role="touch" data-tap="dataOptionsActionSheet.functions().refresh">Refresh</a></li>
-            <li name="sort"><a data-role="touch" data-tap="dataOptionsActionSheet.functions().sort.openSort">Sort</a></li>
+            <!--<li name="sort"><a data-role="touch" data-tap="dataOptionsActionSheet.functions().sort.openSort">Sort</a></li>-->
         </ul>
-
         <!--View content will render here-->
-
     </section>
 
     <!-- Auth Layout -->
@@ -71,7 +71,7 @@
         <ul data-role="listview" class="km-listview-icons">
             <li data-icon="home"><a href="#views/libraries.html">Libraries</a></li>
             <li data-icon="user"><a href="#views/account.html">Account</a></li>
-            <li data-icon="favorites"><a href="#views/favourites.html">Favourites</a></li>
+            <!--<li data-icon="favorites"><a href="#views/favourites.html">Favourites</a></li>-->
         </ul>
         <footer data-role="footer">
             <div data-role="navbar">
@@ -116,6 +116,7 @@
                 start: function (e) {
                     this.set('search.library', libraryViewModel.libraryName);
                     this.set('search.isActive', true);
+                    $("#librarysearch").focus();
                 },
                 getResults: function (e) {
                     var $this = this.search;

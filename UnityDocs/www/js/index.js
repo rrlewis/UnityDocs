@@ -46,19 +46,33 @@ var dataOptionsActionSheet = {
                         function (btnIndex) {
                             var $this = this;
                             switch (btnIndex) {
+                                // TODO: WIP
                                 case 1:
                                     // Name (Ascending)
+                                    if (app.pane.view().mode.hasOwnProperty('data')) {
+                                        app.pane.view().model.data.sort({ field: 'Description', dir: 'asc' });
+                                    }
                                     break;
                                 case 2:
                                     // Name (Descending)
+                                    if (app.pane.view().mode.hasOwnProperty('data')) {
+                                        app.pane.view().model.data.sort({ field: 'Description', dir: 'desc' });
+                                    }
                                     break;
                                 case 3:
+                                    // Newest
+                                    if (app.pane.view().mode.hasOwnProperty('data')) {
+                                        app.pane.view().model.data.sort({ field: 'Description', dir: 'desc' });
+                                    }
                                     break;
                                 case 4:
+                                    // Oldest
                                     break;
                                 case 5:
+                                    //Largest
                                     break;
                                 case 6:
+                                    //Smallest
                                     break;
                             }
                             $this.config.selectedValue = btnIndex;
@@ -107,7 +121,7 @@ var dataOptionsActionSheet = {
                             }
                             var listView = $("#" + toViewID + " ul[data-role=listview].data-source.sortable");
                             if (shouldBeGridView) {
-                                    listView.addClass("grid-view");
+                                listView.addClass("grid-view");
                             }
                         }
                     }
@@ -146,10 +160,10 @@ var filter = {
         }
     },
     startFilter: function () {
-            $("header.search [data-role=view-title]").hide();
-            $("header.search form").css("display", "inline-block");
-            $("header.search [data-role=button]:not(:has(i), [data-rel=drawer])").hide();
-            $("header.search [data-role=button]:has(i), header.search [data-role=button][data-icon=close]").show();
+        $("header.search [data-role=view-title]").hide();
+        $("header.search form").css("display", "inline-block");
+        $("header.search [data-role=button]:not(:has(i), [data-rel=drawer])").hide();
+        $("header.search [data-role=button]:has(i), header.search [data-role=button][data-icon=close]").show();
     }
 }
 
