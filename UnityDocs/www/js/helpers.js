@@ -32,11 +32,9 @@ var fileHandler = function () {
             var fileTransfer = new FileTransfer();
             var fromURL = api.rootUrl + "DocumentManagement/GetDocument?documentid=" + documentID;
             var toPath = $this._downloadDir + filename;
-            debugger;
             window.resolveLocalFileSystemURL(toPath,
                 function (fileEntry) {
                     //exists
-                    debugger;
                     success(fileEntry);
                 },
                 function (fileError) {
@@ -44,12 +42,10 @@ var fileHandler = function () {
                     fileTransfer.download(fromURL, toPath,
                         function (fileEntry) {
                             //success
-                            debugger;
                             success(fileEntry);
                         },
                         function (fileTransferError) {
                             //error
-                            debugger;
                             console.log(fileTransferError);
                         }
                     );
@@ -226,7 +222,6 @@ var fileHandler = function () {
                                 reader.onloadend = function (evt) {
                                     console.log("read success");
                                     console.log();
-                                    debugger;
                                     checkInChecker.fileInEdit = true;
                                     checkInChecker.fileInEditData.filePath = filePath;
                                     checkInChecker.fileInEditData.file = fileObj;
@@ -236,8 +231,6 @@ var fileHandler = function () {
                                 reader.readAsDataURL(fileObj);
                             },
                             function (error) {
-                                debugger;
-
                             }
                         )
                     }
@@ -261,10 +254,8 @@ var checkInChecker = {
         var $this = this;
         window.resolveLocalFileSystemURL(checkInChecker.fileInEditData.filePath,
             function (fileEntry) {
-                debugger;
                 fileEntry.file(
                     function (file) {
-                        debugger;
                         var reader = new FileReader();
                         reader.onloadend = function (evt) {
                             if (evt.target.result != $this.fileInEditData.base64data) {
@@ -276,14 +267,12 @@ var checkInChecker = {
                         reader.readAsDataURL(file);
                     },
                     function (error) {
-                        debugger;
                         //failed to create File object.
                     }
                 )
             },
             function (error) {
                 //error
-                debugger;
             }
         )
     }

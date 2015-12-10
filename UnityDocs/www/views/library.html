@@ -222,13 +222,11 @@
                                 break;
                             case 'Check Out':
                                 api.documentService().checkOutDocument(document.ImageID).then(function (checkOutResults) {
-                                    debugger;
                                     $this.refreshData();
                                 });
                                 break;
                             case 'Check Out & Open':
                                 api.documentService().checkOutDocument(document.ImageID).then(function (checkOutResults) {
-                                    debugger;
                                     $this.refreshData();
                                     $this.downloadFile(document.ImageID, document.Description);
                                 });
@@ -260,8 +258,8 @@
                 fileHandler().downloadFile(documentID, documentName,
                     function (fileEntry) {
                         var options = {
-                            subject: fileEntry.name, // string
-                            body: "test body", // string
+                            subject: "File: " + fileEntry.name, // string
+                            body: "", // string
                             to: [], // array
                             cc: [], // array
                             bcc: [], // array
@@ -308,7 +306,6 @@
             addFolder: function (libraryName, subfolder) {
                 var folderName = prompt("Enter folder name");
                 api.documentService().createFolder(libraryName, folderName, subfolder).then(function (result) {
-                    debugger;
                 });
             },
             addFile: function (libraryName, subfolder) {
