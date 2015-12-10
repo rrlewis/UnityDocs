@@ -351,7 +351,6 @@ var currentUser = {
 
 function globalOnViewShow(e) {
     loader.check();
-
     navbar = app.view().header.find(".km-navbar").data("kendoMobileNavBar");
 
     // give header a viewmodel
@@ -371,6 +370,13 @@ function globalOnViewShow(e) {
             break;
         case "auth-layout":
             break;
+    }
+    if (e.view.footer.length > 0) {
+        setTimeout(function () {
+            $(".fab").css('bottom', app.view().footer.height() + 25);
+        })
+    } else {
+        $(".fab").css('bottom', 25);
     }
 }
 

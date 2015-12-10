@@ -31,10 +31,10 @@
     <!-- Main Layout -->
     <section data-role="layout" data-id="default-layout">
         <header data-role="header" class="shadow-1 search">
-            <a data-role="button" href="#views/libraries.html" class="fab" data-icon="home"></a>
+            <!--<a data-role="touch" data-tap="goHome" data-hold="tempHide" class="fab"><i class="fa fa-home" style="left:50%;position:relative;transform:translateX(-50%);"></i></a>-->
             <div data-role="navbar" class="km-accent">
-                <a data-role="button" href="#views/account.html" data-align="left"><i class="fa fa-user"></i></a>
-                <!--<a data-role="button" data-rel="drawer" href="#drawer" data-icon="hamburger" data-align="left"></a>-->
+                <!--<a data-role="button" href="#views/account.html" data-align="left"><i class="fa fa-user"></i></a>-->
+                <a data-role="button" data-rel="drawer" href="#drawer" data-icon="hamburger" data-align="left"></a>
 
                 <span data-role="view-title" data-bind="invisible:search.isActive" id="view-title">Unity Docs</span>
                 <form data-bind="visible:search.isActive, events: { submit: search.submit }">
@@ -107,6 +107,19 @@
 
     <script>
         // HeaderViewModel
+        function goHome(e) {
+            router.navigate("views/libraries.html");
+        }
+
+        function tempHide(e) {
+            e.sender.element.css("pointer-events", "none");
+            e.sender.element.fadeTo(600, 0.2, function () {
+                setTimeout(function () {
+                    e.sender.element.css("pointer-events", "");
+                    e.sender.element.fadeTo(600, 1);
+                }, 5000)
+            });
+        }
         var headerViewModel = new kendo.observable({
             search: {
                 searchString: "",

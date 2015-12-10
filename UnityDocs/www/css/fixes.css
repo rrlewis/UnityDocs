@@ -65,7 +65,7 @@
 
 /* Home button */
 
-[data-role=button].fab {
+[data-role=touch].fab {
     border: 0;
     margin: 0;
     padding: 0;
@@ -78,15 +78,12 @@
     position: fixed;
     color: white;
     bottom: 85px;
-    left: 25px;
+    right: 25px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
     font-size: 22px;
 }
 
-    [data-role=button].fab:active {
+    [data-role=touch].fab:active {
         background-color: #0D61AD;
     }
 
-#libraries [data-role=button].fab {
-    bottom: 25px;
-}
