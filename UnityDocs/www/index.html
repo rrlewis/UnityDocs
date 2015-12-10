@@ -116,7 +116,9 @@
                 start: function (e) {
                     this.set('search.library', libraryViewModel.libraryName);
                     this.set('search.isActive', true);
-                    $("#librarysearch").focus();
+                    setTimeout(function () {
+                        $("#librarysearch").focus();
+                    });
                 },
                 getResults: function (e) {
                     var $this = this.search;
