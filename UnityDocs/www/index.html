@@ -38,7 +38,7 @@
 
                 <span data-role="view-title" data-bind="invisible:search.isActive" id="view-title">Unity Docs</span>
                 <form data-bind="visible:search.isActive, events: { submit: search.submit }">
-                    <input type="search" data-bind="value:search.searchString" id="librarysearch" placeholder="Search library..." />
+                    <input type="search" data-bind="value:search.searchString" class="librarysearch" placeholder="Search library..." />
                 </form>
 
                 <span data-align="right" data-bind="visible:search.canSearch">
@@ -130,7 +130,7 @@
                     this.set('search.library', libraryViewModel.libraryName);
                     this.set('search.isActive', true);
                     setTimeout(function () {
-                        $("#librarysearch").click();
+                        $(".librarysearch:visible").focus();
                     });
                 },
                 getResults: function (e) {
