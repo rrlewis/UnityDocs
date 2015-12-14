@@ -57,6 +57,8 @@ router.route('(/)views/searchresult.html', function (params) {
 router.route('(/)views/addfile.html', function (params) {
 });
 
+router.route('(/)views/checkfilein.html', function (params) {
+});
 
 router.start();
 

@@ -53,11 +53,7 @@ console.log("Set app");
                 debugger;
                 if (confirm("Do you want to check this file in?")) {
                     // check file in.
-                    if ($("#check-in-modal").exists()) {
-                        var checkInModal = $("#check-in-modal").data("kendoMobileModalView");
-                        $("#check-in-modal div[data-role=header] span[data-role=view-title]").text("Check In: " + filename);
-                        checkInModal.open();
-                    }
+                    router.navigate('views/checkfilein.html');
                 } else {
                     // don't check file in.
                 }

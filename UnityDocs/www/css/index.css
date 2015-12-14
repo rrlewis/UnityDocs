@@ -141,6 +141,9 @@ ul.data-source.sortable.grid-view {
                 -o-transform: translateX(-50%);
                 -webkit-transform: translateX(-50%);
                 transform: translateX(-50%);
+                width: 100%;
+                -ms-word-wrap: break-word;
+                word-wrap: break-word;
             }
 
             ul.data-source.sortable.grid-view li a.library-link i {
