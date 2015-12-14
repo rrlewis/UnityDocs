@@ -1,3 +1,17 @@
 ﻿<div id="checkfilein" data-model="checkfileinViewModel" data-bind="events: { show: onViewShow }" data-role="view" data-layout="default-layout" data-title="Check File In">
-   check file in
+   <span></span>
 </div>
+
+<script>
+    var addfileViewModel = {};
+    $(function (jQuery) {
+        checkfileinViewModel = new kendo.observable({
+            filePath: '',
+            onViewShow: function (e) {
+                var $this = this;
+                $this.set('filePath', e.params.filePath);
+                globalOnViewShow(e);
+            }
+        });
+    });
+</script>

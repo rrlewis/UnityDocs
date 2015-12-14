@@ -53,8 +53,7 @@ console.log("Set app");
                 debugger;
                 if (confirm("Do you want to check this file in?")) {
                     // check file in.
-                    debugger;
-                    router.navigate('views/checkfilein.html');
+                    router.navigate('views/checkfilein.html?filePath=' + checkInChecker.fileInEditData.filePath);
                 } else {
                     // don't check file in.
                 }
