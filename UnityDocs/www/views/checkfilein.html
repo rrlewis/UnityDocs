@@ -6,6 +6,7 @@
                 <label>
                     File name
                     <input type="text" data-bind="value:formData.FileName"/>
+                    <span data-bind="text:fileExtension"></span>
                 </label>
             </li>
             <li>
@@ -41,6 +42,7 @@
     $(function (jQuery) {
         checkfileinViewModel = new kendo.observable({
             filePath: '',
+            fileExtension: '',
             formData: {
                 DocumentLibrary: undefined,
                 Folder: undefined,
@@ -51,8 +53,12 @@
             },
             onViewShow: function (e) {
                 var $this = this;
-                debugger;
+                var filePathComponents = e.view.params.filePath.split('/');
+                var fileNameWithoutExtension = filePathComponents[filePathComponents.length - 1].split(".")[0];
+                var fileExtension = filePathComponents[filePathComponents.length - 1].split(".")[1];
                 $this.set('filePath', e.view.params.filePath);
+                $this.set('formData.FileName', fileNameWithoutExtension)
+                $this.set('fileExtension', fileExtension)
                 globalOnViewShow(e);
             },
         });
