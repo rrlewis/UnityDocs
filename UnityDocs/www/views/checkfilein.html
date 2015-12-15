@@ -1,5 +1,39 @@
 ﻿<div id="checkfilein" data-model="checkfileinViewModel" data-bind="events: { show: onViewShow }" data-role="view" data-layout="default-layout" data-title="Check File In">
-   <span></span>
+   <span data-bind="text:filePath"></span>
+    <form>
+        <ul>
+            <li>
+                <label>
+                    File name
+                    <input type="text" data-bind="value:formData.FileName"/>
+                </label>
+            </li>
+            <li>
+                <label>
+                    Folder
+                    <input type="text" data-bind="value:formData.Folder" />
+                </label>
+            </li>
+            <li>
+                <label>
+                    Version Comments
+                    <input type="text" data-bind="value:formData.VersionComments" />
+                </label>
+            </li>
+            <li>
+                <label>
+                    Tags
+                    <input type="text" data-bind="value:formData.Tags" />
+                </label>
+            </li>
+            <li>
+                <label>
+                    Check out after upload?
+                    <input type="checkbox" data-bind="value:formData.CheckoutAfterUpload" />
+                </label>
+            </li>
+        </ul>
+    </form>
 </div>
 
 <script>
@@ -7,12 +41,21 @@
     $(function (jQuery) {
         checkfileinViewModel = new kendo.observable({
             filePath: '',
+            formData: {
+                DocumentLibrary: undefined,
+                Folder: undefined,
+                VersionComments: undefined,
+                Tags: undefined,
+                CheckoutAfterUpload: undefined,
+                FileName: undefined,
+            },
             onViewShow: function (e) {
                 var $this = this;
                 debugger;
                 $this.set('filePath', e.view.params.filePath);
                 globalOnViewShow(e);
-            }
+            },
+            uploadFile
         });
     });
 </script>
