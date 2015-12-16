@@ -1,16 +1,16 @@
 ﻿<div id="checkfilein" data-model="checkfileinViewModel" data-bind="events: { show: onViewShow }" data-role="view" data-layout="default-layout" data-title="Check File In">
-   <span data-bind="text:filePath"></span>
+    <span data-bind="text:filePath"></span>
     <form>
         <ul data-role="listview">
             <li>
                 <label>
                     File name
-                    <input type="text" data-bind="value:formData.FileName"/>
+                    <input type="text" data-bind="value:formData.FileName" />
                 </label>
             </li>
             <li>
                 <label>
-                    File Type (extentiosn)
+                    File Type (extentsion)
                     <input type="text" readonly data-bind="value:fileExtension" />
                 </label>
             </li>
@@ -38,6 +38,9 @@
                     <input type="checkbox" data-bind="value:formData.CheckoutAfterUpload" />
                 </label>
             </li>
+            <li>
+                <a data-role="button" data-bind="click:checkIn">Check In</a>
+            </li>
         </ul>
     </form>
 </div>
@@ -60,12 +63,40 @@
                 var $this = this;
                 var filePathComponents = e.view.params.filePath.split('/');
                 var fileNameWithoutExtension = filePathComponents[filePathComponents.length - 1].split(".")[0];
-                var fileExtension = "." + filePathComponents[filePathComponents.length - 1].split(".")[1];
+                var fileExtension = filePathComponents[filePathComponents.length - 1].split(".")[1];
                 $this.set('filePath', e.view.params.filePath);
-                $this.set('formData.FileName', fileNameWithoutExtension)
-                $this.set('fileExtension', fileExtension)
+                $this.set('formData.FileName', fileNameWithoutExtension);
+                $this.set('fileExtension', fileExtension);
                 globalOnViewShow(e);
             },
+            checkIn: function (e) {
+                debugger;
+                var $this = this;
+                var fileTransfer = new FileTransfer();
+                var uploadOptions = new FileUploadOptions();
+                uploadOptions.formData = {
+                    DocumentLibrary: $this.formData.DocumentLibrary,
+                    Folder: $this.formData.Folder,
+                    VersionComments: $this.formData.VersionComments,
+                    Tags: $this.formData.Tags,
+                    CheckoutAfterUpload: $this.formData.CheckoutAfterUpload,
+                    FileName: $this.formData.FileName,
+                };
+
+                fileTransfer.upload(
+                    $this.filePath,
+                    api.rootUrl + 'documentmanagement/UploadDocument',
+                    function (data) {
+                        debugger;
+                    },
+                    function (error) {
+                        debugger;
+                    },
+                    uploadOptions,
+                    true
+                    );
+
+            }
         });
     });
 </script>
