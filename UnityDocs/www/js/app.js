@@ -6,7 +6,7 @@ var app = new kendo.mobile.Application(
         platform: "android",
         //skin: 'material-light',
         skin: 'nova',
-        transition: 'slide',
+        transition: 'zoom',
         initial: "views/authenticate.html",
     }
 );
