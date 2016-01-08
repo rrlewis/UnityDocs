@@ -81,6 +81,7 @@
                 router.navigate("views/versionhistory.html?selectedItem=" + JSON.stringify(this.selectedItem));
             },
             onViewShow: function (e) {
+                debugger;
                 var $this = this;
                 var selectedItem = JSON.parse(e.view.params.selectedItem);
                 $this.set('selectedItem', selectedItem);
