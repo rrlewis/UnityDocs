@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<widget xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0" id="com.sanderson.unitydocs" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" defaultlocale="en-GB">
+<widget xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:gap="http://phonegap.com/ns/1.0" id="com.sanderson.unitydocs" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" defaultlocale="en-GB">
   <name>Unity Docs</name>
   <description>File hosting service that allows users to sync files and later access them from a web browser or mobile device.</description>
   <author href="http://www.sanderson.com/" email="Ronan.Lewis@sanderson.com">Sanderson</author>
