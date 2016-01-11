@@ -12,19 +12,19 @@
   <gap:config-file platform="android" parent="/manifest">
     <application>
       <provider android:authorities="list"
-          android:enabled=""
-          android:exported=""
-          android:grantUriPermissions=""
-          android:icon="drawable resource"
-          android:initOrder="integer"
-          android:label="string resource"
-          android:multiprocess=""
-          android:name="string"
-          android:permission="string"
-          android:process="string"
-          android:readPermission="string"
-          android:syncable=""
-          android:writePermission="string" >
+            android:enabled="true"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:icon="drawable resource"
+            android:initOrder="integer"
+            android:label="string resource"
+            android:multiprocess="true"
+            android:name="string"
+            android:permission="string"
+            android:process="string"
+            android:readPermission="string"
+            android:syncable="true"
+            android:writePermission="string" >
       </provider>
     </application>
   </gap:config-file>
