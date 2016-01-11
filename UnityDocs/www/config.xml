@@ -10,8 +10,10 @@
   </platform>
 
   <gap:config-file platform="android" parent="/manifest">
-    <application>
+    <resources>
       <drawable name="test_image">images/icon.png</drawable>
+    </resources>
+    <application>
       <provider android:authorities="list"
             android:enabled="true"
             android:exported="true"
