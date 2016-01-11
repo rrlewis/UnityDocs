@@ -10,12 +10,13 @@
   </platform>
 
   <gap:config-file platform="android" parent="/manifest">
+     <drawable name="test_image">images/icon.png</drawable>
     <application>
       <provider android:authorities="list"
             android:enabled="true"
             android:exported="true"
             android:grantUriPermissions="true"
-            android:icon="images/icon.png"
+            android:icon="@drawable/test_image"
             android:initOrder="1"
             android:label="string resource"
             android:multiprocess="true"
