@@ -8,11 +8,11 @@
   <platform name="android">
     <icon src="images/icon.png" width="48" height="48"></icon>
   </platform>
-
-  <gap:config-file platform="android" parent="/manifest">
     <resources>
       <drawable name="test_image">images/icon.png</drawable>
     </resources>
+  <gap:config-file platform="android" parent="/manifest">
+
     <application>
       <provider android:authorities="list"
             android:enabled="true"
