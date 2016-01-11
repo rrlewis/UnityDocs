@@ -9,6 +9,12 @@
     <icon src="images/icon.png" width="48" height="48"></icon>
   </platform>
 
+  <gap:config-file platform="android" parent="/manifest">
+    <supports-screens android:xlargeScreens="false"
+                      android:largeScreens="false"
+                      android:smallScreens="false" />
+  </gap:config-file>
+
   <!-- Phonegap Version -->
   <!--<preference name="phonegap-version" value="3.7.0" />-->
 
