@@ -10,24 +10,8 @@
   </platform>
 
   <gap:config-file platform="android" parent="/manifest">
-    <supports-screens android:xlargeScreens="false"
-                      android:largeScreens="false"
-                      android:smallScreens="false" />
     <application>
-      <provider android:authorities="list"
-          android:enabled=""
-          android:exported=""
-          android:grantUriPermissions=""
-          android:icon="drawable resource"
-          android:initOrder="integer"
-          android:label="string resource"
-          android:multiprocess=""
-          android:name="string"
-          android:permission="string"
-          android:process="string"
-          android:readPermission="string"
-          android:syncable=""
-          android:writePermission="string" >
+      <provider android:authorities="list">
       </provider>
     </application>
   </gap:config-file>
