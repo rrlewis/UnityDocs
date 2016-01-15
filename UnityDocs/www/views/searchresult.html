@@ -1,7 +1,5 @@
 ﻿<div id="searchresult" data-model="searchresultViewModel" data-bind="events: { show: onViewShow }" data-reload="true" data-role="view" data-layout="default-layout" data-title="Search Results">
-    <ul data-role="listview" data-bind="source: data" class="data-source sortable" data-template="result-item-template" data-pull-to-refresh="true">
-
-    </ul>
+    <ul data-role="listview" data-bind="source: data" class="data-source sortable" data-template="result-item-template" data-pull-to-refresh="true"></ul>
 </div>
 
 <script type="text/kendo-x-tmpl" id="result-item-template">
@@ -167,14 +165,7 @@
                         break;
                     }
                 }
-                api.documentService().getVersionHistory(selectedItem.ParentFolder, selectedItem.ImageID).then(function (results) {
-                    var paramData = {};
-                    var versionHistory = results.results;
-                    paramData.versionHistory = versionHistory;
-                    paramData.selectedItem = selectedItem;
-                    paramData = JSON.stringify(paramData);
-                    router.navigate("views/libraryinfo.html?data=" + paramData);
-                });
+                router.navigate("views/libraryinfo.html?selectedItem=" + selectedItem);
             },
             onViewShow: function (e) {
                 var params = e.view.params;
@@ -206,7 +197,7 @@
                                 }
 
                                 navbar.title('Results for "' + $this.searchString + '" in ' + $this.library);
-                                
+
                                 return cleanedResults;
                             }
                         }
