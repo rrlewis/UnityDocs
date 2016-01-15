@@ -9,26 +9,7 @@
     <icon src="images/icon.png" width="48" height="48"></icon>
   </platform>
 
-  <gap:config-file platform="android" parent="/manifest">
-
-    <application>
-      <provider android:authorities="list"
-            android:enabled="true"
-            android:exported="true"
-            android:grantUriPermissions="true"
-            android:icon="@drawable/test_image"
-            android:initOrder="1"
-            android:label="string resource"
-            android:multiprocess="true"
-            android:name="string"
-            android:permission="string"
-            android:process="string"
-            android:readPermission="string"
-            android:syncable="true"
-            android:writePermission="string" >
-      </provider>
-    </application>
-  </gap:config-file>
+  
 
   <!-- Phonegap Version -->
   <!--<preference name="phonegap-version" value="3.7.0" />-->
@@ -53,4 +34,26 @@
   <allow-navigation href="data:*" />
   <access origin="*" />
 
+<!--
+<gap:config-file platform="android" parent="/manifest">
+
+    <application>
+      <provider android:authorities="list"
+            android:enabled="true"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:icon="@drawable/test_image"
+            android:initOrder="1"
+            android:label="string resource"
+            android:multiprocess="true"
+            android:name="string"
+            android:permission="string"
+            android:process="string"
+            android:readPermission="string"
+            android:syncable="true"
+            android:writePermission="string" >
+      </provider>
+    </application>
+  </gap:config-file>
+-->
 </widget>
