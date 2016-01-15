@@ -165,7 +165,7 @@
                         break;
                     }
                 }
-                router.navigate("views/libraryinfo.html?selectedItem=" + selectedItem);
+                router.navigate("views/libraryinfo.html?selectedItem=" + JSON.stringify(selectedItem));
             },
             onViewShow: function (e) {
                 var params = e.view.params;
