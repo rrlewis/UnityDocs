@@ -92,6 +92,7 @@ var dataOptionsActionSheet = {
                 router.navigate("views/searchresult.html?searchstring=" + searchString + "&library=" + currentLib);
             },
             gridView: {
+                excludedViews: ['versionHistory'],
                 toggleGridView: function (e) {
                     var textLabels = {
                         toThumbnails: "View as thumbnails",
