@@ -72,6 +72,7 @@ var fileHandler = function () {
             //window.plugins.emailComposer.showEmailComposerWithCallback(options.callback, options.subject, options.body, options.to, options.cc, options.bcc, options.isHTML, options.attachmentPaths, options.attachmentData);
         },
         openFile: function (file) {
+            debugger;
             function getFileType(fileName) {
                 fileName = fileName.split(".");
                 var fileType = fileName[fileName.length - 1];
