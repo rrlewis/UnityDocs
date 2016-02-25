@@ -78,11 +78,11 @@
                 }
             },
             openVersionHistory: function () {
-                router.navigate("views/versionhistory.html?selectedItem=" + JSON.stringify(this.selectedItem));
+                router.navigate("views/versionhistory.html?selectedItem=" + encodeURIComponent(JSON.stringify(this.selectedItem)));
             },
             onViewShow: function (e) {
                 var $this = this;
-                var selectedItem = JSON.parse(e.view.params.selectedItem);
+                var selectedItem = JSON.parse(decodeURIComponent(e.view.params.selectedItem));
                 $this.set('selectedItem', selectedItem);
                 api.documentService().getVersionHistory(selectedItem.ParentFolder, selectedItem.ImageID).then(function (result) {
                     $this.set('mostRecentComment', result.results[0].Comments);

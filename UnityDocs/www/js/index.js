@@ -114,7 +114,7 @@ var dataOptionsActionSheet = {
                 checkGridView: function (changeEvent) {
                     var shouldBeGridView = this.isGridView();
                     if (typeof app != "undefined") {
-                        if (typeof app.view === "function") {
+                        if (typeof app.view === "function") { 
                             try {
                                 var toViewID = app.view().element.attr("id");
                             } catch (e) {

@@ -72,7 +72,10 @@
     # if (Type == 'FOLDER') { #
     <a href="\\#views/library.html?indextypeorlibrary=#:libraryViewModel.libraryName#&subfolder=#:Key#&title=#:Description#&key" data-type="#:Type#" class="library-link">
         <i class="km-thumbnail fa fa-folder font-size-36"></i>
-        <h3>#:Description#</h3>
+        <h3>
+            #:Description#
+            <!-- put ChildCount here -->
+        </h3>
         <p class="extra-info">&nbsp;</p>
         <p class="extra-info">
             &nbsp;
@@ -169,7 +172,7 @@
                         break;
                     }
                 }
-                selectedItem = JSON.stringify(selectedItem);
+                selectedItem = encodeURIComponent(JSON.stringify(selectedItem));
                 router.navigate("views/libraryinfo.html?selectedItem=" + selectedItem);
             },
             showActionSheet: function (e) {

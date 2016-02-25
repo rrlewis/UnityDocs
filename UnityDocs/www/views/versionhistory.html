@@ -51,7 +51,7 @@
             },
             onViewShow: function (e) {
                 var params = {};
-                params.selectedItem = JSON.parse(e.view.params.selectedItem);
+                params.selectedItem = JSON.parse(decodeURIComponent(e.view.params.selectedItem));
                 this.set('data', new api.documentService().data.VersionHistory({
                     data: {
                         Library: params.selectedItem.ParentFolder,
