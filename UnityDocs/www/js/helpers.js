@@ -72,7 +72,6 @@ var fileHandler = function () {
             //window.plugins.emailComposer.showEmailComposerWithCallback(options.callback, options.subject, options.body, options.to, options.cc, options.bcc, options.isHTML, options.attachmentPaths, options.attachmentData);
         },
         openFile: function (file) {
-            debugger;
             function getFileType(fileName) {
                 fileName = fileName.split(".");
                 var fileType = fileName[fileName.length - 1];
@@ -206,7 +205,7 @@ var fileHandler = function () {
                 };
                 return mimes[fileType];
             }
-            var filePath = file.toURL();
+            var filePath = decodeURIComponent(file.toURL());
             var mime = getFileType(file.name);
             cordova.plugins.fileOpener2.open(
                 filePath,
