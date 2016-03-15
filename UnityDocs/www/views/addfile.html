@@ -270,6 +270,8 @@
                     var fileName = file.Filename;
                     var docId;
                     function _continueSubmit() {
+                        var c = x;
+                        console.log(c);
                         if (file.Tags) {
                             file.Tags = file.Tags.replace(/,| /gi, ";");
                             file.Tags = file.Tags.replace(";;", ";");
@@ -283,7 +285,7 @@
                             FileName: file.Filename + file.Extension,
                         };
                         data.submit().done(function (result) {
-                            console.log(1);
+                            console.log(x);
                             $this.set('filesToUpload', []);
                             history.back()
                         });
