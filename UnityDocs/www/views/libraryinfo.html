@@ -73,6 +73,7 @@
             deleteItem: function (e) {
                 if (confirm('Are you sure you want to delete ' + e.data.selectedItem.Description + '?')) {
                     api.documentService().removeDocumentFromLibrary(e.data.selectedItem.ImageID).then(function (result) {
+                        window.plugins.toast.showLongCenter(e.data.selectedItem.Description + " deleted.");
                         history.back();
                     });
                 }
