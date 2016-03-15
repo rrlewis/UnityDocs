@@ -283,6 +283,7 @@
                             FileName: file.Filename + file.Extension,
                         };
                         data.submit().done(function (result) {
+                            console.log(1);
                             $this.set('filesToUpload', []);
                             history.back()
                         });
