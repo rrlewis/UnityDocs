@@ -286,8 +286,10 @@
                         };
                         data.submit().done(function (result) {
                             console.log(x);
-                            $this.set('filesToUpload', []);
-                            history.back()
+                            if (x == (filesToUpload.length - 1)) {
+                                $this.set('filesToUpload', []);
+                                history.back();
+                            }
                         });
                     }
                     // Validate the upload item. Mustn't use the same filename as any other document in the folder (unless the user
