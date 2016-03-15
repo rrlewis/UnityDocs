@@ -71,9 +71,10 @@
             selectedItem: {},
             mostRecentComment: '',
             deleteItem: function (e) {
+                var selectedItem = e.data.selectedItem;
                 if (confirm('Are you sure you want to delete ' + e.data.selectedItem.Description + '?')) {
                     api.documentService().removeDocumentFromLibrary(e.data.selectedItem.ImageID).then(function (result) {
-                        window.plugins.toast.showLongCenter(e.data.selectedItem.Description + " deleted.");
+                        window.plugins.toast.showLongCenter(selectedItem.Description + " deleted.");
                         history.back();
                     });
                 }
