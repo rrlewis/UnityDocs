@@ -284,6 +284,8 @@
                             FileName: file.Filename + file.Extension,
                         };
                         data.submit().done(function (result) {
+                            $this;
+                            debugger;
                             history.back()
                         });
                     }
