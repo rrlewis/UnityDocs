@@ -24,7 +24,7 @@ var router = new kendo.Router({
         if (typeof dataOptionsActionSheet != "undefined") {
             dataOptionsActionSheet.functions().gridView.checkGridView(e);
         }
-    }
+    }    
 });
 
 router.route('(/)(views/authenticate.html)', function (params) {
