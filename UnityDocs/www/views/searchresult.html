@@ -168,6 +168,7 @@
             },
             onViewShow: function (e) {
                 var params = e.view.params;
+                app.pane.loader.show();
                 var $this = this;
                 this.set('searchString', params.searchfor);
                 this.set('library', params.indextype);
@@ -196,7 +197,7 @@
                                 }
 
                                 navbar.title('Results for "' + $this.searchString + '" in ' + $this.library);
-
+                                app.pane.loader.hide();
                                 return cleanedResults;
                             }
                         }
