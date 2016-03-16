@@ -244,7 +244,7 @@
                 window.plugins.actionsheet.show(actionSheetOptions, gotAction);
             },
             refreshData: function () {
-                this.data.read();
+                return this.data.read();
             },
             downloadFile: function (documentID, documentName) {
                 fileHandler().downloadFile(documentID, documentName,
@@ -311,7 +311,10 @@
                 var $this = this;
                 var folderName = prompt("Enter folder name");
                 api.documentService().createFolder(libraryName, folderName, subfolder).then(function (result) {
-                    $this.refreshData();
+                    $this.refreshData().then(function (result) {
+                        console.log(result);
+                        window.plugins.toast.showLongCenter("Folder (" + folderName + ") added successfully.");
+                    });
                 });
             },
             addFile: function (libraryName, subfolder) {
