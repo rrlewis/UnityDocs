@@ -269,7 +269,7 @@
                     var tags = file.Tags;
                     var fileName = file.Filename;
                     var docId;
-                    function _continueSubmit() {
+                    function _continueSubmit(sFile, sData) {
                         if (file.Tags) {
                             file.Tags = file.Tags.replace(/,| /gi, ";");
                             file.Tags = file.Tags.replace(";;", ";");

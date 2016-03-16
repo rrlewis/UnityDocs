@@ -308,8 +308,10 @@
                 });
             },
             addFolder: function (libraryName, subfolder) {
+                var $this = this;
                 var folderName = prompt("Enter folder name");
                 api.documentService().createFolder(libraryName, folderName, subfolder).then(function (result) {
+                    $this.refreshData();
                 });
             },
             addFile: function (libraryName, subfolder) {
