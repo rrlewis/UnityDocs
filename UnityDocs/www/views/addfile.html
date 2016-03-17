@@ -262,9 +262,35 @@
                 $this.set('filesToUpload', filesToUpload);
             },
             openCamera: function (e) {
+                var retries;
                 navigator.camera.getPicture(
-                    function (photoLocation) {
+                    function onCapturePhoto(photoLocation) {
                         debugger;
+                        var win = function (r) {
+                            debugger;
+                            navigator.camera.cleanup();
+                            retries = 0;
+                        }
+                        var fail = function (error) {
+                            debugger;
+                            if (retries == 0) {
+                                retries++
+                                setTimeout(function () {
+                                    onCapturePhoto(fileURI)
+                                }, 1000)
+                            } else {
+                                retries = 0;
+                                navigator.camera.cleanup();
+                            }
+                        }
+
+                        var options = new FileUploadOptions();
+                        options.fileKey = "files[]";
+                        options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
+                        options.mimeType = "image/jpeg";
+                        options.params = {}; // if we need to send parameters to the server request
+
+                        new FileTransfer().upload(fileURI, encodeURI(api.rootUrl + 'DocumentManagement/UploadDocument'), win, fail, options);
                     },
                     function (error) {
 
@@ -279,7 +305,7 @@
                     var tags = file.Tags;
                     var fileName = file.Filename;
                     var docId;
-                    function _continueSubmit(sFile, sData) {
+                    function _continueSubmit() {
                         if (file.Tags) {
                             file.Tags = file.Tags.replace(/,| /gi, ";");
                             file.Tags = file.Tags.replace(";;", ";");
