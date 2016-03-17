@@ -269,12 +269,10 @@
                     function onCapturePhoto(fileURI) {
                         debugger;
                         var win = function (r) {
-                            debugger;
                             navigator.camera.cleanup();
                             retries = 0;
                         }
                         var fail = function (error) {
-                            debugger;
                             if (retries == 0) {
                                 retries++
                                 setTimeout(function () {
@@ -290,13 +288,14 @@
                         options.fileKey = "fileup";
                         options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
                         options.mimeType = "image/jpeg";
+                        // TODO: upload to current folder, add comments and tagsm checkout after upload change filename
                         options.params = {
                             DocumentLibrary: $this.libraryName,
                             Folder: "",
                             VersionComments: "",
                             Tags: "",
                             CheckoutAfterUpload: "",
-                            FileName: options.fileName,
+                            FileName: prompt("Enter a name for this photo"),
                         }; 
 
                         new FileTransfer().upload(fileURI, encodeURI(api.rootUrl + 'DocumentManagement/UploadDocument'), win, fail, options);
