@@ -4,7 +4,7 @@
     <a data-role="button" class="addfile-btn big" data-bind="invisible: filesWaiting, click:openFileDialog"><i class="fa fa-plus"></i>&nbsp;Add File</a>
     <a data-role="button" class="addfile-btn big" data-bind="invisible: filesWaiting, click:openCamera"><i class="fa fa-camera"></i>&nbsp;Add From Camera</a>
     <input id="file-input" type="file" name="files[]" data-bind="events: { change:onFileGet }">
-    <input type="file" name="fileup">
+    <input type="file" style="display:none" name="fileup">
     <footer data-role="footer" data-bind="visible: filesWaiting">
         <div data-role="navbar" class="km-accent">
             <a data-role="button" style="width:100%" data-bind="click:uploadFiles"><i class="fa fa-upload"></i>&nbsp;Upload</a>
@@ -264,6 +264,7 @@
             },
             openCamera: function (e) {
                 var retries;
+                var $this = this;
                 navigator.camera.getPicture(
                     function onCapturePhoto(fileURI) {
                         debugger;
@@ -286,10 +287,17 @@
                         }
 
                         var options = new FileUploadOptions();
-                        options.fileKey = "files[]";
+                        options.fileKey = "fileup";
                         options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
                         options.mimeType = "image/jpeg";
-                        options.params = {}; // if we need to send parameters to the server request
+                        options.params = {
+                            DocumentLibrary: $this.libraryName,
+                            Folder: "",
+                            VersionComments: "",
+                            Tags: "",
+                            CheckoutAfterUpload: "",
+                            FileName: options.fileName,
+                        }; 
 
                         new FileTransfer().upload(fileURI, encodeURI(api.rootUrl + 'DocumentManagement/UploadDocument'), win, fail, options);
                     },
