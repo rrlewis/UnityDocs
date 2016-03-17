@@ -2,6 +2,7 @@
     <ul data-role="listview" data-bind="source: filesToUpload" data-template="addfile-item-template" class="data-source sortable"></ul>
     <a data-role="button" class="addfile-btn small" data-bind="visible: filesWaiting, click:openFileDialog"><i class="fa fa-plus"></i>&nbsp;Add File</a>
     <a data-role="button" class="addfile-btn big" data-bind="invisible: filesWaiting, click:openFileDialog"><i class="fa fa-plus"></i>&nbsp;Add File</a>
+    <a data-role="button" class="addfile-btn big" data-bind="invisible: filesWaiting, click:openCamera"><i class="fa fa-camera"></i>&nbsp;Add From Camera</a>
     <input id="file-input" type="file" name="files[]" data-bind="events: { change:onFileGet }">
     <footer data-role="footer" data-bind="visible: filesWaiting">
         <div data-role="navbar" class="km-accent">
@@ -260,6 +261,15 @@
                 }
                 $this.set('filesToUpload', filesToUpload);
             },
+            openCamera: function (e) {
+                navigator.camera.getPicture(
+                    function (photoLocation) {
+                        debugger;
+                    },
+                    function (error) {
+
+                    })
+            },
             uploadFiles: function (e) {
                 var $this = this;
                 var filesToUpload = e.data.filesToUpload;
@@ -359,7 +369,7 @@
         }
 
         .addfile-btn.big {
-            height: 100%;
+            height: 50%;
             text-align: center;
             font-size: 32px;
         }
