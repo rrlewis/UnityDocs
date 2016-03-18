@@ -294,6 +294,7 @@
                 var $this = this;
                 navigator.camera.getPicture(
                     function (fileURI) {
+                        debugger;
                         $this.set('photoPath', fileURI);
                         $this.set('photoName', fileURI.substr(fileURI.lastIndexOf('/') + 1));
                         $this.set('uploadingPhoto', true);
@@ -309,6 +310,7 @@
                         window.plugins.toast.showLongCenter($this.photoDetails.fileName + " uploaded successfully.");
                         navigator.camera.cleanup();
                         $this.set('uploadingPhoto', false);
+                        history.back();
                     }
                     var fail = function (error) {
                         console.log(error);
