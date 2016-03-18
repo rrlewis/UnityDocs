@@ -137,7 +137,8 @@
             subfolderKey: '',
             libraryItems: [],
             filesToUpload: [],
-            photoDetails: {},
+            photoName: "",
+            photoPath: "",
             filesToUploadData: [],
             uploadingPhoto: false,
             onViewShow: function (e) {
@@ -293,7 +294,8 @@
                 var $this = this;
                 navigator.camera.getPicture(
                     function (fileURI) {
-                        $this.set('photoDetails.fileName', fileURI.substr(fileURI.lastIndexOf('/') + 1));
+                        $this.set('photoPath', fileURI);
+                        $this.set('photoName', fileURI.substr(fileURI.lastIndexOf('/') + 1));
                         $this.set('uploadingPhoto', true);
                     },
                     function (error) {
@@ -306,25 +308,27 @@
                     var win = function (r) {
                         window.plugins.toast.showLongCenter($this.photoDetails.fileName + " uploaded successfully.");
                         navigator.camera.cleanup();
+                        $this.set('uploadingPhoto', false);
                     }
                     var fail = function (error) {
                         console.log(error);
                         window.plugins.toast.showLongCenter($this.photoDetails.fileName + " failed to upload.");
                         navigator.camera.cleanup();
+                        $this.set('uploadingPhoto', false);
                     }
                     var options = new FileUploadOptions();
                     options.fileKey = "fileup";
-                    options.fileName = $this.photoDetails.fileName;
+                    options.fileName = $this.photoName;
                     options.mimeType = "image/jpeg";
                     options.params = {
                         DocumentLibrary: $this.libraryName,
-                        Folder: $this.photoDetails.folder,
-                        VersionComments: $this.photoDetails.versionComments,
-                        Tags: $this.photoDetails.tags,
-                        CheckoutAfterUpload: $this.photoDetails.checkOutAfterUpload,
-                        FileName: $this.photoDetails.fileName,
+                        Folder: "",
+                        VersionComments: "",
+                        Tags: "",
+                        CheckoutAfterUpload: false,
+                        FileName: $this.photoName,
                     };
-                    new FileTransfer().upload($this.photoDetails.filePath, encodeURI(api.rootUrl + 'DocumentManagement/UploadDocument'), win, fail, options);
+                    new FileTransfer().upload($this.photoPath, encodeURI(api.rootUrl + 'DocumentManagement/UploadDocument'), win, fail, options);
                 } else {
                     var filesToUpload = e.data.filesToUpload;
                     for (var x = 0; x < filesToUpload.length; x++) {
