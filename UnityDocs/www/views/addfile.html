@@ -1,6 +1,6 @@
 ﻿<div id="addfile" data-model="addfileViewModel" data-bind="events: { show: onViewShow, beforeunload: test }" data-role="view" data-layout="default-layout" data-title="Add File">
     <ul data-role="listview" data-bind="source: filesToUpload" data-template="addfile-item-template" class="data-source sortable"></ul>
-    <a data-role="button" class="addfile-btn small" data-bind="visible: filesWaiting, click:openFileDialog"><i class="fa fa-plus"></i>&nbsp;Add File</a>
+    <a data-role="button" class="addfile-btn small" data-bind="visible: uploadingFile, click:openFileDialog"><i class="fa fa-plus"></i>&nbsp;Add File</a>
     <a data-role="button" class="addfile-btn big" data-bind="invisible: filesWaiting, click:openFileDialog"><i class="fa fa-plus"></i>&nbsp;Add File</a>
     <a data-role="button" class="addfile-btn big" data-bind="invisible: filesWaiting, click:openCamera"><i class="fa fa-camera"></i>&nbsp;Add From Camera</a>
     <input id="file-input" type="file" name="files[]" data-bind="events: { change:onFileGet }">
@@ -9,7 +9,7 @@
         <form>
             <label>
                 File Name
-                <input type="text" name="photo-FileName"/>
+                <input type="text" name="photo-FileName" data-bind="photoName"/>
             </label>
             <label>
                 Folder
@@ -27,7 +27,7 @@
                 Checkout After Upload
                 <input type="checkbox" name="photo-CheckoutAfterUpload" />
             </label>
-            <input type="hidden" name="photo-FilePath"  />
+            <input type="hidden" name="photo-FilePath" data-bind="photoPath"  />
         </form>
     </div>
     <footer data-role="footer" data-bind="visible: filesWaiting">
@@ -141,6 +141,7 @@
             photoPath: "",
             filesToUploadData: [],
             uploadingPhoto: false,
+            uploadingFile: false,
             onViewShow: function (e) {
                 var $this = this;
                 var params = e.view.params;
@@ -238,6 +239,7 @@
 
                                 var fileData = new FileData(fileDisplay);
                                 filesToUpload.push(fileData); // here
+                                $this.set('uploadingFile', true);
                                 $this.set('filesToUpload', filesToUpload);
 
                             }
@@ -355,6 +357,7 @@
                             data.submit().done(function (result) {
                                 if (x == filesToUpload.length) {
                                     $this.set('filesToUpload', []);
+                                    $this.set('uploadingFile', false);
                                     history.back();
                                 }
                             });
