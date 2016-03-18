@@ -5,7 +5,7 @@
     <a data-role="button" class="addfile-btn big" data-bind="invisible: filesWaiting, click:openCamera"><i class="fa fa-camera"></i>&nbsp;Add From Camera</a>
     <input id="file-input" type="file" name="files[]" data-bind="events: { change:onFileGet }">
     <input type="file" style="display:none" name="fileup">
-    <div id="photo-upload">
+    <div id="photo-upload" data-bind="visible: uploadingPhoto">
         <form>
             <label>
                 <input type="text" name="photo-FileName" />
@@ -135,6 +135,7 @@
             libraryItems: [],
             filesToUpload: [],
             filesToUploadData: [],
+            uploadingPhoto: false,
             onViewShow: function (e) {
                 var $this = this;
                 var params = e.view.params;
@@ -149,7 +150,7 @@
                 $("#file-input").click();
             },
             filesWaiting: function () {
-                return this.get('filesToUpload').length > 0;
+                return this.get('filesToUpload').length > 0 || this.get('uploadingPhoto');
             },
             initialiseFileUpload: function () {
                 var $this = this;
@@ -297,8 +298,7 @@
                             }
                         }
                     }
-
-                    $("#photo-upload").show();
+                    $this.set('uploadingPhoto', true);
                 }
                 navigator.camera.getPicture(
                     function (fileURI) {
