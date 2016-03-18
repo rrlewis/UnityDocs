@@ -8,23 +8,26 @@
     <div id="photo-upload" data-bind="visible: uploadingPhoto">
         <form>
             <label>
-                <input type="text" name="photo-FileName" />
+                File Name
+                <input type="text" name="photo-FileName" data-bind="photoDetails.fileName" />
             </label>
             <label>
-                <input type="text" name="photo-DocumentLibrary" />
+                Folder
+                <input type="text" name="photo-Folder" data-bind="photoDetails.folder" />
             </label>
             <label>
-                <input type="text" name="photo-Folder" />
+                Comments
+                <input type="text" name="photo-VersionComments" data-bind="photoDetails.versionComments" />
             </label>
             <label>
-                <input type="text" name="photo-VersionComments" />
+                Tags
+                <input type="text" name="photo-Tags" data-bind="photoDetails.tags" />
             </label>
             <label>
-                <input type="text" name="photo-Tags" />
+                Checkout After Upload
+                <input type="checkbox" name="photo-CheckoutAfterUpload" data-bind="photoDetails.checkOutAfterUpload" />
             </label>
-            <label>
-                <input type="checkbox" name="photo-CheckoutAfterUpload" />
-            </label>
+            <input type="hidden" name="photo-FilePath" data-bind="photoDetails.filePath" />
         </form>
     </div>
     <footer data-role="footer" data-bind="visible: filesWaiting">
@@ -134,6 +137,7 @@
             subfolderKey: '',
             libraryItems: [],
             filesToUpload: [],
+            photoDetails: {},
             filesToUploadData: [],
             uploadingPhoto: false,
             onViewShow: function (e) {
@@ -286,37 +290,11 @@
                 $this.set('filesToUpload', filesToUpload);
             },
             openCamera: function (e) {
-                var retries;
                 var $this = this;
-                function showPhotoDetailsForm(photoDetails) {
-                    var validDetails = ["DocumentLibrary", "Folder", "VersionComments", "Tags", "CheckoutAfterUpload", "FileName"];
-                    if (typeof photoDetails != 'undefined') {
-                        for (var detail in photoDetails) {
-                            if (typeof photoDetails[detail] != 'undefined' && validDetails.indexOf(detail) > -1) {
-                                var formObjName = "photo-" + detail;
-                                $("#photo-upload [name=" + formObjName + "]").val(photoDetails[detail]);
-                            }
-                        }
-                    }
-                    $this.set('uploadingPhoto', true);
-                }
                 navigator.camera.getPicture(
                     function (fileURI) {
-                        var fileName = prompt("Enter a name for this photo") + ".jpg";
-                        var win = function (r) {
-                            window.plugins.toast.showLongCenter(fileName + " uploaded successfully.");
-                            navigator.camera.cleanup();
-                        }
-                        var fail = function (error) {
-                            console.log(error);
-                            window.plugins.toast.showLongCenter(fileName + " failed to upload.");
-                            navigator.camera.cleanup();
-                        }
-
-                        showPhotoDetailsForm({
-                            FileName: fileURI.substr(fileURI.lastIndexOf('/') + 1)
-                        });
-                        //new FileTransfer().upload(fileURI, encodeURI(api.rootUrl + 'DocumentManagement/UploadDocument'), win, fail, options);
+                        $this.set('photoDetails.fileName', fileURI.substr(fileURI.lastIndexOf('/') + 1));
+                        $this.set('uploadingPhoto', true);
                     },
                     function (error) {
 
@@ -324,73 +302,98 @@
             },
             uploadFiles: function (e) {
                 var $this = this;
-                var filesToUpload = e.data.filesToUpload;
-                for (var x = 0; x < filesToUpload.length; x++) {
-                    var file = filesToUpload[x];
-                    var data = file.data;
-                    var tags = file.Tags;
-                    var fileName = file.Filename;
-                    var docId;
-                    function _continueSubmit() {
-                        if (file.Tags) {
-                            file.Tags = file.Tags.replace(/,| /gi, ";");
-                            file.Tags = file.Tags.replace(";;", ";");
-                        }
-                        data.formData = {
-                            DocumentLibrary: $this.libraryName,
-                            Folder: file.Folder,
-                            VersionComments: file.Comments,
-                            Tags: file.Tags,
-                            CheckoutAfterUpload: file.CheckOut,
-                            FileName: file.Filename + file.Extension,
-                        };
-                        data.submit().done(function (result) {
-                            if (x == filesToUpload.length) {
-                                $this.set('filesToUpload', []);
-                                history.back();
-                            }
-                        });
+                if ($this.uploadingPhoto) {
+                    var win = function (r) {
+                        window.plugins.toast.showLongCenter($this.photoDetails.fileName + " uploaded successfully.");
+                        navigator.camera.cleanup();
                     }
-                    // Validate the upload item. Mustn't use the same filename as any other document in the folder (unless the user
-                    // is checking in a file).
-                    if (!data.currentDocument || (data.currentDocument && data.currentDocument.Filename.toLowerCase() != fileName.toLowerCase())) {
-                        // Need to do the validation...
-                        $.ajax({
-                            url: api.rootUrl + "DocumentManagement/GetDocumentsByFileName",
-                            data: {
-                                FileName: fileName,
-                                Folder: file.Folder,
-                                Library: $this.libraryName
+                    var fail = function (error) {
+                        console.log(error);
+                        window.plugins.toast.showLongCenter($this.photoDetails.fileName + " failed to upload.");
+                        navigator.camera.cleanup();
+                    }
+                    var options = new FileUploadOptions();
+                    options.fileKey = "fileup";
+                    options.fileName = $this.photoDetails.fileName;
+                    options.mimeType = "image/jpeg";
+                    options.params = {
+                        DocumentLibrary: $this.libraryName,
+                        Folder: $this.photoDetails.folder,
+                        VersionComments: $this.photoDetails.versionComments,
+                        Tags: $this.photoDetails.tags,
+                        CheckoutAfterUpload: $this.photoDetails.checkOutAfterUpload,
+                        FileName: $this.photoDetails.fileName,
+                    };
+                    new FileTransfer().upload($this.photoDetails.filePath, encodeURI(api.rootUrl + 'DocumentManagement/UploadDocument'), win, fail, options);
+                } else {
+                    var filesToUpload = e.data.filesToUpload;
+                    for (var x = 0; x < filesToUpload.length; x++) {
+                        var file = filesToUpload[x];
+                        var data = file.data;
+                        var tags = file.Tags;
+                        var fileName = file.Filename;
+                        var docId;
+                        function _continueSubmit() {
+                            if (file.Tags) {
+                                file.Tags = file.Tags.replace(/,| /gi, ";");
+                                file.Tags = file.Tags.replace(";;", ";");
                             }
-                        }).done(function (result) {
-                            if (result.results.length > 0) {
-                                // TODO: There's already a document uploaded to this folder with this name...
-                                if (confirm("The filename '" + fileName + "' is already being used in this folder. Would you like to overwrite the existing document")) {
+                            data.formData = {
+                                DocumentLibrary: $this.libraryName,
+                                Folder: file.Folder,
+                                VersionComments: file.Comments,
+                                Tags: file.Tags,
+                                CheckoutAfterUpload: file.CheckOut,
+                                FileName: file.Filename + file.Extension,
+                            };
+                            data.submit().done(function (result) {
+                                if (x == filesToUpload.length) {
+                                    $this.set('filesToUpload', []);
+                                    history.back();
+                                }
+                            });
+                        }
+                        // Validate the upload item. Mustn't use the same filename as any other document in the folder (unless the user
+                        // is checking in a file).
+                        if (!data.currentDocument || (data.currentDocument && data.currentDocument.Filename.toLowerCase() != fileName.toLowerCase())) {
+                            // Need to do the validation...
+                            $.ajax({
+                                url: api.rootUrl + "DocumentManagement/GetDocumentsByFileName",
+                                data: {
+                                    FileName: fileName,
+                                    Folder: file.Folder,
+                                    Library: $this.libraryName
+                                }
+                            }).done(function (result) {
+                                if (result.results.length > 0) {
+                                    // TODO: There's already a document uploaded to this folder with this name...
+                                    if (confirm("The filename '" + fileName + "' is already being used in this folder. Would you like to overwrite the existing document")) {
 
-                                    function _continueOverwrite() {
+                                        function _continueOverwrite() {
 
-                                    }
+                                        }
 
-                                    // Check out the document first
-                                    if (result.results[0].CheckedOutBy && result.results[0].CheckedOutBy != currentUser.get().username) {
+                                        // Check out the document first
+                                        if (result.results[0].CheckedOutBy && result.results[0].CheckedOutBy != currentUser.get().username) {
 
-                                        checkOut(result.results[0]).done(_continueOverwrite);
-                                    }
-                                    else {
-                                        _continueOverwrite();
+                                            checkOut(result.results[0]).done(_continueOverwrite);
+                                        }
+                                        else {
+                                            _continueOverwrite();
+                                        }
                                     }
                                 }
-                            }
-                            else {
+                                else {
 
-                                _continueSubmit();
-                            }
-                        });
+                                    _continueSubmit();
+                                }
+                            });
 
-                    }
-                    else if (data.currentDocument) {
-                        docId = data.currentDocument.ImageID;
-                        _continueSubmit();
+                        }
+                        else if (data.currentDocument) {
+                            docId = data.currentDocument.ImageID;
+                            _continueSubmit();
+                        }
                     }
                 }
             },
