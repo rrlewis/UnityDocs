@@ -9,7 +9,7 @@
         <form>
             <label>
                 File Name
-                <input type="text" name="photo-FileName" data-bind="photoName"/>
+                <input type="text" name="photo-FileName" data-bind="value:photoName"/>
             </label>
             <label>
                 Folder
@@ -27,7 +27,7 @@
                 Checkout After Upload
                 <input type="checkbox" name="photo-CheckoutAfterUpload" />
             </label>
-            <input type="hidden" name="photo-FilePath" data-bind="photoPath"  />
+            <input type="hidden" name="photo-FilePath" data-bind="value:photoPath"  />
         </form>
     </div>
     <footer data-role="footer" data-bind="visible: filesWaiting">
