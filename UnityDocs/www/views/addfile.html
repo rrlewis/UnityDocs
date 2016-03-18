@@ -5,6 +5,28 @@
     <a data-role="button" class="addfile-btn big" data-bind="invisible: filesWaiting, click:openCamera"><i class="fa fa-camera"></i>&nbsp;Add From Camera</a>
     <input id="file-input" type="file" name="files[]" data-bind="events: { change:onFileGet }">
     <input type="file" style="display:none" name="fileup">
+    <div id="photo-upload">
+        <form>
+            <label>
+                <input type="text" name="photo-FileName" />
+            </label>
+            <label>
+                <input type="text" name="photo-DocumentLibrary" />
+            </label>
+            <label>
+                <input type="text" name="photo-Folder" />
+            </label>
+            <label>
+                <input type="text" name="photo-VersionComments" />
+            </label>
+            <label>
+                <input type="text" name="photo-Tags" />
+            </label>
+            <label>
+                <input type="checkbox" name="photo-CheckoutAfterUpload" />
+            </label>
+        </form>
+    </div>
     <footer data-role="footer" data-bind="visible: filesWaiting">
         <div data-role="navbar" class="km-accent">
             <a data-role="button" style="width:100%" data-bind="click:uploadFiles"><i class="fa fa-upload"></i>&nbsp;Upload</a>
@@ -265,44 +287,40 @@
             openCamera: function (e) {
                 var retries;
                 var $this = this;
-                navigator.camera.getPicture(
-                    function onCapturePhoto(fileURI) {
-                        debugger;
-                        var win = function (r) {
-                            navigator.camera.cleanup();
-                            retries = 0;
-                        }
-                        var fail = function (error) {
-                            if (retries == 0) {
-                                retries++
-                                setTimeout(function () {
-                                    onCapturePhoto(fileURI)
-                                }, 1000)
-                            } else {
-                                retries = 0;
-                                navigator.camera.cleanup();
+                function showPhotoDetailsForm(photoDetails) {
+                    var validDetails = ["DocumentLibrary", "Folder", "VersionComments", "Tags", "CheckoutAfterUpload", "FileName"];
+                    if (typeof photoDetails != 'undefined') {
+                        for (var detail in photoDetails) {
+                            if (typeof photoDetails[detail] != 'undefined' && validDetails.indexOf(detail) > -1) {
+                                var formObjName = "photo-" + detail;
+                                $("#photo-upload [name=" + formObjName + "]").val(photoDetails[detail]);
                             }
                         }
+                    }
 
-                        var options = new FileUploadOptions();
-                        options.fileKey = "fileup";
-                        options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
-                        options.mimeType = "image/jpeg";
-                        // TODO: upload to current folder, add comments and tagsm checkout after upload change filename
-                        options.params = {
-                            DocumentLibrary: $this.libraryName,
-                            Folder: "",
-                            VersionComments: "",
-                            Tags: "",
-                            CheckoutAfterUpload: "",
-                            FileName: prompt("Enter a name for this photo"),
-                        }; 
+                    $("#photo-upload").show();
+                }
+                navigator.camera.getPicture(
+                    function (fileURI) {
+                        var fileName = prompt("Enter a name for this photo") + ".jpg";
+                        var win = function (r) {
+                            window.plugins.toast.showLongCenter(fileName + " uploaded successfully.");
+                            navigator.camera.cleanup();
+                        }
+                        var fail = function (error) {
+                            console.log(error);
+                            window.plugins.toast.showLongCenter(fileName + " failed to upload.");
+                            navigator.camera.cleanup();
+                        }
 
-                        new FileTransfer().upload(fileURI, encodeURI(api.rootUrl + 'DocumentManagement/UploadDocument'), win, fail, options);
+                        showPhotoDetailsForm({
+                            FileName: fileURI.substr(fileURI.lastIndexOf('/') + 1)
+                        });
+                        //new FileTransfer().upload(fileURI, encodeURI(api.rootUrl + 'DocumentManagement/UploadDocument'), win, fail, options);
                     },
                     function (error) {
 
-                    })
+                    });
             },
             uploadFiles: function (e) {
                 var $this = this;
