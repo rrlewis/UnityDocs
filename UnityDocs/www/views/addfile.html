@@ -9,25 +9,25 @@
         <form>
             <label>
                 File Name
-                <input type="text" name="photo-FileName" data-bind="value:photoName"/>
+                <input type="text" name="photo-FileName" data-bind="value:photoDetails.fileName"/>
             </label>
             <label>
                 Folder
-                <input type="text" name="photo-Folder" />
+                <input type="text" name="photo-Folder" data-bind="value:photoDetails.folder"/>
             </label>
             <label>
                 Comments
-                <input type="text" name="photo-VersionComments" />
+                <input type="text" name="photo-VersionComments" data-bind="value:photoDetails.versionComments"/>
             </label>
             <label>
                 Tags
-                <input type="text" name="photo-Tags" />
+                <input type="text" name="photo-Tags" data-bind="value:photoDetails.tags"/>
             </label>
             <label>
                 Checkout After Upload
-                <input type="checkbox" name="photo-CheckoutAfterUpload" />
+                <input type="checkbox" name="photo-CheckoutAfterUpload" data-bind="value:photoDetails.checkOutAfterUpload"/>
             </label>
-            <input type="hidden" name="photo-FilePath" data-bind="value:photoPath"  />
+            <input type="hidden" name="photo-FilePath" data-bind="value:photoDetails.filePath" />
         </form>
     </div>
     <footer data-role="footer" data-bind="visible: filesWaiting">
@@ -137,6 +137,14 @@
             subfolderKey: '',
             libraryItems: [],
             filesToUpload: [],
+            photoDetails: {
+                fileName: "",
+                folder: "",
+                versionComments: "",
+                tags: "",
+                checkOutAfterUpload: false,
+                filePath: "",
+            },
             photoName: "",
             photoPath: "",
             filesToUploadData: [],
@@ -297,8 +305,8 @@
                 navigator.camera.getPicture(
                     function (fileURI) {
                         debugger;
-                        $this.set('photoPath', fileURI);
-                        $this.set('photoName', fileURI.substr(fileURI.lastIndexOf('/') + 1));
+                        $this.set('photoDetails.filePath', fileURI);
+                        $this.set('photoDetails.fileName', fileURI.substr(fileURI.lastIndexOf('/') + 1));
                         $this.set('uploadingPhoto', true);
                     },
                     function (error) {
@@ -322,17 +330,17 @@
                     }
                     var options = new FileUploadOptions();
                     options.fileKey = "fileup";
-                    options.fileName = $this.photoName;
+                    options.fileName = $this.photoDetails.fileName;
                     options.mimeType = "image/jpeg";
                     options.params = {
                         DocumentLibrary: $this.libraryName,
-                        Folder: "",
-                        VersionComments: "",
-                        Tags: "",
-                        CheckoutAfterUpload: false,
-                        FileName: $this.photoName,
+                        Folder: $this.photoDetails.folder,
+                        VersionComments: $this.photoDetails.versionComments,
+                        Tags: $this.photoDetails.tags,
+                        CheckoutAfterUpload: $this.photoDetails.checkOutAfterUpload,
+                        FileName: $this.photoDetails.fileName,
                     };
-                    new FileTransfer().upload($this.photoPath, encodeURI(api.rootUrl + 'DocumentManagement/UploadDocument'), win, fail, options);
+                    new FileTransfer().upload($this.photoDetails.filePath, encodeURI(api.rootUrl + 'DocumentManagement/UploadDocument'), win, fail, options);
                 } else {
                     var filesToUpload = e.data.filesToUpload;
                     for (var x = 0; x < filesToUpload.length; x++) {
