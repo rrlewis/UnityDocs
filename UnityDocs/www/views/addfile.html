@@ -166,6 +166,7 @@
             uploadingFile: false,
             onViewShow: function (e) {
                 var $this = this;
+                debugger;
                 var params = e.view.params;
                 $this.setParams(params);
                 $this.initialiseFileUpload();
@@ -270,6 +271,7 @@
                 });
             },
             setParams: function (params) {
+                debugger;
                 var $this = this;
                 for (var param in params) {
                     if (params.hasOwnProperty(param)) {
