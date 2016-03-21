@@ -136,6 +136,7 @@
                 if (typeof params.subfolder == 'undefined') {
                     params.subfolder = '';
                 }
+                this.set('viewTitle', params.title);
                 this.set('subfolder', params.subfolder);
                 this.set('data', new api.documentService().data.Documents({
                     data: {
