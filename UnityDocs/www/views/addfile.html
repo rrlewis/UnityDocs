@@ -7,26 +7,38 @@
     <input type="file" style="display:none" name="fileup">
     <div id="photo-upload" data-bind="visible: uploadingPhoto">
         <form>
-            <label>
-                File Name
-                <input type="text" name="photo-FileName" data-bind="value:photoDetails.fileName"/>
-            </label>
-            <label>
-                Folder
-                <input type="text" name="photo-Folder" data-bind="value:photoDetails.folder"/>
-            </label>
-            <label>
-                Comments
-                <input type="text" name="photo-VersionComments" data-bind="value:photoDetails.versionComments"/>
-            </label>
-            <label>
-                Tags
-                <input type="text" name="photo-Tags" data-bind="value:photoDetails.tags"/>
-            </label>
-            <label>
-                Checkout After Upload
-                <input type="checkbox" name="photo-CheckoutAfterUpload" data-bind="value:photoDetails.checkOutAfterUpload"/>
-            </label>
+            <ul>
+                <li>
+                    <label class="km-inline-field km-label-above">
+                        File Name
+                        <input type="text" name="photo-FileName" data-bind="value:photoDetails.fileName" />
+                    </label>
+                </li>
+                <li>
+                    <label class="km-inline-field km-label-above">
+                        Folder
+                        <input type="text" name="photo-Folder" data-bind="value:photoDetails.folder" />
+                    </label>
+                </li>
+                <li>
+                    <label class="km-inline-field km-label-above">
+                        Comments
+                        <input type="text" name="photo-VersionComments" data-bind="value:photoDetails.versionComments" />
+                    </label>
+                </li>
+                <li>
+                    <label class="km-inline-field km-label-above">
+                        Tags
+                        <input type="text" name="photo-Tags" data-bind="value:photoDetails.tags" />
+                    </label>
+                </li>
+                <li>
+                    <label class="km-inline-field km-label-above">
+                        Checkout After Upload
+                        <input type="checkbox" name="photo-CheckoutAfterUpload" data-bind="value:photoDetails.checkOutAfterUpload" />
+                    </label>
+                </li>
+            </ul>
             <input type="hidden" name="photo-FilePath" data-bind="value:photoDetails.filePath" />
         </form>
     </div>
@@ -536,10 +548,13 @@
 
     #photo-upload {
     }
+
         #photo-upload form {
         }
+
             #photo-upload form label {
             }
+
                 #photo-upload form label input {
                 }
 </style>
