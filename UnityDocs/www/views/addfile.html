@@ -320,7 +320,7 @@
                     function (fileURI) {
                         debugger;
                         $this.set('photoDetails.filePath', fileURI);
-                        $this.set('photoDetails.fileName', fileURI.substring(fileURI.lastIndexOf('/') + 1), fileURI.lastIndexOf('.'));
+                        $this.set('photoDetails.fileName', fileURI.substring(fileURI.lastIndexOf('/') + 1, fileURI.lastIndexOf('.')));
                         $this.set('photoDetails.folder', $this.subfolderName);
                         $this.set('photoDetails.folderKey', $this.subfolderKey);
                         $this.set('uploadingPhoto', true);
