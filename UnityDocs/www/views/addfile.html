@@ -11,7 +11,7 @@
                 <li>
                     <label class="km-inline-field km-label-above">
                         File Name
-                        <input type="text" name="photo-FileName" data-bind="value:photoDetails.fileName" />
+                        <input type="text" name="photo-FileName" data-bind="value:photoDetails.fileName" /><span>.jpg</span>
                     </label>
                 </li>
                 <li>
@@ -166,7 +166,6 @@
             uploadingFile: false,
             onViewShow: function (e) {
                 var $this = this;
-                debugger;
                 var params = e.view.params;
                 $this.setParams(params);
                 $this.initialiseFileUpload();
@@ -271,7 +270,6 @@
                 });
             },
             setParams: function (params) {
-                debugger;
                 var $this = this;
                 for (var param in params) {
                     if (params.hasOwnProperty(param)) {
@@ -320,9 +318,8 @@
                 var $this = this;
                 navigator.camera.getPicture(
                     function (fileURI) {
-                        debugger;
                         $this.set('photoDetails.filePath', fileURI);
-                        $this.set('photoDetails.fileName', fileURI.substr(fileURI.lastIndexOf('/') + 1));
+                        $this.set('photoDetails.fileName', fileURI.substring(fileURI.lastIndexOf('/') + 1), fileURI.lastIndexOf('.'));
                         $this.set('photoDetails.folder', $this.subfolderName);
                         $this.set('photoDetails.folderKey', $this.subfolderKey);
                         $this.set('uploadingPhoto', true);
@@ -356,7 +353,7 @@
                         VersionComments: $this.photoDetails.versionComments,
                         Tags: $this.photoDetails.tags,
                         CheckoutAfterUpload: $this.photoDetails.checkOutAfterUpload,
-                        FileName: $this.photoDetails.fileName,
+                        FileName: $this.photoDetails.fileName + ".jpg",
                     };
                     new FileTransfer().upload($this.photoDetails.filePath, encodeURI(api.rootUrl + 'DocumentManagement/UploadDocument'), win, fail, options);
                 } else {

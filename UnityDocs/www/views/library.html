@@ -299,7 +299,6 @@
                         var buttonPressed = options.buttonLabels[buttonIndex - 1];
                         switch (buttonPressed) {
                             case 'File':
-                                debugger;
                                 $this.addFile($this.libraryName, $this.subfolder, $this.viewTitle);
                                 break;
                             case 'Folder':
@@ -321,7 +320,6 @@
             },
             addFile: function (libraryName, subfolder, title) {
                 //get current directory send to addfile
-                debugger;
                 router.navigate("views/addfile.html?libraryName=" + libraryName + "&subfolderKey=" + subfolder + "&subfolderName=" + title);
             },
             viewFile: function (documentName) {
