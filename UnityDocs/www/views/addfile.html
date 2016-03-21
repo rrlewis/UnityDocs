@@ -17,7 +17,7 @@
                 <li>
                     <label class="km-inline-field km-label-above">
                         Folder
-                        <input type="text" name="photo-Folder" data-bind="value:photoDetails.folder" />
+                        <input readonly type="text" name="photo-Folder" data-bind="value:photoDetails.folder" />
                     </label>
                 </li>
                 <li>
@@ -33,7 +33,7 @@
                     </label>
                 </li>
                 <li>
-                    <label class="km-inline-field km-label-above">
+                    <label>
                         Checkout After Upload
                         <input type="checkbox" name="photo-CheckoutAfterUpload" data-bind="value:photoDetails.checkOutAfterUpload" />
                     </label>
@@ -147,11 +147,13 @@
         addfileViewModel = new kendo.observable({
             libraryName: '',
             subfolderKey: '',
+            subfolderName: '',
             libraryItems: [],
             filesToUpload: [],
             photoDetails: {
                 fileName: "",
                 folder: "",
+                folderKey: "",
                 versionComments: "",
                 tags: "",
                 checkOutAfterUpload: false,
@@ -319,6 +321,8 @@
                         debugger;
                         $this.set('photoDetails.filePath', fileURI);
                         $this.set('photoDetails.fileName', fileURI.substr(fileURI.lastIndexOf('/') + 1));
+                        $this.set('photoDetails.folder', $this.subfolderName);
+                        $this.set('photoDetails.folderKey', $this.subfolderKey);
                         $this.set('uploadingPhoto', true);
                     },
                     function (error) {
@@ -346,7 +350,7 @@
                     options.mimeType = "image/jpeg";
                     options.params = {
                         DocumentLibrary: $this.libraryName,
-                        Folder: $this.photoDetails.folder,
+                        Folder: $this.photoDetails.folderKey,
                         VersionComments: $this.photoDetails.versionComments,
                         Tags: $this.photoDetails.tags,
                         CheckoutAfterUpload: $this.photoDetails.checkOutAfterUpload,
