@@ -318,6 +318,7 @@
                 var $this = this;
                 navigator.camera.getPicture(
                     function (fileURI) {
+                        debugger;
                         $this.set('photoDetails.filePath', fileURI);
                         $this.set('photoDetails.fileName', fileURI.substring(fileURI.lastIndexOf('/') + 1), fileURI.lastIndexOf('.'));
                         $this.set('photoDetails.folder', $this.subfolderName);
