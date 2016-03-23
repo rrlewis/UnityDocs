@@ -1,4 +1,4 @@
-﻿<div id="addfile" data-model="addfileViewModel" data-bind="events: { show: onViewShow, beforeunload: test, unload: test, hide:test }" data-role="view" data-layout="default-layout" data-title="Add File">
+﻿<div id="addfile" data-model="addfileViewModel" data-bind="events: { show: onViewShow, hide:onViewHide }" data-role="view" data-layout="default-layout" data-title="Add File">
     <ul data-role="listview" data-bind="source: filesToUpload" data-template="addfile-item-template" class="data-source sortable"></ul>
     <a data-role="button" class="addfile-btn small" data-bind="visible: uploadingFile, click:openFileDialog"><i class="fa fa-plus"></i>&nbsp;Add File</a>
     <a data-role="button" class="addfile-btn big" data-bind="invisible: filesWaiting, click:openFileDialog"><i class="fa fa-plus"></i>&nbsp;Add File</a>
@@ -162,8 +162,6 @@
                 checkOutAfterUpload: false,
                 filePath: "",
             },
-            photoName: "",
-            photoPath: "",
             filesToUploadData: [],
             uploadingPhoto: false,
             uploadingFile: false,
@@ -433,8 +431,31 @@
                     }
                 }
             },
-            test: function (e) {
+            onViewHide: function (e, b, c) {
+                //unload all details
                 debugger;
+                this.cleanup();
+            },
+            cleanup: function () {
+                var $this = this;
+                $this.set('uploadingFile', false);
+                $this.set('uploadingPhoto', false);
+
+                $this.set('filesToUploadData', []);
+                $this.set('photoDetails', {
+                    fileName: "",
+                    folder: "",
+                    folderKey: "",
+                    versionComments: "",
+                    tags: "",
+                    checkOutAfterUpload: false,
+                    filePath: "",
+                });
+                $this.set('filesToUpload', []);
+                $this.set('libraryItems', []);
+                $this.set('subfolderName', "");
+                $this.set('subfolderKey', "");
+                $this.set('libraryName', "");
             }
         });
     });
