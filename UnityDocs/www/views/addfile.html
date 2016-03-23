@@ -431,14 +431,12 @@
                 }
             },
             onViewHide: function (e, b, c) {
-                //unload all details
                 this.cleanup();
             },
             cleanup: function () {
                 var $this = this;
                 $this.set('uploadingFile', false);
                 $this.set('uploadingPhoto', false);
-
                 $this.set('filesToUploadData', []);
                 $this.set('photoDetails', {
                     fileName: "",
