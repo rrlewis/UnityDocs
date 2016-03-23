@@ -1,4 +1,4 @@
-﻿<div id="addfile" data-model="addfileViewModel" data-bind="events: { show: onViewShow, beforeunload: test, unload: test }" data-role="view" data-layout="default-layout" data-title="Add File">
+﻿<div id="addfile" data-model="addfileViewModel" data-bind="events: { show: onViewShow, beforeunload: test, unload: test, hide:test }" data-role="view" data-layout="default-layout" data-title="Add File">
     <ul data-role="listview" data-bind="source: filesToUpload" data-template="addfile-item-template" class="data-source sortable"></ul>
     <a data-role="button" class="addfile-btn small" data-bind="visible: uploadingFile, click:openFileDialog"><i class="fa fa-plus"></i>&nbsp;Add File</a>
     <a data-role="button" class="addfile-btn big" data-bind="invisible: filesWaiting, click:openFileDialog"><i class="fa fa-plus"></i>&nbsp;Add File</a>
