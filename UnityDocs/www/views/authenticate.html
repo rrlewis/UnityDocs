@@ -85,7 +85,9 @@
                 }
             },
             gotLogInResult: function (result) {
-                app.pane.loader.show();
+                setTimeout(function () {
+                    app.pane.loader.show();
+                }, 1000);
                 if (result.LoggedIn) {
                     router.replace("views/libraries.html");
                 } else {
