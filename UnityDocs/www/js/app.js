@@ -26,8 +26,9 @@ console.log("Set app");
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
         document.addEventListener("backbutton", onBackButtonPressed, false);
-        document.addEventListener('hidekeyboard', onKeyboardHide, false);
-        document.addEventListener('showkeyboard', onKeyboardShow, false);
+        window.addEventListener('native.keyboardhide', onKeyboardHide);
+        window.addEventListener('native.keyboardshow', onKeyboardShow);
+
         $(document).ajaxStart(function (event) {
             loader.show();
         });
