@@ -146,10 +146,15 @@
                     }
                 },
                 cancel: function (e) {
-                    debugger;
-                    this.set('search.library', '');
-                    this.set('search.searchString', '');
-                    this.set('search.isActive', false);
+                    if (typeof e == 'undefined') {
+                        headerViewModel.set('search.library', '');
+                        headerViewModel.set('search.searchString', '');
+                        headerViewModel.set('search.isActive', false);
+                    } else {
+                        this.set('search.library', '');
+                        this.set('search.searchString', '');
+                        this.set('search.isActive', false);
+                    }
                 },
                 cancelProgrammatically: function () {
 
