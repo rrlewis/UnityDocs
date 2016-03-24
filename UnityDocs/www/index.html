@@ -146,9 +146,13 @@
                     }
                 },
                 cancel: function (e) {
+                    debugger;
                     this.set('search.library', '');
                     this.set('search.searchString', '');
                     this.set('search.isActive', false);
+                },
+                cancelProgrammatically: function () {
+
                 },
                 submit: function (e) {
                     e.preventDefault();
