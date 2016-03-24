@@ -75,14 +75,16 @@ console.log("Set app");
         history.back();
     }
 
-    function onKeyboardHide() {
-        console.log('onKeyboardHide');
+    function onKeyboardHide(e) {
+        console.log("Showing keyboard - ");
+        console.log(e);
         if (headerViewModel.search.isActive) {
             headerViewModel.search.cancel();
         }
     }
 
-    function onKeyboardShow() {
-        console.log('onKeyboardShow');
+    function onKeyboardShow(e) {
+        console.log("Hiding keyboard - ");
+        console.log(e);
     }
 })();
