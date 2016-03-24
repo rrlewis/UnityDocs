@@ -79,11 +79,13 @@
                 globalOnViewShow(e);
             },
             authenticate: function () {
+                app.pane.loader.show();
                 if (typeof this.credentials != 'undefined') {
                     api.authService().authenticate(this.credentials).then(this.gotLogInResult);
                 }
             },
             gotLogInResult: function (result) {
+                app.pane.loader.show();
                 if (result.LoggedIn) {
                     router.replace("views/libraries.html");
                 } else {
