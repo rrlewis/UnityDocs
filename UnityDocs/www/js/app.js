@@ -77,6 +77,9 @@ console.log("Set app");
 
     function onKeyboardHide() {
         console.log('onKeyboardHide');
+        if (headerViewModel.search.isActive) {
+            headerViewModel.search.cancel();
+        }
     }
 
     function onKeyboardShow() {
