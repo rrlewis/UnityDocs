@@ -27,6 +27,7 @@
   <gap:plugin name="cordova-plugin-camera" source="npm" />
   <gap:plugin name="cordova-plugin-x-toast" source="npm" />
   <gap:plugin name="com.telerik.plugins.nativepagetransitions" source="npm" />
+  <gap:plugin name="cordova-plugin-keyboard" source="npm" />
 
   <!-- Whitelist -->
   <allow-navigation href="http://*/*" />
