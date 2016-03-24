@@ -86,7 +86,7 @@
             },
             gotLogInResult: function (result) {
                 setTimeout(function () {
-                    app.pane.loader.show();
+                    app.pane.loader.hide();
                 }, 2000);
                 if (result.LoggedIn) {
                     router.replace("views/libraries.html");
