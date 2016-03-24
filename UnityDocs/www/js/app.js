@@ -26,6 +26,8 @@ console.log("Set app");
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
         document.addEventListener("backbutton", onBackButtonPressed, false);
+        document.addEventListener('hidekeyboard', onKeyboardHide, false);
+        document.addEventListener('showkeyboard', onKeyboardShow, false);
         $(document).ajaxStart(function (event) {
             loader.show();
         });
@@ -70,5 +72,13 @@ console.log("Set app");
             return;
         }
         history.back();
+    }
+
+    function onKeyboardHide() {
+        console.log('onKeyboardHide');
+    }
+
+    function onKeyboardShow() {
+        console.log('onKeyboardShow');
     }
 })();
